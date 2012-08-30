@@ -1,0 +1,108 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Patientid:</b>
+  <%= @slitlamptb.patientid %>
+</p>
+
+<%if @slitlamptb.is_delete==true %>
+<p>
+  <b>Deleted ?:</b>
+  <%= @slitlamptb.is_delete %>
+</p>
+<%end%>
+
+
+<p>
+  <b>Imageid:</b>
+  <%= @slitlamptb.imageid %>
+</p>
+
+<p>
+  <b>Datetime:</b>
+  <%= @slitlamptb.datetime %>
+</p>
+
+<p>
+  <b>Od os:</b>
+  <%= @slitlamptb.od_os %>
+</p>
+
+<p>
+  <b>Equipinfo:</b>
+  <%= @slitlamptb.equipinfo %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @slitlamptb.description %>
+</p>
+
+<p>
+  <b>Celldensity:</b>
+  <%= @slitlamptb.celldensity %>
+</p>
+
+<p>
+  <b>Meancellarea:</b>
+  <%= @slitlamptb.meancellarea %>
+</p>
+
+<p>
+  <b>Imagebuffer:</b>
+  <%= @slitlamptb.imagebuffer %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @slitlamptb.title %>
+</p>
+
+<p>
+  <b>Disease:</b>
+  <%= @slitlamptb.disease %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @slitlamptb.title %>
+</p>
+
+<p>
+  <b>Disease:</b>
+  <%= @slitlamptb.disease %>
+</p>
+
+<p>
+  <b>Cddelta:</b>
+  <%= @slitlamptb.cddelta %>
+</p>
+
+<p>
+  <b>Cv:</b>
+  <%= @slitlamptb.cv %>
+</p>
+
+<p>
+  <b>Hexagonality:</b>
+  <%= @slitlamptb.hexagonality %>
+</p>
+
+<p>
+  <b>Analysed:</b>
+  <%= @slitlamptb.analysed %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @slitlamptb.location %>
+</p>
+
+<p>
+  <b>Imagefilename:</b>
+  <%= @slitlamptb.imagefilename %>
+</p>
+
+
+<%= link_to 'Edit', edit_slitlamptb_path(@slitlamptb) %> |
+<%= link_to 'Back', slitlamptbs_path %>

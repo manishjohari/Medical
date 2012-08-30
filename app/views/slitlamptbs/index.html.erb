@@ -1,0 +1,61 @@
+<h1>Listing slitlamptbs</h1>
+
+<table>
+  <tr>
+    <th>Patientid</th>
+    <th>Imageid</th>
+    <th>Datetime</th>
+    <th>Od os</th>
+    <th>Equipinfo</th>
+    <th>Description</th>
+    <th>Celldensity</th>
+    <th>Meancellarea</th>
+    <th>Imagebuffer</th>
+    <th>Title</th>
+    <th>Disease</th>
+    <th>Title</th>
+    <th>Disease</th>
+    <th>Cddelta</th>
+    <th>Cv</th>
+    <th>Hexagonality</th>
+    <th>Analysed</th>
+    <th>Location</th>
+    <th>Imagefilename</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<%if !@slitlamptbs.nil?%>
+<% @slitlamptbs.each do |slitlamptb| %>
+  <tr>
+    <td><%= slitlamptb.patientid %></td>
+    <td><%= slitlamptb.imageid %></td>
+    <td><%= slitlamptb.datetime %></td>
+    <td><%= slitlamptb.od_os %></td>
+    <td><%= slitlamptb.equipinfo %></td>
+    <td><%= slitlamptb.description %></td>
+    <td><%= slitlamptb.celldensity %></td>
+    <td><%= slitlamptb.meancellarea %></td>
+    <td><%= slitlamptb.imagebuffer %></td>
+    <td><%= slitlamptb.title %></td>
+    <td><%= slitlamptb.disease %></td>
+    <td><%= slitlamptb.title %></td>
+    <td><%= slitlamptb.disease %></td>
+    <td><%= slitlamptb.cddelta %></td>
+    <td><%= slitlamptb.cv %></td>
+    <td><%= slitlamptb.hexagonality %></td>
+    <td><%= slitlamptb.analysed %></td>
+    <td><%= slitlamptb.location %></td>
+    <td><%= slitlamptb.imagefilename %></td>
+    <td><%= link_to 'Show', slitlamptb %></td>
+    <td><%= link_to 'Edit', edit_slitlamptb_path(slitlamptb) %></td>
+    <td><%= link_to 'Destroy', slitlamptb, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+<%end%>
+</table>
+
+<br />
+
+<%= link_to 'New Slitlamptb', new_slitlamptb_path %>

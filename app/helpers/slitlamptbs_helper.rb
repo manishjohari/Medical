@@ -1,0 +1,2 @@
+module SlitlamptbsHelper
+end

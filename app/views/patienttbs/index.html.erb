@@ -1,0 +1,59 @@
+<h1>Listing patienttbs</h1>
+
+<table>
+  <tr>
+    <th>Patientid</th>
+    <th>Sex</th>
+    <th>Ssn</th>
+    <th>Birthdate</th>
+    <th>Namefirst</th>
+    <th>Namem</th>
+    <th>Namelast</th>
+    <th>Race</th>
+    <th>Bloodtype</th>
+    <th>Addressstreet</th>
+    <th>Addresstown</th>
+    <th>Addressstate</th>
+    <th>Addresszip</th>
+    <th>Addresscountry</th>
+    <th>Telenumber</th>
+    <th>Oculardiag</th>
+    <th>Medicaldiag</th>
+    <th>Firstvisitdate</th>
+    <th>Comments</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @patienttbs.each do |patienttb| %>
+  <tr>
+    <td><%= patienttb.patientid %></td>
+    <td><%= patienttb.sex %></td>
+    <td><%= patienttb.ssn %></td>
+    <td><%= patienttb.birthdate %></td>
+    <td><%= patienttb.namefirst %></td>
+    <td><%= patienttb.namem %></td>
+    <td><%= patienttb.namelast %></td>
+    <td><%= patienttb.race %></td>
+    <td><%= patienttb.bloodtype %></td>
+    <td><%= patienttb.addressstreet %></td>
+    <td><%= patienttb.addresstown %></td>
+    <td><%= patienttb.addressstate %></td>
+    <td><%= patienttb.addresszip %></td>
+    <td><%= patienttb.addresscountry %></td>
+    <td><%= patienttb.telenumber %></td>
+    <td><%= patienttb.oculardiag %></td>
+    <td><%= patienttb.medicaldiag %></td>
+    <td><%= patienttb.firstvisitdate %></td>
+    <td><%= patienttb.comments %></td>
+    <td><%= link_to 'Show', patienttb %></td>
+    <td><%= link_to 'Edit', edit_patienttb_path(patienttb) %></td>
+    <td><%= link_to 'Destroy', patienttb, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Patienttb', new_patienttb_path %>

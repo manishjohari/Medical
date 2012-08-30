@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1> Add Field Name for More details of Patient</h1>
+<%=javascript_include_tag "jquery-1.7.2.min"%>
+<script>
+i=1;
+function add_more()
+{
+$('#add_more').append("<label for='Field'>Field </label><input type='text' name=custom[] id='a"+i+"' style='margin-bottom: 5px;'> <br>");
+i=i+1;
+}
+</script>
+
+<form action="/add_fields" >
+
+  <%if !@cf.empty?%>
+      <% @cf.each do |cf| %>
+      <label for='Field'>Field </label><input type='text' readonly name=custm[] value="<%=cf.field_name%>" style='margin-bottom: 5px;'/> <%= link_to "Delete", "custom_field/#{cf.id}/destroy"%><br>
+      <%end%>
+  <%else%>
+      <label for='Field'>Field </label><input type='text' name=custom[] style='margin-bottom: 5px;'  /><br>
+ <%end%>
+<div id="add_more"></div>
+<input type=submit style="margin: 20px;">
+</form>
+
+<input type=button value="Add More" id="add" onclick=add_more(); style="margin: 40px;">

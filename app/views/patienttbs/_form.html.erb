@@ -1,0 +1,121 @@
+<%=javascript_include_tag "jquery-1.7.2.min"%>
+<%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
+<script type="text/javascript">
+  //date piker
+	$(function() {
+          //from datepicker
+          $( ".datepicker" ).datepicker({
+//            minDate: ,
+            maxDate: "+11M +10D",
+            numberOfMonths: 1,
+            dateFormat: "yy-mm-dd"
+          });
+    	});
+</script>
+
+<%= form_for(@patienttb) do |f| %>
+  <% if @patienttb.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@patienttb.errors.count, "error") %> prohibited this patienttb from being saved:</h2>
+
+      <ul>
+      <% @patienttb.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<br>
+  <div class="field">
+    <%= f.label :patientid %><br />
+    <%= f.text_field :patientid %>
+  </div>
+  
+  <%if !@patienttb.new_record?%>
+     <%if @patienttb.is_delete==true%>
+        <div class="field">
+        <%= f.label :is_delete %>
+        <%=f.check_box :is_delete %>
+        </div>
+      <%end%>
+  <%end%>
+  
+  <div class="field">
+    <%= f.label :sex %><br />
+    <%= f.text_field :sex %>
+  </div>
+  <div class="field">
+    <%= f.label :ssn %><br />
+    <%= f.text_field :ssn %>
+  </div>
+  <div class="field">
+    <%= f.label :birthdate %><br />
+    <%= f.text_field :birthdate, :class=>'datepicker'%>
+    <%#= f.datetime_select :birthdate %>
+  </div>
+  <div class="field">
+    <%= f.label :namefirst %><br />
+    <%= f.text_field :namefirst %>
+  </div>
+  <div class="field">
+    <%= f.label :namem %><br />
+    <%= f.text_field :namem %>
+  </div>
+  <div class="field">
+    <%= f.label :namelast %><br />
+    <%= f.text_field :namelast %>
+  </div>
+  <div class="field">
+    <%= f.label :race %><br />
+    <%= f.text_field :race %>
+  </div>
+  <div class="field">
+    <%= f.label :bloodtype %><br />
+    <%= f.text_field :bloodtype %>
+  </div>
+  <div class="field">
+    <%= f.label :addressstreet %><br />
+    <%= f.text_field :addressstreet %>
+  </div>
+  <div class="field">
+    <%= f.label :addresstown %><br />
+    <%= f.text_field :addresstown %>
+  </div>
+  <div class="field">
+    <%= f.label :addressstate %><br />
+    <%= f.text_field :addressstate %>
+  </div>
+  <div class="field">
+    <%= f.label :addresszip %><br />
+    <%= f.text_field :addresszip %>
+  </div>
+  <div class="field">
+    <%= f.label :addresscountry %><br />
+    <%= f.text_field :addresscountry %>
+  </div>
+  <div class="field">
+    <%= f.label :telenumber %><br />
+    <%= f.text_field :telenumber %>
+  </div>
+  <div class="field">
+    <%= f.label :oculardiag %><br />
+    <%= f.text_field :oculardiag %>
+  </div>
+  <div class="field">
+    <%= f.label :medicaldiag %><br />
+    <%= f.text_field :medicaldiag %>
+  </div>
+  <div class="field">
+    <%= f.label :firstvisitdate %><br />
+   <%= f.text_field :firstvisitdate, :class=>'datepicker'%>
+    <%#= f.datetime_select :firstvisitdate %>
+  </div>
+  <div class="field">
+    <%= f.label :comments %><br />
+    <%= f.text_field :comments %>
+  </div>
+    
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  patientid: MyString
+  imageid: 1
+  datetime: 2012-08-18 08:34:10
+  od_os: MyString
+  equipinfo: MyString
+  description: MyString
+  celldensity: MyString
+  meancellarea: MyString
+  imagebuffer: MyString
+  title: MyString
+  disease: MyString
+  title: MyString
+  disease: MyString
+  cddelta: MyString
+  cv: MyString
+  hexagonality: MyString
+  analysed: MyString
+  location: MyString
+  imagefilename: MyString
+
+two:
+  patientid: MyString
+  imageid: 1
+  datetime: 2012-08-18 08:34:10
+  od_os: MyString
+  equipinfo: MyString
+  description: MyString
+  celldensity: MyString
+  meancellarea: MyString
+  imagebuffer: MyString
+  title: MyString
+  disease: MyString
+  title: MyString
+  disease: MyString
+  cddelta: MyString
+  cv: MyString
+  hexagonality: MyString
+  analysed: MyString
+  location: MyString
+  imagefilename: MyString

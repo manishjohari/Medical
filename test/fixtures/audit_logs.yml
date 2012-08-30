@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  audit_id: MyString
+  record_id: MyString
+  old_data: MyString
+  new_data: MyString
+
+two:
+  audit_id: MyString
+  record_id: MyString
+  old_data: MyString
+  new_data: MyString

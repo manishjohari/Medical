@@ -1,0 +1,102 @@
+<%= form_for(@slitlamptb) do |f| %>
+  <% if @slitlamptb.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@slitlamptb.errors.count, "error") %> prohibited this slitlamptb from being saved:</h2>
+
+      <ul>
+      <% @slitlamptb.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :patientid %><br />
+    <%= f.text_field :patientid %>
+  </div>
+
+ <!--
+  <%#if !@slitlamptb.new_record?%>
+  <div class="field">
+  <%#= f.label :is_delete %>
+  <%#=f.check_box :is_delete %>
+  </div>
+  <%#end%>
+-->
+  <div class="field">
+    <%= f.label :imageid %><br />
+    <%= f.text_field :imageid %>
+  </div>
+  <div class="field">
+    <%= f.label :datetime %><br />
+    <%= f.datetime_select :datetime %>
+  </div>
+  <div class="field">
+    <%= f.label :od_os %><br />
+    <%= f.text_field :od_os %>
+  </div>
+  <div class="field">
+    <%= f.label :equipinfo %><br />
+    <%= f.text_field :equipinfo %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :celldensity %><br />
+    <%= f.text_field :celldensity %>
+  </div>
+  <div class="field">
+    <%= f.label :meancellarea %><br />
+    <%= f.text_field :meancellarea %>
+  </div>
+  <div class="field">
+    <%= f.label :imagebuffer %><br />
+    <%= f.text_field :imagebuffer %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :disease %><br />
+    <%= f.text_field :disease %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :disease %><br />
+    <%= f.text_field :disease %>
+  </div>
+  <div class="field">
+    <%= f.label :cddelta %><br />
+    <%= f.text_field :cddelta %>
+  </div>
+  <div class="field">
+    <%= f.label :cv %><br />
+    <%= f.text_field :cv %>
+  </div>
+  <div class="field">
+    <%= f.label :hexagonality %><br />
+    <%= f.text_field :hexagonality %>
+  </div>
+  <div class="field">
+    <%= f.label :analysed %><br />
+    <%= f.text_field :analysed %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :imagefilename %><br />
+    <%= f.text_field :imagefilename %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

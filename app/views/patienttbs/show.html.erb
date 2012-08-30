@@ -1,0 +1,120 @@
+<%=javascript_include_tag "lightbox"%>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Patientid:</b>
+  <%= @patienttb.patientid %>
+</p>
+
+<%if @patienttb.is_delete==true %>
+<p>
+  <b>Deleted ?:</b>
+  <%= @patienttb.is_delete %>
+</p>
+<%end%>
+ 
+<p>
+  <b>Sex:</b>
+  <%= @patienttb.sex %>
+</p>
+
+<p>
+  <b>Ssn:</b>
+  <%= @patienttb.ssn %>
+</p>
+
+<p>
+  <b>Birthdate:</b>
+  <%= @patienttb.birthdate %>
+</p>
+
+<p>
+  <b>Namefirst:</b>
+  <%= @patienttb.namefirst %>
+</p>
+
+<p>
+  <b>Namem:</b>
+  <%= @patienttb.namem %>
+</p>
+
+<p>
+  <b>Namelast:</b>
+  <%= @patienttb.namelast %>
+</p>
+
+<p>
+  <b>Race:</b>
+  <%= @patienttb.race %>
+</p>
+
+<p>
+  <b>Bloodtype:</b>
+  <%= @patienttb.bloodtype %>
+</p>
+
+<p>
+  <b>Addressstreet:</b>
+  <%= @patienttb.addressstreet %>
+</p>
+
+<p>
+  <b>Addresstown:</b>
+  <%= @patienttb.addresstown %>
+</p>
+
+<p>
+  <b>Addressstate:</b>
+  <%= @patienttb.addressstate %>
+</p>
+
+<p>
+  <b>Addresszip:</b>
+  <%= @patienttb.addresszip %>
+</p>
+
+<p>
+  <b>Addresscountry:</b>
+  <%= @patienttb.addresscountry %>
+</p>
+
+<p>
+  <b>Telenumber:</b>
+  <%= @patienttb.telenumber %>
+</p>
+
+<p>
+  <b>Oculardiag:</b>
+  <%= @patienttb.oculardiag %>
+</p>
+
+<p>
+  <b>Medicaldiag:</b>
+  <%= @patienttb.medicaldiag %>
+</p>
+
+<p>
+  <b>Firstvisitdate:</b>
+  <%= @patienttb.firstvisitdate %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <%= @patienttb.comments %>
+</p>
+
+<div id="images" style="float: right;
+margin-right: 20%;
+left: 30%;
+top: 10%;
+position: absolute;">
+<%db=@patienttb.db%>
+    <%@patienttb.slitlamptb.each do |slitlamp|%>
+     <a href="/images/old/<%=db%>/<%=@patienttb.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
+      <img src="/images/old/<%=db%>/<%=@patienttb.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
+     </a>
+     <%end%>
+</div>
+<%= link_to 'Edit', edit_patienttb_path(@patienttb) %> |
+<%= link_to 'Back', patienttbs_path %>

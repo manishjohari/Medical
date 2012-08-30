@@ -1,0 +1,43 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  patientid: MyString
+  sex: MyString
+  ssn: MyString
+  birthdate: 2012-08-18 01:04:07
+  namefirst: MyString
+  namem: MyString
+  namelast: MyString
+  race: MyString
+  bloodtype: MyString
+  addressstreet: MyString
+  addresstown: MyString
+  addressstate: MyString
+  addresszip: MyString
+  addresscountry: MyString
+  telenumber: MyString
+  oculardiag: MyString
+  medicaldiag: MyString
+  firstvisitdate: 2012-08-18 01:04:07
+  comments: MyString
+
+two:
+  patientid: MyString
+  sex: MyString
+  ssn: MyString
+  birthdate: 2012-08-18 01:04:07
+  namefirst: MyString
+  namem: MyString
+  namelast: MyString
+  race: MyString
+  bloodtype: MyString
+  addressstreet: MyString
+  addresstown: MyString
+  addressstate: MyString
+  addresszip: MyString
+  addresscountry: MyString
+  telenumber: MyString
+  oculardiag: MyString
+  medicaldiag: MyString
+  firstvisitdate: 2012-08-18 01:04:07
+  comments: MyString

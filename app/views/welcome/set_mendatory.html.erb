@@ -1,0 +1,21 @@
+<h1>Set Mandatory Fields</h1>
+<%= form_for @mandatory, :url=>"/save_settings"  do |f|%>
+    <ul>
+    
+    <% @mandatory.each do |m|%>
+    <li>
+  <!--  <input id="field" name="field[]" type="checkbox" value="<%=m.fields%>">-->
+    <%if m.is_mandatory==true%>
+    <input id="field" name="field[]" type="checkbox" value="<%=m.fields%>" checked>
+    <%#=f.check_box :fields, :checked=>'checked', :name=>m.fields %>
+    <%else%>
+    <input id="field" name="field[]" type="checkbox" value="<%=m.fields%>">
+    <%#=f.check_box :fields,:name=>m.fields %>
+    <%end%>
+    <%=m.fields%>
+    </li>
+    <%end%>
+    </ul>
+    <%=f.submit%>
+ <%end%>
+
