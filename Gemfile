@@ -7,7 +7,9 @@ gem 'rails', '3.0.9'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem "rails3-jquery-autocomplete", "~> 1.0.9"
 gem 'pg'
+gem 'paperclip', '3.1.3'
 
 # Use unicorn as the web server
 # gem 'unicorn'

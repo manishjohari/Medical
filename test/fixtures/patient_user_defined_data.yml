@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  patienttb_id: 1
+  field_name: MyString
+  data: MyString
+
+two:
+  patienttb_id: 1
+  field_name: MyString
+  data: MyString

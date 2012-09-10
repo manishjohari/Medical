@@ -1,120 +1,158 @@
 <%=javascript_include_tag "lightbox"%>
 
+<style>
+  .pdata{
+ padding-bottom: 1em;
+ padding-left: 2em;
+  }
+</style>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Patientid:</b>
+
+<div id='content' style="background-color: #EDE9D8;
+border-top: 1px solid #716F64;
+border-left: 1px solid #716F64;
+border-right: 1px solid #ACA899;
+border-bottom: 1px solid #ACA899;
+width: 625px;
+padding: 15px 9px;
+min-height: 500px; margin-top:2%">
+
+
+<p class='pdata'>
+  <b>Patient Id:</b>
   <%= @patienttb.patientid %>
 </p>
 
 <%if @patienttb.is_delete==true %>
-<p>
+<p class='pdata'>
   <b>Deleted ?:</b>
   <%= @patienttb.is_delete %>
 </p>
 <%end%>
  
-<p>
+<p class='pdata'>
   <b>Sex:</b>
   <%= @patienttb.sex %>
 </p>
 
-<p>
+<p class='pdata'>
   <b>Ssn:</b>
   <%= @patienttb.ssn %>
 </p>
 
-<p>
-  <b>Birthdate:</b>
-  <%= @patienttb.birthdate %>
+<p class='pdata'>
+  <b>Birth Date:</b>
+  <%= @patienttb.birthdate.strftime("%D") if @patienttb.birthdate %>
 </p>
 
-<p>
-  <b>Namefirst:</b>
+<p class='pdata'>
+  <b>First Name:</b>
   <%= @patienttb.namefirst %>
 </p>
 
-<p>
-  <b>Namem:</b>
+<p class='pdata'>
+  <b>Middle Name:</b>
   <%= @patienttb.namem %>
 </p>
 
-<p>
-  <b>Namelast:</b>
+<p class='pdata'>
+  <b>Last Name:</b>
   <%= @patienttb.namelast %>
 </p>
 
-<p>
+<p class='pdata'>
   <b>Race:</b>
   <%= @patienttb.race %>
 </p>
 
-<p>
-  <b>Bloodtype:</b>
+<p class='pdata'>
+  <b>Blood Type:</b>
   <%= @patienttb.bloodtype %>
 </p>
 
-<p>
-  <b>Addressstreet:</b>
+<p class='pdata'>
+  <b>Address Street:</b>
   <%= @patienttb.addressstreet %>
 </p>
 
-<p>
-  <b>Addresstown:</b>
+<p class='pdata'>
+  <b>Address Town:</b>
   <%= @patienttb.addresstown %>
 </p>
 
-<p>
-  <b>Addressstate:</b>
+<p class='pdata'>
+  <b>Address State:</b>
   <%= @patienttb.addressstate %>
 </p>
 
-<p>
-  <b>Addresszip:</b>
+<p class='pdata'>
+  <b>Address Zip:</b>
   <%= @patienttb.addresszip %>
 </p>
 
-<p>
-  <b>Addresscountry:</b>
+<p class='pdata'>
+  <b>Address Country:</b>
   <%= @patienttb.addresscountry %>
 </p>
 
-<p>
-  <b>Telenumber:</b>
+<p class='pdata'>
+  <b>Tele Number:</b>
   <%= @patienttb.telenumber %>
 </p>
 
-<p>
-  <b>Oculardiag:</b>
+<p class='pdata'>
+  <b>Ocular Diagnosis:</b>
   <%= @patienttb.oculardiag %>
 </p>
 
-<p>
-  <b>Medicaldiag:</b>
+<p class='pdata'>
+  <b>Medical Diagnosis:</b>
   <%= @patienttb.medicaldiag %>
 </p>
 
-<p>
-  <b>Firstvisitdate:</b>
-  <%= @patienttb.firstvisitdate %>
+<p class='pdata'>
+  <b>Date of Visit:</b>
+  <%= @patienttb.firstvisitdate.strftime("%D") if @patienttb.firstvisitdate %>
 </p>
 
-<p>
+<p class='pdata'>
   <b>Comments:</b>
   <%= @patienttb.comments %>
 </p>
 
-<div id="images" style="float: right;
-margin-right: 20%;
-left: 30%;
-top: 10%;
-position: absolute;">
-<%db=@patienttb.db%>
-    <%@patienttb.slitlamptb.each do |slitlamp|%>
-     <a href="/images/old/<%=db%>/<%=@patienttb.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
-      <img src="/images/old/<%=db%>/<%=@patienttb.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
-     </a>
-     <%end%>
+<%if !@custom_data.empty?%>
+  <%@custom_data.each do |custom|%>
+  <p class='pdata'>
+        <b><%=custom.field_name%>:</b>
+        <%=custom.data%>
+  </p>
+  <%end%>
+<%end%>
+
+            <div style="float: right;
+            margin-right: 35%;
+            left: 30%;
+            position: relative;margin-top: -75%;
+width: 42%;">
+           <%db=@patienttb.db%>
+                <%@patienttb.slitlamptb.each do |slitlamp|%>
+    <%if db!=0%>
+                 <a href="/images/old/<%=db%>/<%=@patienttb.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
+                  <img src="/images/old/<%=db%>/<%=@patienttb.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
+                 </a>
+            <%else%>
+            <a href="<%=slitlamp.pimage(:original)%>" rel="lightbox" title="<%=slitlamp.title%>">
+                <img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="82" height="82"%>
+            </a>
+            <%end%>
+                 <%end%>
+
+
+            </div>
+
+
 </div>
-<%= link_to 'Edit', edit_patienttb_path(@patienttb) %> |
-<%= link_to 'Back', patienttbs_path %>
+<%= link_to 'Edit', edit_patienttb_path(@patienttb),  :style=>"margin-left: 48%;" %> |
+<%= link_to 'Back', request.referer %>

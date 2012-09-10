@@ -77,8 +77,10 @@ class WelcomeController < ApplicationController
         
 #update patienttb_id in slitlamp to make has_many relation while uploading Zip file
         Slitlamptb.where(:db=>session[:db].to_i).each do |slitlamp|
-            pid=Patienttb.find(:first, :conditions => ['patientid = ? and db = ?', slitlamp.patientid, session[:db].to_i]).id
-            slitlamp.update_attributes(:patienttb_id=>pid)
+            @patient=Patienttb.find(:first, :conditions => ['patientid = ? and db = ?', slitlamp.patientid, session[:db].to_i])
+                  if @patient
+                  slitlamp.update_attributes(:patienttb_id=>@patient.id)
+                  end
          end
 ##
           session[:from_patient]=nil

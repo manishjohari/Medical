@@ -20,7 +20,7 @@ class CreatePatienttbs < ActiveRecord::Migration
       t.string :medicaldiag
       t.datetime :firstvisitdate
       t.string :comments
-      t.boolean :is_delete
+      t.boolean :is_delete, :default => false
       t.integer :db, :default=>0
 
       t.timestamps

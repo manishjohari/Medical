@@ -7,120 +7,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
 
-<%=stylesheet_link_tag "ims"%>
-<%=javascript_include_tag "jquery-1.7.2.min"%>
-<%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
-<%=javascript_include_tag "chrome"%>
-<%=javascript_include_tag "lightbox"%>
 
-  <script type="text/javascript">
-  //jQuery.noConflict();
-  $(function(){
-	 
-	  $("#open").click(function(){
-		  $('#info,#overlay').animate({'opacity':'0.7'}, 300, 'linear');
-        $('#info').animate({'opacity':'1.00'},300,'linear');
-       	$('#overlay, #info').css('display','block');
-       	$('#info').css({'left':(($(document).width()/2)-($('#info').width()/2))});
-       	$('#info').css({'top':(($(document).height()/2)-($('#info').height()/2)-50)});
-    	});
-
-	  $('#close').click(function(){
-		  $('#overlay, #info').animate({'opacity':'0'}, 300, 'linear', function(){
-       	$('#overlay, #info').css('display','none');
-		  });
-	  });
-    	
-    	$("#more_detail").click(function(){
-    	 $('#more_detail_info,#more_detail_overlay').animate({'opacity':'0.7'}, 300, 'linear');
-    	 $('#more_detail_info').animate({'opacity':'1.00'},300,'linear');
-		   	$('#more_detail_overlay, #more_detail_info').css('display','block');
-       	$('#more_detail_info').css({'left':(($(document).width()/2)-($('#more_detail_info').width()/2))});
-       	$('#more_detail_info').css({'top':(($(document).height()/2)-($('#more_detail_info').height()/2)-50)});
-    	});
-
-	  $('#more_detail_close').click(function(){
-		  $('#more_detail_overlay, #more_detail_info').animate({'opacity':'0'}, 300, 'linear', function(){
-       	$('#more_detail_overlay, #more_detail_info').css('display','none');
-		  });
-	  });
-	  
- 	  $("#login").click(function(){
-		  $('#login_info,#overlay').animate({'opacity':'0.7'}, 300, 'linear');
-        $('#login_info').animate({'opacity':'1.00'},300,'linear');
-       	$('#overlay, #login_info').css('display','block');
-       	$('#login_info').css({'left':(($(document).width()/2)-($('#login_info').width()/2))});
-       	$('#login_info').css({'top':(($(document).height()/2)-($('#login_info').height()/2)-50)});
-    	});
-
-	  $('#login_close').click(function(){
-		  $('#overlay, #login_info').animate({'opacity':'0'}, 300, 'linear', function(){
-       	$('#overlay, #login_info').css('display','none');
-		  });
-	  });
-
-	  
-	  $( ".f-right a" ).click(function(){
-              $( ".f-right a").removeClass('tabbing-select');
-                     $(this).addClass('tabbing-select');
-       });
-       
-    
-   $("#signup").click(function(){
-    $("#overlay,#login_info").css('display','none');
-    $('#signup_info,#overlay').animate({'opacity':'0.7'}, 300, 'linear');
-    $('#signup_info').animate({'opacity':'1.00'},300,'linear');
-    $('#signup_info,#overlay').css('display', 'block');
-    $('#signup_info').css({'left':(($(document).width()/2)-($('#signup_info').width()/2))});
-   	$('#signup_info').css({'top':(($(document).height()/2)-($('#signup_info').height()/2)-50)});
-   });
-   
-    $('#signup_close').click(function(){
-		  $('#overlay, #signup_info').animate({'opacity':'0'}, 300, 'linear', function(){
-       	$('#overlay, #signup_info').css('display','none');
-		  });
-	  });
-	
-  });
-  </script>
  </head>
 <body>
-<div class="top-menu">
-  <div class="chromestyle" id="chromemenu">
-    <ul>
-      <li><a href="#" rel="dropmenu1">File</a></li>
-      <li><a href="#" rel="dropmenu2">Edit</a></li>
-      <li><a href="#" rel="dropmenu3">Tools</a></li>
-<%if session[:user]%><%if current_user? %><li><a href="/settings" >Settings</a></li><%end%><%end%>
-      <li><a href="/audits" >Audit</a></li>
-      <li><a href="#" rel="dropmenu4">Help</a></li>
-      <%if !session[:user]%>
-      <li style="float:right"; id="login"><a href="#" >Login</a></li> 
-      <%else%>
-      <li style="float:right"><a href="/signout" >Logout</a></li> 
-      <%end%>     
-    </ul> 
-  </div>
-  <!--1st drop down menu -->
-  <div id="dropmenu1" class="dropmenudiv"> <a href="#">New Database</a> <a href="#" id="open">Import Database</a> <a href="#" class="menu-border-bottom">Export</a> <a href="#">Page Setup...</a> <a href="#">Print Preview</a> <a href="#">Print...</a> <a href="#" class="menu-border-bottom">Exit</a> </div>
-  <!--2nd drop down menu -->
-  <div id="dropmenu2" class="dropmenudiv" style="width: 150px;"> <a href="#">Undo</a> <a href="#" class="menu-border-bottom">Redo</a> <a href="#">Cut Image</a> <a href="#">Copy Image</a> <a href="#">Paste image</a> </div>
-  <!--3rd drop down menu -->
-  <div id="dropmenu3" class="dropmenudiv" style="width: 150px;"> <a href="#" class="menu-border-bottom">Query…</a> <a href="#">Merge Records…</a> <a href="#" class="menu-border-bottom">Split Records…</a> <a href="#">Device Properties…</a> <a href="#">Customize…</a> <a href="#">Options…</a> </div>
-  <!--4rd drop down menu -->
-  <div id="dropmenu4" class="dropmenudiv" style="width: 150px;"> <a href="#">About HAI IMS</a> <a href="#">Contact Us</a> </div>
-</div>
+
 <div class="body-wrapper">
   <div class="left f-left">
     <div class="heading mar6">Patient Record</div>
     <div class="options-list mar6"><a href="/patienttbs/new"><img src="images/new.png" /></a> <a href="#"><img src="images/save.png" /></a> <a href="#"><img src="images/delete.png" /></a> <a href="/patienttbs"><img src="images/list.png" /></a>
     <div id="searchwrapper" style="width:168px;">
-    <%#= form_tag patienttbs_path do%>
+    <%= form_tag patienttbs_path, :method=>'get' do%>
     <%#= text_field_tag :search, :class=>'searchbox', :style=>"width:138px;" %>
-      <!--<input type="text" class="searchbox" style="width:138px;" name="s" value="Search Patients" />-->
-      <input type="image" src="images/submit.png" style="left:144px;" class="searchbox_submit" value="" />
+      <input type="text" class="searchbox" style="width:138px;" name="search" value="<%=params[:search]%>" placeholder="Search Patients" />
+      <input type="image" src="images/submit.png" style="left:144px;" class="searchbox_submit" value=""  />
       <%#= submit_tag%>
-      <%#end%>
+      <%end%>
     </div>
     <fieldset class="fieldset mar6">
       <legend>Patient Information:</legend>
@@ -165,6 +66,7 @@
     </div>
   </div>
   <div class="middle f-left">
+    
     <div class="product-display">
 	  <a href="big-image/1.jpg" rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
       <div class="product f-left"> <img src="images/1.png" /><br />
@@ -227,6 +129,7 @@
         Notes: Acnerosacea </div>
 </a>
     </div>
+    
   </div>
   <div class="right f-left">
 	<div class="options-list mar6">
@@ -249,27 +152,12 @@
 	</div>
   </div>
   <div class="f-right" style="width:39px;"> 
-  	<a href="#" class="tabbing tabbing-select"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
-    <a href="#" class="tabbing" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
-    <a href="#" class="tabbing" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
+  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
+    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
+    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
   </div>
   <div class="clear"></div>
 </div>
-
-<!--jQuery llightbox to upload file-->
-<div id="info">
-  <div id="results">
-    <h1>Upload .Zip File</h1>
-    <%= form_for :file_upload, :html => {:multipart => true}, :url=>{:action=>'tounzip'} do |f| %>
-  <%= f.file_field :my_file %>
-  <%= f.submit "Upload" %>
-<% end %>
-   
-    <p style="margin-top:20px; text-align:right;"><a href="#" id="close">Close</a></p>
-  </div>
-</div>
-<!--jQuery llightbox to upload file end-->
-
 <!--jQuery llightbox for More Details-->
 <div id="more_detail_overlay"></div>
 <div id="more_detail_info">
@@ -297,48 +185,5 @@
   </div>
 </div>
 <!--jQuery llightbox for More Details-->
-
-<!--jQuery llightbox for login-->
-<div id="login_info">
-  <div id="results">
-    <h1>Login</h1>
-    <%= form_tag 'login', :html => {:multipart => true} do%>
-      <%= label_tag 'email', nil, :style=>"padding: 1px 27px 1px 52px;"%>
-      <%= text_field_tag :email, '',:class =>'input' %><br>
-      <%= label_tag 'Password', nil, :style=>"padding: 1px 4px 1px 52px;"%>
-      <%= password_field_tag :password, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
-      <%= submit_tag "Login", :class=>'button', :style=>"margin-top: 24px;margin-left: 53px;"%>
-     
-    <% end %>
-   
-    <p style="margin-top:20px; text-align:right;"> <%= link_to "New User","#" ,:style=>"padding-right: 20px;", :id=>"signup"%> <a href="#" id="login_close">Close</a></p>
-  </div>
-</div>
-<!--jQuery llightbox for login end-->
-
-<!--jQuery llightbox for signup-->
-<div id="signup_info">
-  <div id="results">
-    <h1>New User</h1>
-    <%= form_tag 'signup', :html => {:multipart => true} do%>
-      <%= label_tag 'email', nil, :style=>"padding: 1px 80px 1px 52px;"%>
-      <%= text_field_tag :email, '',:class =>'input' %><br>
-      <%= label_tag 'Password', nil, :style=>"padding: 1px 57px 1px 52px;"%>
-      <%= password_field_tag :password, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
-      <%= label_tag 'Confirm Password', nil, :style=>"padding: 1px 5px 1px 52px;"%>
-      <%= password_field_tag :cpassword, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
-      <%= submit_tag "SignUp", :class=>'button', :style=>"margin-top: 24px;margin-left: 53px;"%>
-     
-    <% end %>
-   
-    <p style="margin-top:20px; text-align:right;"><a href="#" id="signup_close">Close</a></p>
-  </div>
-</div>
-<!--jQuery llightbox for signup end-->
-
-
-<script type="text/javascript">
-      cssdropdown.startchrome("chromemenu")
-  </script>
 </body>
 </html>

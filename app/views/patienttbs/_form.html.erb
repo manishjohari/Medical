@@ -1,19 +1,23 @@
-<%=javascript_include_tag "jquery-1.7.2.min"%>
-<%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
+
+
 <script type="text/javascript">
   //date piker
-	$(function() {
-          //from datepicker
-          $( ".datepicker" ).datepicker({
-//            minDate: ,
-            maxDate: "+11M +10D",
-            numberOfMonths: 1,
-            dateFormat: "yy-mm-dd"
+	jQuery(function() {
+          jQuery( ".datepicker" ).datepicker({
+            maxDate: "+0M +0D",
+            //numberOfMonths: 1,
+            showOn: "both",
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+			      changeYear: true,
+   		      buttonImage: "/images/calendar.gif",
+			      yearRange: "-30:+0"
+
           });
     	});
 </script>
 
-<%= form_for(@patienttb) do |f| %>
+<%= form_for(@patienttb,:html => { :multipart => true }) do |f| %>
   <% if @patienttb.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@patienttb.errors.count, "error") %> prohibited this patienttb from being saved:</h2>
@@ -26,96 +30,184 @@
     </div>
   <% end %>
 <br>
-  <div class="field">
-    <%= f.label :patientid %><br />
-    <%= f.text_field :patientid %>
-  </div>
-  
-  <%if !@patienttb.new_record?%>
-     <%if @patienttb.is_delete==true%>
+<div id='content' style="background-color: #EDE9D8;
+border-top: 1px solid #716F64;
+border-left: 1px solid #716F64;
+border-right: 1px solid #ACA899;
+border-bottom: 1px solid #ACA899;
+width: 625px;
+padding: 15px 9px;
+min-height: 500px;">
+<h1 class="heading mar6"><%=@h1%></h1>
+<div id='first' style="
+    position: relative;
+margin-left: 7%;
+margin-top: 9%;
+">
         <div class="field">
-        <%= f.label :is_delete %>
-        <%=f.check_box :is_delete %>
+          <%= f.label "Patient Id" %><br />
+          <%= f.text_field :patientid ,:class =>'input'%>
         </div>
-      <%end%>
-  <%end%>
-  
-  <div class="field">
-    <%= f.label :sex %><br />
-    <%= f.text_field :sex %>
+        
+        <%if !@patienttb.new_record?%>
+           <%if @patienttb.is_delete==true%>
+              <div class="field">
+              <%= f.label :is_delete %>
+              <%=f.check_box :is_delete %>
+              </div>
+            <%end%>
+        <%end%>
+        
+         <div class="field">
+          <%= f.label "Last Name" %><br />
+          <%= f.text_field :namelast,:class =>'input' %>
+        </div>
+         
+         <div class="field">
+          <%= f.label "Middle Name" %><br />
+          <%= f.text_field :namem ,:class =>'input'%>
+        </div>
+        
+        <div class="field">
+          <%= f.label "First Name" %><br />
+          <%= f.text_field :namefirst ,:class =>'input'%>
+        </div>
+          
+        <div class="field">
+          <%= f.label "Sex" %><br />
+          <%= select(:sex, :sex_type, [['Male','M'],['Female','F']],{},:class=>'select')%> 
+        </div>
+        
+        <div class="field">
+          <%= f.label "Birth Date" %><br />
+          <%= f.text_field :birthdate, :class=>'datepicker input'%>
+          <%#= f.datetime_select :birthdate %>
+        </div>
+        
+        <div class="field">
+            <%= f.label "Date of Visit" %><br />
+           <%= f.text_field :firstvisitdate, :class=>'datepicker input'%>
+           <%#= f.datetime_select :firstvisitdate %>
+          </div>
+          
+          <div class="field">
+            <%= f.label "Comment" %><br />
+            <%= f.text_area :comments,:class =>'input', :style=>"height:45px; resize: none;"%>
+          </div>
+  </div><!--Div first closed  -->
+          <div id="second" style="
+    position: relative;
+margin-left: 66%;
+margin-top: -56%;
+">
+          <div class="field">
+            <%= f.label "Ssn" %><br />
+            <%= f.text_field :ssn,:class =>'input' %>
+          </div>
+          
+         
+          <div class="field">
+            <%= f.label :race %><br />
+            <%= f.text_field :race ,:class =>'input'%>
+          </div>
+          <div class="field">
+            <%= f.label "Blood Type" %><br />
+            <%= f.text_field :bloodtype,:class =>'input' %>
+          </div>
+          <div class="field">
+            <%= f.label "Street" %><br />
+            <%= f.text_field :addressstreet,:class =>'input' %>
+          </div>
+          <div class="field">
+            <%= f.label "Town" %><br />
+            <%= f.text_field :addresstown ,:class =>'input'%>
+          </div>
+          <div class="field">
+            <%= f.label "State" %><br />
+            <%= f.text_field :addressstate ,:class =>'input'%>
+          </div>
+          <div class="field">
+            <%= f.label "zip" %><br />
+            <%= f.text_field :addresszip,:class =>'input' %>
+          </div>
+          <div class="field">
+            <%= f.label "country" %><br />
+            <%= f.text_field :addresscountry,:class =>'input' %>
+          </div>
+          <div class="field">
+            <%= f.label "Tele Number" %><br />
+            <%= f.text_field :telenumber,:class =>'input' %>
+          </div>
+          <div class="field">
+            <%= f.label :oculardiag %><br />
+            <%= f.text_field :oculardiag ,:class =>'input'%>
+          </div>
+          <div class="field">
+            <%= f.label "Medical Diagnosis" %><br />
+            <%= f.text_field :medicaldiag,:class =>'input' %>
+          </div>
+          
+<input id="patienttb_pimage" name="slitlamptb[pimage]" type="file">
+          
+          
+          <%if @patienttb.new_record?%>
+               <% if @p%> 
+                <%@p.each do |p|%>
+                <div class="field">
+                <label><%=p.field_name%></label> <br/>
+                    <% if params[:custom] %>
+                           <% params[:custom].each do |key, value|%>
+                               <%if key==p.field_name%>
+                                <input type=text name='custom[<%=p.field_name%>]' value="<%=value%>" class ='input'>
+                                <%end%>
+                            <%end%>
+                     <%else%> 
+                       <input type=text name='custom[<%=p.field_name%>]' class ='input'>
+                     <%end%>
+                </div>
+                <%end%>
+                <%end%>
+          <%else%>
+                <% if @p%> 
+                    <%@p.each do |p|%>
+                    <div class="field">
+                    <label><%=p.field_name%></label> <br/>
+                     <% if params[:custom] %>
+                           <% params[:custom].each do |key, value|%>
+                               <%if key==p.field_name%>
+                                <input type=text name='custom[<%=p.field_name%>]' value="<%=value%>" class ='input' size='30'>
+                                <%end%>
+                            <%end%>
+                     <%else%> 
+                       <input type=text name='custom[<%=p.field_name%>]' value='<%=p.data%>' class ='input' size='30'>
+                     <%end%>
+                    </div>
+                    <%end%>
+                 <%end%>
+                 
+                <%@new_field.each do |new_field|%>
+                <div class="field">
+                <label><%=new_field%></label> <br/>
+                  <% if params[:custom] %>
+                           <% params[:custom].each do |key, value|%>
+                               <%if key==new_field%>
+                                <input type=text name='custom[<%=new_field%>]' value="<%=value%>" class ='input' size='30'>
+                                <%end%>
+                            <%end%>
+                     <%else%> 
+                     <input type=text name='custom[<%=new_field%>]' class ='input' size='30'>
+                     <%end%>
+                </div>
+                <%end%>
+                
+          <%end%>
+     </div><!--Div second closed  -->
+   
+
+  <div class="actions " style="position: relative;
+margin-left: 44%;
+margin-top: 7%;">
+    <%= f.submit :class=>'button' %>
   </div>
-  <div class="field">
-    <%= f.label :ssn %><br />
-    <%= f.text_field :ssn %>
-  </div>
-  <div class="field">
-    <%= f.label :birthdate %><br />
-    <%= f.text_field :birthdate, :class=>'datepicker'%>
-    <%#= f.datetime_select :birthdate %>
-  </div>
-  <div class="field">
-    <%= f.label :namefirst %><br />
-    <%= f.text_field :namefirst %>
-  </div>
-  <div class="field">
-    <%= f.label :namem %><br />
-    <%= f.text_field :namem %>
-  </div>
-  <div class="field">
-    <%= f.label :namelast %><br />
-    <%= f.text_field :namelast %>
-  </div>
-  <div class="field">
-    <%= f.label :race %><br />
-    <%= f.text_field :race %>
-  </div>
-  <div class="field">
-    <%= f.label :bloodtype %><br />
-    <%= f.text_field :bloodtype %>
-  </div>
-  <div class="field">
-    <%= f.label :addressstreet %><br />
-    <%= f.text_field :addressstreet %>
-  </div>
-  <div class="field">
-    <%= f.label :addresstown %><br />
-    <%= f.text_field :addresstown %>
-  </div>
-  <div class="field">
-    <%= f.label :addressstate %><br />
-    <%= f.text_field :addressstate %>
-  </div>
-  <div class="field">
-    <%= f.label :addresszip %><br />
-    <%= f.text_field :addresszip %>
-  </div>
-  <div class="field">
-    <%= f.label :addresscountry %><br />
-    <%= f.text_field :addresscountry %>
-  </div>
-  <div class="field">
-    <%= f.label :telenumber %><br />
-    <%= f.text_field :telenumber %>
-  </div>
-  <div class="field">
-    <%= f.label :oculardiag %><br />
-    <%= f.text_field :oculardiag %>
-  </div>
-  <div class="field">
-    <%= f.label :medicaldiag %><br />
-    <%= f.text_field :medicaldiag %>
-  </div>
-  <div class="field">
-    <%= f.label :firstvisitdate %><br />
-   <%= f.text_field :firstvisitdate, :class=>'datepicker'%>
-    <%#= f.datetime_select :firstvisitdate %>
-  </div>
-  <div class="field">
-    <%= f.label :comments %><br />
-    <%= f.text_field :comments %>
-  </div>
-    
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  </div><!--Div content closed  -->
 <% end %>

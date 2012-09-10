@@ -1,29 +1,29 @@
-<h1>Listing patienttbs</h1>
+<%= javascript_include_tag :defaults%>
+  <h1 class="heading mar6">Listing Patients</h1>
 
-<table>
+<table border=1>
   <tr>
-    <th>Patientid</th>
+    <th>Patient Id</th>
     <th>Sex</th>
     <th>Ssn</th>
     <th>Birthdate</th>
-    <th>Namefirst</th>
-    <th>Namem</th>
-    <th>Namelast</th>
+    <th>First Name</th>
+    <th>Middle Name</th>
+    <th>Last Name</th>
     <th>Race</th>
-    <th>Bloodtype</th>
-    <th>Addressstreet</th>
-    <th>Addresstown</th>
-    <th>Addressstate</th>
-    <th>Addresszip</th>
-    <th>Addresscountry</th>
-    <th>Telenumber</th>
-    <th>Oculardiag</th>
-    <th>Medicaldiag</th>
-    <th>Firstvisitdate</th>
+    <th>Blood Type</th>
+    <th>Address Street</th>
+    <th>Address Town</th>
+    <th>Address State</th>
+    <th>Address Zip</th>
+    <th>Address Country</th>
+    <th>Tele Number</th>
+    <th>Ocular Diagnosis</th>
+    <th>Medical Diagnosis</th>
+    <th>Date of Visit</th>
     <th>Comments</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th colspan=3>Action</th>
+    
   </tr>
 
 <% @patienttbs.each do |patienttb| %>
@@ -31,7 +31,7 @@
     <td><%= patienttb.patientid %></td>
     <td><%= patienttb.sex %></td>
     <td><%= patienttb.ssn %></td>
-    <td><%= patienttb.birthdate %></td>
+    <td><%= patienttb.birthdate.strftime("%D") if patienttb.birthdate %></td>
     <td><%= patienttb.namefirst %></td>
     <td><%= patienttb.namem %></td>
     <td><%= patienttb.namelast %></td>
@@ -45,7 +45,7 @@
     <td><%= patienttb.telenumber %></td>
     <td><%= patienttb.oculardiag %></td>
     <td><%= patienttb.medicaldiag %></td>
-    <td><%= patienttb.firstvisitdate %></td>
+    <td><%= patienttb.firstvisitdate.strftime("%D") if patienttb.firstvisitdate %></td>
     <td><%= patienttb.comments %></td>
     <td><%= link_to 'Show', patienttb %></td>
     <td><%= link_to 'Edit', edit_patienttb_path(patienttb) %></td>

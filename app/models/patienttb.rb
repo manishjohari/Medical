@@ -1,6 +1,11 @@
 class Patienttb < ActiveRecord::Base
-has_many :slitlamptb
- validates_presence_of :namelast 
+
+    named_scope :not_deleted, :conditions => ["is_delete = ?", false ]
+   
+    has_many :slitlamptb
+    has_many :patient_user_defined_datas
+   
+#    validates_presence_of :namelast 
 
 
         if MandatoryFields.where(:fields=>"comments").first.is_mandatory==true
@@ -57,6 +62,14 @@ has_many :slitlamptb
         end
         if MandatoryFields.where(:fields=>"addressstate").first.is_mandatory==true
             validates_presence_of :addressstate 
+        end
+        
+        def self.search(search)
+              if search
+              find(:all, :conditions=>['namelast ILIKE ? or namefirst ILIKE ?', "%#{search}%" , "%#{search}%"])
+              else
+              find(:all)
+              end
         end
 
 end

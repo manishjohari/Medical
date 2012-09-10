@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120829111608) do
+ActiveRecord::Schema.define(:version => 20120907103155) do
 
   create_table "audit_logs", :force => true do |t|
     t.integer  "audit_id"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(:version => 20120829111608) do
     t.datetime "updated_at"
   end
 
+  create_table "patient_user_defined_data", :force => true do |t|
+    t.integer  "patienttb_id"
+    t.string   "field_name"
+    t.string   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "patient_user_defined_fields", :force => true do |t|
     t.string   "field_name"
     t.datetime "created_at"
@@ -86,7 +94,7 @@ ActiveRecord::Schema.define(:version => 20120829111608) do
     t.string   "medicaldiag"
     t.datetime "firstvisitdate"
     t.string   "comments"
-    t.boolean  "is_delete"
+    t.boolean  "is_delete",      :default => false
     t.integer  "db",             :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -114,6 +122,9 @@ ActiveRecord::Schema.define(:version => 20120829111608) do
     t.integer  "db"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pimage_file_name"
+    t.string   "pimage_content_type"
+    t.integer  "pimage_image_size"
   end
 
   create_table "users", :force => true do |t|

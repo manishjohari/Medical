@@ -1,0 +1,35 @@
+<%=stylesheet_link_tag "ims"%>
+<%=javascript_include_tag "jquery-1.7.2.min"%>
+<%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
+<%=javascript_include_tag "chrome"%>
+<%=javascript_include_tag "lightbox"%>
+<div class="top-menu">
+  <div class="chromestyle" id="chromemenu">
+    <ul>
+      <li><a href="#" rel="dropmenu1">Fileww</a></li>
+      <li><a href="#" rel="dropmenu2">Edit</a></li>
+      <li><a href="#" rel="dropmenu3">Tools</a></li>
+        <%if current_user%><li><a href="/settings" >Settings</a></li><%end%>
+      <li><a href="/audits" >Audit</a></li>
+      <li><a href="#" rel="dropmenu4">Help</a></li>
+      <%if !current_user%>
+      <li style="float:right"; id="login"><a href="#" >Login</a></li> 
+      <%else%>
+      <li style="float:right"><a href="/signout" >Logout</a></li> 
+      <%end%>     
+    </ul> 
+  </div>
+  <!--1st drop down menu -->
+  <div id="dropmenu1" class="dropmenudiv"> <a href="#">New Database</a> <a href="#" id="open">Import Database</a> <a href="#" class="menu-border-bottom">Export</a> <a href="#">Page Setup...</a> <a href="#">Print Preview</a> <a href="#">Print...</a> <a href="#" class="menu-border-bottom">Exit</a> </div>
+  <!--2nd drop down menu -->
+  <div id="dropmenu2" class="dropmenudiv" style="width: 150px;"> <a href="#">Undo</a> <a href="#" class="menu-border-bottom">Redo</a> <a href="#">Cut Image</a> <a href="#">Copy Image</a> <a href="#">Paste image</a> </div>
+  <!--3rd drop down menu -->
+  <div id="dropmenu3" class="dropmenudiv" style="width: 150px;"> <a href="#" class="menu-border-bottom">Query…</a> <a href="#">Merge Records…</a> <a href="#" class="menu-border-bottom">Split Records…</a> <a href="#">Device Properties…</a> <a href="#">Customize…</a> <a href="#">Options…</a> </div>
+  <!--4rd drop down menu -->
+  <div id="dropmenu4" class="dropmenudiv" style="width: 150px;"> <a href="#">About HAI IMS</a> <a href="#">Contact Us</a> </div>
+</div>
+
+
+<script type="text/javascript">
+      cssdropdown.startchrome("chromemenu")
+  </script>
