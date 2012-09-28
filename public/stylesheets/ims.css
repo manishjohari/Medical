@@ -202,7 +202,7 @@ legend {
 
 .body-wrapper {
 	width:1000px;
-	margin:15px auto;
+	margin:1px auto;
 }
 .left {
 	background-color:#ede9d8;
@@ -375,4 +375,17 @@ legend {
 	back\ground-color: transparent;
 	background-image: url(blank.gif);
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="overlay.png", sizingMethod="scale");
+	}
+	
+	#second {
+	position: relative;
+margin-left: 62%;
+margin-top: -69%;
+	} 
+	
+	.field_with_errors {
+	border:1px solid #aca899;
+	//padding:3px 4px 11px 12px;
+	width:189px;
+	border-color: red;
 	}

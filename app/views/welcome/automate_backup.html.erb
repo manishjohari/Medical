@@ -1,0 +1,17 @@
+<h1 class="heading mar6">Set Automated Databackup Time </h1>
+
+<%= form_for :automated_backup, :url=> "set_automate_backup"  do |f|%>
+
+<%#= select( "automate", "time", { "Daily" => "every 1.minute", "Weekly" => "every 7.minute", "Monthly"=> "every 30.minute"}) %>
+<div class="field">
+ <%= f.label :time%>   
+    <select id="automate_time" name="automate[time]" style='margin-left: 2%;'>
+      <option value = 'every 1.minute'  <%if @time.to_s == 'every 1.minute'%> selected <%end%>>Daily</option>
+      <option value = 'every 7.minute'  <%if @time.to_s == 'every 7.minute'%> selected <%end%>>Weekly</option>
+      <option value = 'every 30.minute' <%if @time.to_s == 'every 30.minute'%> selected <%end%>>Monthly</option>
+
+    </select>
+</div>
+<%= f.submit "Save", :class=>'button', :style=>"margin-top: 4%; margin-left: 4%;" %>
+
+<% end %>

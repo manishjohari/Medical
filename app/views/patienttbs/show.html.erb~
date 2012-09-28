@@ -1,0 +1,154 @@
+<%=javascript_include_tag "lightbox"%>
+
+<style>
+  .pdata{
+ padding-bottom: 1em;
+ padding-left: 2em;
+  }
+</style>
+
+   
+
+<p class='pdata'>
+  <b>Patient Id:</b>
+  <%= @patienttb.patientid %>
+</p>
+
+<%if @patienttb.is_delete==true %>
+<p class='pdata'>
+  <b>Deleted ?:</b>
+  <%= @patienttb.is_delete %>
+</p>
+<%end%>
+ 
+<p class='pdata'>
+  <b>Sex:</b>
+  <%= @patienttb.sex %>
+</p>
+
+<p class='pdata'>
+  <b>Ssn:</b>
+  <%= @patienttb.ssn %>
+</p>
+
+<p class='pdata'>
+  <b>Birth Date:</b>
+  <%= @patienttb.birthdate.strftime("%D") if @patienttb.birthdate %>
+</p>
+
+<p class='pdata'>
+  <b>First Name:</b>
+  <%= @patienttb.namefirst %>
+</p>
+
+<p class='pdata'>
+  <b>Middle Name:</b>
+  <%= @patienttb.namem %>
+</p>
+
+<p class='pdata'>
+  <b>Last Name:</b>
+  <%= @patienttb.namelast %>
+</p>
+
+<p class='pdata'>
+  <b>Race:</b>
+  <%= @patienttb.race %>
+</p>
+
+<p class='pdata'>
+  <b>Blood Type:</b>
+  <%= @patienttb.bloodtype %>
+</p>
+
+<p class='pdata'>
+  <b>Address Street:</b>
+  <%= @patienttb.addressstreet %>
+</p>
+
+<p class='pdata'>
+  <b>Address Town:</b>
+  <%= @patienttb.addresstown %>
+</p>
+
+<p class='pdata'>
+  <b>Address State:</b>
+  <%= @patienttb.addressstate %>
+</p>
+
+<p class='pdata'>
+  <b>Address Zip:</b>
+  <%= @patienttb.addresszip %>
+</p>
+
+<p class='pdata'>
+  <b>Address Country:</b>
+  <%= @patienttb.addresscountry %>
+</p>
+
+<p class='pdata'>
+  <b>Tele Number:</b>
+  <%= @patienttb.telenumber %>
+</p>
+
+<p class='pdata'>
+  <b>Ocular Diagnosis:</b>
+  <%= @patienttb.oculardiag %>
+</p>
+
+<p class='pdata'>
+  <b>Medical Diagnosis:</b>
+  <%= @patienttb.medicaldiag %>
+</p>
+
+<p class='pdata'>
+  <b>Date of Visit:</b>
+  <%= @patienttb.firstvisitdate.strftime("%D") if @patienttb.firstvisitdate %>
+</p>
+
+<p class='pdata'>
+  <b>Comments:</b>
+  <%= @patienttb.comments %>
+</p>
+
+<%if !@custom_data.empty?%>
+  <%@custom_data.each do |custom|%>
+  <p class='pdata'>
+        <b><%=custom.field_name%>:</b>
+        <%=custom.data%>
+  </p>
+  <%end%>
+<%end%>
+
+            <div style="float: right;
+            margin-right: 35%;
+            left: 30%;
+            position: relative;margin-top: -75%;
+width: 42%;">
+           <%db=@patienttb.db%>
+                <%@patienttb.slitlamptbs.each do |slitlamp|%>
+    <%if db!=0%>
+                 <a href="/images/old/<%=db%>/<%=@patienttb.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
+                  <img src="/images/old/<%=db%>/<%=@patienttb.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
+                 </a>
+            <%else%>
+                <%if slitlamp.pimage_content_type.match("video").nil? %>
+                  <a href="<%=slitlamp.pimage(:original)%>" rel="lightbox" title="<%=slitlamp.title%>">
+                      <img alt="Image Missing" src="<%=slitlamp.pimage(:original)%>" width="82" height="82"%>
+                  </a>
+                <%else%> 
+                  <a href="<%=slitlamp.pimage(:thumbnail)%>" rel="lightbox" title="<%=slitlamp.title%>">
+                      <img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="82" height="82"%>
+                  </a>
+                <%end%> 
+                
+            <%end%>
+                 <%end%>
+
+
+            </div>
+<%= link_to 'Edit', edit_patienttb_path(@patienttb),  :style=>"margin-left: 48%;" %> |
+<%= link_to 'Back', request.referer %>
+
+
+

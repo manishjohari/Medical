@@ -74,6 +74,13 @@ class SlitlamptbsController < ApplicationController
       end
     end
   end
+  
+  def update_label
+      @slitlamptb = Slitlamptb.find(params[:id])
+      @slitlamptb.update_attributes(:description=>params[:text_value])
+      render :json=> @slitlamptb.description, :layout=> false
+      return
+  end
 
   # DELETE /slitlamptbs/1
   # DELETE /slitlamptbs/1.xml
@@ -87,5 +94,12 @@ class SlitlamptbsController < ApplicationController
       format.html { redirect_to(slitlamptbs_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def media_upload
+ # render :json=> params[:slitlamptb]
+ # return
+  Slitlamptb.create(params[:slitlamptb])
+  redirect_to "/index"
   end
 end

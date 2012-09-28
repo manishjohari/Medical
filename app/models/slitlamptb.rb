@@ -1,9 +1,31 @@
 class Slitlamptb < ActiveRecord::Base
 belongs_to :patienttbs
+after_create :thumbnail
 
   has_attached_file :pimage,
-  :styles => { :thumbnail => '320x240!'},
-  :url => "/:attachment/:id/:style/:basename.:extension",
-  :path => ":rails_root/public/:attachment/:id/:style/:basename.:extension"
+#  :styles => { :thumbnail => '320x240!'}, :unless=> lambda{self.pimage_content_type=='image/jpeg'},
+  :url => "/images/:attachment/:id/:style/:basename.:extension",
+  :path => ":rails_root/public/images/:attachment/:id/:style/:basename.:extension"
+
+def thumbnail
+  if !self.pimage_content_type.match("video").nil?
+    path=self.pimage.path
+    current_path=File.expand_path(path,  __FILE__)
+    self.update_attributes(:description=>'')
+   
+    directory=File.dirname(current_path)
+    td=File.dirname(directory)
+    `mkdir #{td}/thumbnail`
+    tmpfile = File.join( directory, "tmpfile" )
+    FileUtils.mv current_path, tmpfile
+    file = ::FFMPEG::Movie.new(tmpfile)
+    file.transcode(current_path, "-itsoffset -4 -vcodec mjpeg -vframes 1 -an -f rawvideo #{td}/thumbnail/#{self.pimage_file_name}")
+    FileUtils.mv tmpfile, current_path
+    FileUtils.rm tmpfile, :force => true
+  else
+ 
+  end
+end
+
 
 end

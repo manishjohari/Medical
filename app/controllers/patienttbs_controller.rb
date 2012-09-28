@@ -51,18 +51,19 @@ class PatienttbsController < ApplicationController
     @h1="New Patient"
     @patienttb = Patienttb.new(params[:patienttb])
     @p=PatientUserDefinedFields.all
+
     respond_to do |format|
       if @patienttb.save
-       if params[:slitlamptb]
-        @patienttb.slitlamptb.create(params[:slitlamptb])
-        end
+          if params[:slitlamptb]
+	          @image=@patienttb.slitlamptbs.create(params[:slitlamptb])
+        	end
            if params[:custom]
            params[:custom].each do|key,value| 
                 @patienttb.patient_user_defined_datas.create(:field_name=>key, :data=>value)
               end
            end
           Audit.create(:record_id=>@patienttb.id, :record_type=>'patienttb', :date=>Time.now, :action=>"New", :ip=>request.remote_ip) 
-            format.html { redirect_to(@patienttb, :notice => 'Patienttb was successfully created.') }
+            format.html { redirect_to(@patienttb, :notice => 'Patient was successfully created.') }
             format.xml  { render :xml => @patienttb, :status => :created, :location => @patienttb }
       else
             format.html { render :action => "new" }
@@ -92,10 +93,7 @@ class PatienttbsController < ApplicationController
   # PUT /patienttbs/1.xml
   
   def update
- #render :json=> params[:slitlamptb]
-#return
-  
-   @h1="Editing Patient"
+@h1="Editing Patient"
 @old=Array.new
 @new=Array.new
     @patienttb = Patienttb.find(params[:id])
@@ -145,7 +143,7 @@ class PatienttbsController < ApplicationController
         @audit=Audit.create(:record_id=>@patienttb.id, :record_type=>'patienttb', :date=>Time.now, :action=>"Mod", :ip=>request.remote_ip) 
         @audit.create_audit_log(:record_id=>@patienttb.id, :old_data=>@old, :new_data=>@new)
         ##
-        format.html { redirect_to(@patienttb, :notice => 'Patienttb was successfully updated.') }
+        format.html { redirect_to(@patienttb, :notice => 'Patient was successfully updated.') }
         format.xml  { head :ok }
       else
       
@@ -160,6 +158,7 @@ class PatienttbsController < ApplicationController
   def destroy
     @patienttb = Patienttb.find(params[:id])
     @patienttb.update_attributes(:is_delete => true)
+    @patienttb.save(:validate=>false)
     Audit.create(:record_id=>@patienttb.id, :record_type=>'patienttb', :date=>Time.now, :action=>"Del", :ip=>request.remote_ip) 
     respond_to do |format|
       format.html { redirect_to(patienttbs_url) }

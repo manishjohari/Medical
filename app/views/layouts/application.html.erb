@@ -9,10 +9,199 @@
   <%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
   <%=javascript_include_tag "chrome"%>
   <%=javascript_include_tag "lightbox"%>
+  <script type="text/javascript">
+  var myMessages = ['info','warning','error','success','alert'];
+  function hideAllMessages()
+  {
+                   var messagesHeights = new Array(); // this array will store height for each
+
+                   for (i=0; i<myMessages.length; i++)
+                   {
+                                    messagesHeights[i] = jQuery('.' + myMessages[i]).outerHeight(); // fill array
+                                    jQuery('.' + myMessages[i]).css('top', -messagesHeights[i]); //move element outside viewport
+                   }
+  } 
+  
+  function showMessage(type)
+  {
+        jQuery('.'+ type +'-trigger').click(function(){
+                  hideAllMessages();
+                  jQuery('.'+type).animate({top:"0"}, 500);
+        });
+  }
+  
+    jQuery(document).ready(function(){
+
+                   // Initially, hide them all
+                   hideAllMessages();
+
+                   // Show message
+                   for(var i=0;i<myMessages.length;i++)
+                   {
+                          showMessage(myMessages[i]);
+                   }
+
+                   // When message is clicked, hide it
+                   jQuery('.message').click(function(){
+                                    jQuery(this).animate({top: -jQuery(this).outerHeight()}, 500);
+                    });           
+
+                  <%if !flash[:notice].nil? %>
+                       jQuery('.info').animate({top:"0"}, 500);
+                  <%end%>
+                  <%if !flash[:error].nil? %>
+                       jQuery('.error').animate({top:"0"}, 500);
+                  <%end%>
+                  
+                  <%if !flash[:alert].nil? %>
+                       jQuery('.alert').animate({top:"0"}, 500);
+                  <%end%>
+                  
+                  var height = jQuery('.warning').outerHeight() + 20; 
+                  jQuery('.warning').css('top', -height); //move element outside viewport
+
+    });
+  </script>
 </head>
 <body>
 <%= render :partial=>'/shared/top_menu'%>
+<div class="body-wrapper">
+  <div class="left f-left">
+    <div class="heading mar6">Patient Record</div>
+    <div class="options-list mar6"><a href="/patienttbs/new"><img src="/images/new.png" /></a> <a href="#"><img src="/images/save.png" /></a> <a href="#"><img src="/images/delete.png" /></a> <a href="/patienttbs"><img src="/images/list.png" /></a>
+    <div id="searchwrapper" style="width:168px;">
+    <%= form_tag patienttbs_path, :method=>'get' do%>
+    <%#= text_field_tag :search, :class=>'searchbox', :style=>"width:138px;" %>
+      <input type="text" class="searchbox" style="width:138px;" name="search" value="<%=params[:search]%>" placeholder="Search Patients" />
+      <input type="image" src="/images/submit.png" style="left:144px;" class="searchbox_submit" value=""  />
+      <%#= submit_tag%>
+      <%end%>
+    </div>
+    <fieldset class="fieldset mar6">
+      <legend>Patient Information:</legend>
+      <label>ID:</label>
+      <input class="input" type="text" style="width:159px;" />
+      <label>Last Name:</label>
+      <input class="input" type="text" style="width:159px;" />
+      <label>First Name:</label>
+      <input class="input" type="text" style="width:159px;" />
+      <div class="f-left">
+        <label>Sex:</label>
+        <br />
+        <select class="select" name="" style="width:60px;">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+      
+      <div class="f-right">
+        <label>Birth Date:</label>
+        <br />
+        <input class="input" type="text" style="width:80px;" />
+      </div>
+      <div class="clear"></div>
+    </fieldset>
+    <fieldset class="fieldset mar2">
+      <legend>Hospital Information:</legend>
+      <label>Date of Visit:</label>
+      <input type="text" class="input" disabled="disabled" style="width:159px;" value="2/1/2012" />
+      <label>Technician:</label>
+      <select class="select" name="" style="width:165px;">
+        <option>User1</option>
+        <option>User2</option>
+      </select>
+      <label>Medical Diagnosis:</label>
+      <input class="input" type="text" style="width:159px;" />
+      <label>Comment:</label>
+      <textarea class="input" name="" cols="" rows="" style="width:159px; resize: none;"></textarea>
+    </fieldset>
+</div>
+    <div id="submit-button" style="width:85px; margin:0px auto;">
+      <input name="" type="button" class="button" value="More Details" id="more_detail"/>
+    </div>
+  </div>
+
+  <div class="middle f-left">
+   <div class="product-display">
 <%= yield %>
+  </div>    
+  </div>
+
+<div class="right f-left">
+	<div class="options-list mar6">
+    <fieldset class="fieldset mar6">
+      <legend>Media Input:</legend>
+      <a href="#" class="mar3"><img src="/images/snapshot.png" /></a> <a href="#" class="mar3"><img src="/images/seq.png" /></a> <a href="#" class="mar3"><img src="/images/load.png" /></a>
+    </fieldset>
+    <fieldset class="fieldset mar6">
+      <legend>Media Output:</legend>
+      <a href="#" class="mar3"><img src="/images/email.png" /></a> <a href="#" class="mar3"><img src="/images/stream.png" /></a> <a href="#" class="mar3"><img src="/images/export.png" /></a>
+    </fieldset>
+    <fieldset class="fieldset mar6">
+      <legend>Tools:</legend>
+      <a href="#" class="mar3"><img src="/images/scale.png" /></a> <a href="#" class="mar3"><img src="/images/copy.png" /></a> <a href="#" class="mar3"><img src="/images/print.png" /></a>
+    </fieldset>
+    <div id="searchwrapper" style="width:139px;">
+      <input type="text" class="searchbox" style="width:110px;" name="s" value="Search /images" />
+      <input type="image" src="/images/submit.png" style="left:115px;" class="searchbox_submit" value="" />
+    </div>
+	</div>
+  </div>
+  <div class="f-right" style="width:39px;"> 
+  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
+    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
+    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
+  </div>
+  <div class="clear"></div>
+</div>
+<!--jQuery llightbox for More Details-->
+<div id="more_detail_overlay"></div>
+<div id="more_detail_info">
+  <div id="more_detail_results">
+    <h1>Add More Details</h1>
+    <% if !@more_fields.empty? %>
+    <%= form_for :custom_fields, :html => {:multipart => true}, :url=>{:action=>'add_more_data', :controller=>'welcome'} do |f| %>
+        <table>
+        <%@more_fields.each do|mf|%>
+            <tr>
+            <td><%=mf.field_name%></td>
+            <td><%= f.text_field :"#{mf.field_name}" %></td>
+            </tr>
+            </td>
+        <%end%>
+          </table>
+     <br><%= f.submit "save" %>
+     <%end%>
+     <%else%>
+     No Custom field Added Yet!<br>
+     <%=link_to "Add Fields", "/custom_to_patient"%>
+    <% end %>
+   
+    <p style="margin-top:20px; text-align:right;"><a href="#" id="more_detail_close">Close</a></p>
+  </div>
+</div>
+<!--jQuery llightbox for More Details end-->
+
+<%if !flash[:notice].nil?%>
+<div class="info message">
+       <h3>Notifiation</h3>
+       <p><%=flash[:notice]%></p>
+</div>
+<%end%>
+
+<%if !flash[:error].nil?%>
+<div class="error message">
+     <h3>Ups, an error ocurred</h3>
+     <p><%=flash[:error]%></p>
+</div>
+<%end%>
+
+<%if !flash[:alert].nil?%>
+<div class="alert message">
+     <h3>Alert ! ! !</h3>
+     <p><%=flash[:alert]%></p>
+</div>
+<%end%>
 
 </body>
 </html>

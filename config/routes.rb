@@ -13,9 +13,14 @@ MedicalPro::Application.routes.draw do
   match "/add_fields" => "welcome#add_fields"
   match "/custom_field/:id/destroy" => "welcome#custom_field_destroy"
   match "/add_more_data" => "welcome#add_more_data"
+  match "/automate_backup" => "welcome#automate_backup"
+  match "/set_automate_backup" => "welcome#set_automate_backup"
+  match "/slitlamptbs/:id/label" => "slitlamptbs#update_label"
+  match "/media_upload" => "slitlamptbs#media_upload"
   resources :patienttbs
   resources :slitlamptbs
   resources :audits
+  resources :videos
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

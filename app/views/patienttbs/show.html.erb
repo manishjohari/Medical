@@ -7,18 +7,7 @@
   }
 </style>
 
-<p id="notice"><%= notice %></p>
-
-
-<div id='content' style="background-color: #EDE9D8;
-border-top: 1px solid #716F64;
-border-left: 1px solid #716F64;
-border-right: 1px solid #ACA899;
-border-bottom: 1px solid #ACA899;
-width: 625px;
-padding: 15px 9px;
-min-height: 500px; margin-top:2%">
-
+   
 
 <p class='pdata'>
   <b>Patient Id:</b>
@@ -137,22 +126,29 @@ min-height: 500px; margin-top:2%">
             position: relative;margin-top: -75%;
 width: 42%;">
            <%db=@patienttb.db%>
-                <%@patienttb.slitlamptb.each do |slitlamp|%>
+                <%@patienttb.slitlamptbs.each do |slitlamp|%>
     <%if db!=0%>
                  <a href="/images/old/<%=db%>/<%=@patienttb.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
                   <img src="/images/old/<%=db%>/<%=@patienttb.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
                  </a>
             <%else%>
-            <a href="<%=slitlamp.pimage(:original)%>" rel="lightbox" title="<%=slitlamp.title%>">
-                <img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="82" height="82"%>
-            </a>
+                <%if slitlamp.pimage_content_type.match("video").nil? %>
+                  <a href="<%=slitlamp.pimage(:original)%>" rel="lightbox" title="<%=slitlamp.title%>">
+                      <img alt="Image Missing" src="<%=slitlamp.pimage(:original)%>" width="82" height="82"%>
+                  </a>
+                <%else%> 
+                  <a href="<%=slitlamp.pimage(:original)%>" rel="lightbox" title="<%=slitlamp.title%>">
+                      <img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="82" height="82"%>
+                  </a>
+                <%end%> 
+                
             <%end%>
                  <%end%>
 
 
             </div>
-
-
-</div>
 <%= link_to 'Edit', edit_patienttb_path(@patienttb),  :style=>"margin-left: 48%;" %> |
 <%= link_to 'Back', request.referer %>
+
+
+

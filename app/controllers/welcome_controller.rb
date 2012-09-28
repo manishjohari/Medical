@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
   def index
-  @more_fields=PatientUserDefinedFields.all
+  @slitlamps   = Slitlamptb.all
+  @more_fields = PatientUserDefinedFields.all
   end
 
   def tounzip
@@ -11,18 +12,18 @@ class WelcomeController < ApplicationController
             FileUtils.cp tmp.path, file
               `rm -rf ./public/unzipped/`
             @resp=`unzip -o "#{file}" -d public/unzipped`
-             FileUtils.rm file
+                   FileUtils.rm file
            
                          session[:db]=Patienttb.maximum(:db)
-                         if (session[:db]==nil || session[:db]==0)
-                            session[:db]=1
+                           if (session[:db]==nil || session[:db]==0)
+                           session[:db]=1
                            session[:from_patient]=Patienttb.maximum(:id)
                            session[:from_slitlamp]=Slitlamptb.maximum(:id)
                            @image_pat =`find -name NEW -type d`
                            @image_path = @image_pat.gsub("\n","")
-                           `mkdir ./public/images/old/#{session[:db]}`
-                           `mv \"#{@image_path}\"/* ./public/images/old/#{session[:db]}/`
-                        else
+                           `mkdir public/images/old/#{session[:db]}`
+                          `mv \"#{@image_path}\"/* public/images/old/#{session[:db]}/`
+                          else
                            session[:db]=Patienttb.maximum(:db).next
                            session[:from_patient]=Patienttb.maximum(:id)
                            session[:from_slitlamp]=Slitlamptb.maximum(:id)
@@ -60,6 +61,7 @@ class WelcomeController < ApplicationController
         patients=Patienttb.where("id >=? ", from_patient.next.to_i)
           patients.each do |patient|
               patient.update_attributes(:db=>session[:db].to_i)
+              patient.save(:validate=>false)
            end
 ##update db value in patienttb table
        
@@ -72,6 +74,7 @@ class WelcomeController < ApplicationController
        slitlamps=Slitlamptb.where("id >=?", from_slitlamp.next.to_i)
         slitlamps.each do |slitlamp|
           slitlamp.update_attributes(:db=>session[:db].to_i)
+          slitlamp.save(:validate=>false)
         end
 ##update db value in slilamptb
         
@@ -175,6 +178,50 @@ class WelcomeController < ApplicationController
   session[:user]=nil
    flash[:notice]="Logout Successfully"
   redirect_to '/index'
+  end
+  
+  def automate_backup
+   @time=AutomatedDbBackup.first.time
+  end
+  
+  def set_automate_backup
+  @automated_backup=AutomatedDbBackup.first.update_attributes(params[:automate])
+  `rm -f '#{Rails.root}/config/schedule.rb'` 
+   envr = 'set :environment,"development"'
+   log  = 'set :output, "log/cron_log.log"'
+   `echo '#{log}' >> '#{Rails.root}/config/schedule.rb'`
+   `echo '#{envr}' >> '#{Rails.root}/config/schedule.rb'`
+    time=AutomatedDbBackup.first.time
+    txt = time+" "+'do
+         rake "backup"
+       end'
+    `echo '#{txt}' >> '#{Rails.root}/config/schedule.rb'`
+    `whenever -i`
+    
+=begin  
+  `rm -f '#{Rails.root}/config/schedule.rb' '#{Rails.root}/lib/tasks/shopreport.rake'`
+   envr = 'set :environment,"development"'
+   `echo '#{envr}' >> '#{Rails.root}/config/schedule.rb'`
+   auto_mail = Automail.all
+   if auto_mail
+     i=0
+     auto_mail.each do |a|
+       txt = a.cron_time+" "+'do
+         rake "shopreport'+i.to_s+'"
+       end'
+       task='task :shopreport'+i.to_s+' => :environment do
+         obj = Admin::AutoEmailsController.new
+         obj.'+a.report+'
+       end'
+       `echo '#{txt}' >> '#{Rails.root}/config/schedule.rb'`
+       `echo '#{task}' >> '#{Rails.root}/lib/tasks/shopreport.rake'`
+       i=i+1
+     end
+     `whenever -i`
+   end
+=end  
+  
+  redirect_to "/automate_backup"
   end
   
 end

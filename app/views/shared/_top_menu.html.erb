@@ -129,7 +129,7 @@
 <div id="login_info">
   <div id="results">
     <h1>Login</h1>
-    <%= form_tag 'login', :html => {:multipart => true} do%>
+    <%= form_tag '/login', :html => {:multipart => true} do%>
       <%= label_tag 'email', nil, :style=>"padding: 1px 27px 1px 52px;"%>
       <%= text_field_tag :email, '',:class =>'input' %><br>
       <%= label_tag 'Password', nil, :style=>"padding: 1px 4px 1px 52px;"%>
@@ -147,7 +147,7 @@
 <div id="signup_info">
   <div id="results">
     <h1>New User</h1>
-    <%= form_tag 'signup', :html => {:multipart => true} do%>
+    <%= form_tag '/signup', :html => {:multipart => true} do%>
       <%= label_tag 'email', nil, :style=>"padding: 1px 80px 1px 52px;"%>
       <%= text_field_tag :email, '',:class =>'input' %><br>
       <%= label_tag 'Password', nil, :style=>"padding: 1px 57px 1px 52px;"%>

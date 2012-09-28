@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907103155) do
+ActiveRecord::Schema.define(:version => 20120921084957) do
 
   create_table "audit_logs", :force => true do |t|
     t.integer  "audit_id"
@@ -27,6 +27,35 @@ ActiveRecord::Schema.define(:version => 20120907103155) do
     t.datetime "date"
     t.string   "ip"
     t.string   "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "automated_db_backups", :force => true do |t|
+    t.string   "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fundustbs", :id => false, :force => true do |t|
+    t.integer  "id",            :null => false
+    t.string   "patientid"
+    t.integer  "imageid"
+    t.datetime "datetime"
+    t.string   "od_os"
+    t.string   "equipinfo"
+    t.string   "description"
+    t.string   "celldensity"
+    t.string   "meancellarea"
+    t.string   "imagebuffer"
+    t.string   "title"
+    t.string   "disease"
+    t.string   "cddelta"
+    t.string   "cv"
+    t.string   "hexagonality"
+    t.string   "analysed"
+    t.string   "location"
+    t.string   "imagefilename"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -134,6 +163,17 @@ ActiveRecord::Schema.define(:version => 20120907103155) do
     t.string   "auth_type",  :default => "user"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "videos", :force => true do |t|
+    t.string   "content_type"
+    t.integer  "size"
+    t.string   "filename"
+    t.string   "title"
+    t.string   "description"
+    t.string   "state"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
 end

@@ -1,189 +1,151 @@
 
-<%=flash[:notice] if flash[:notice]%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+<%= javascript_include_tag "easy-editable-text"%>
+<%=javascript_include_tag "jwplayer.js"%>
+<script type="text/javascript">
+  jQuery.noConflict();
 
+  	jQuery(function(){
+	 
+	  jQuery(".pimage-video").click(function(){
+	    var a=jQuery(this).attr('id');
+		  jQuery('#a'+a+',#overlay').animate({'opacity':'0.7'}, 30, 'linear');
+        jQuery('#a'+a).animate({'opacity':'1.00'},300,'linear');
+       	jQuery('#overlay, #a'+a).css('display','block');
+       	jQuery('#overlay, #a'+a).css({'position':'fixed'});
+       	jQuery('#a'+a).css({'top':'20%','left':'34%'});
+    	});
+
+	  jQuery('.pimage-video-close').click(function(){
+		  jQuery('#overlay, .pimage-video-info').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#overlay, .pimage-video-info').css('display','none');
+		  });
+	  });
+	  });
+</script>
+
+<style type="text/css">
+.text 
+{
+	float:left;
+	margin-top:8px;
+	font-size:12px;
+	color:#545454;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-border-radius: 2px;
+}
+
+
+.edit
+{
+	float:left;
+	background:url(/images/edit.png) no-repeat;
+	width:32px;
+	height:32px;
+	display:block;
+	cursor: pointer;
+	margin-top:10px;
+}
+
+.clear
+{
+	clear:both;
+	height:20px;
+}
+
+</style>
 
  </head>
-<body>
+    <body>
+    <div id="media_upload">
+    <%= form_tag("/media_upload", :multipart => true ) do%>
+     <%= label_tag "Upload Media"%> 
+     <input type=file multiple = "multiple" name="slitlamptb[][pimage]" />
+     <%= submit_tag "upload"%>
+    <%end%>
+    </div>
+    <div id="overlay"></div>
+    <%a=1%>
+    <% @slitlamps.each do |slitlamp|%>
+            
+            <%if slitlamp.db.nil? or slitlamp.db==0 %>
+                  <div class="product f-left">
+                  <%if slitlamp.pimage_content_type.match("video").nil? %>
+                      <a href="<%=slitlamp.pimage(:original)%>"  rel="lightbox" title="<%=slitlamp.title%>">
+                      <img alt="Image Missing" src="<%=slitlamp.pimage(:original)%>" width="82" height="82"%>
+                      </a>
+                    <div>
+                      <br/>
+                    1/31/2011 &nbsp;12:25:08<br />
+                    Diagnosis Blepharitls<br />
+                    Notes: Acnerosacea 
+                    </div>
+                  <%else%>
+              <!-- For Video -->
 
-<div class="body-wrapper">
-  <div class="left f-left">
-    <div class="heading mar6">Patient Record</div>
-    <div class="options-list mar6"><a href="/patienttbs/new"><img src="images/new.png" /></a> <a href="#"><img src="images/save.png" /></a> <a href="#"><img src="images/delete.png" /></a> <a href="/patienttbs"><img src="images/list.png" /></a>
-    <div id="searchwrapper" style="width:168px;">
-    <%= form_tag patienttbs_path, :method=>'get' do%>
-    <%#= text_field_tag :search, :class=>'searchbox', :style=>"width:138px;" %>
-      <input type="text" class="searchbox" style="width:138px;" name="search" value="<%=params[:search]%>" placeholder="Search Patients" />
-      <input type="image" src="images/submit.png" style="left:144px;" class="searchbox_submit" value=""  />
-      <%#= submit_tag%>
-      <%end%>
-    </div>
-    <fieldset class="fieldset mar6">
-      <legend>Patient Information:</legend>
-      <label>ID:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>Last Name:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>First Name:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <div class="f-left">
-        <label>Sex:</label>
-        <br />
-        <select class="select" name="" style="width:60px;">
-          <option>Male</option>
-          <option>Female</option>
-        </select>
-      </div>
-      <div class="f-right">
-        <label>Birth Date:</label>
-        <br />
-        <input class="input" type="text" style="width:80px;" />
-      </div>
-      <div class="clear"></div>
-    </fieldset>
-    <fieldset class="fieldset mar2">
-      <legend>Hospital Information:</legend>
-      <label>Date of Visit:</label>
-      <input type="text" class="input" disabled="disabled" style="width:159px;" value="2/1/2012" />
-      <label>Technician:</label>
-      <select class="select" name="" style="width:165px;">
-        <option>User1</option>
-        <option>User2</option>
-      </select>
-      <label>Medical Diagnosis:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>Comment:</label>
-      <textarea class="input" name="" cols="" rows="" style="width:159px; resize: none;"></textarea>
-    </fieldset>
-</div>
-    <div id="submit-button" style="width:85px; margin:0px auto;">
-      <input name="" type="button" class="button" value="More Details" id="more_detail"/>
-    </div>
-  </div>
-  <div class="middle f-left">
-    
-    <div class="product-display">
-	  <a href="big-image/1.jpg" rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/1.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-	  </a>
-		<a href="big-image/2.jpg" rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/2.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/3.jpg" rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/3.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/4.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/4.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/5.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/5.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/6.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/6.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/7.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/7.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/8.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/8.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/9.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/9.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-<a href="big-image/1.jpg"  rel="lightbox" title="1/31/2011 12:25:08 | Diagnosis Blepharitls | Notes: Acnerosacea">
-      <div class="product f-left"> <img src="images/1.png" /><br />
-        1/31/2011 &nbsp;12:25:08<br />
-        Diagnosis Blepharitls<br />
-        Notes: Acnerosacea </div>
-</a>
-    </div>
-    
-  </div>
-  <div class="right f-left">
-	<div class="options-list mar6">
-    <fieldset class="fieldset mar6">
-      <legend>Media Input:</legend>
-      <a href="#" class="mar3"><img src="images/snapshot.png" /></a> <a href="#" class="mar3"><img src="images/seq.png" /></a> <a href="#" class="mar3"><img src="images/load.png" /></a>
-    </fieldset>
-    <fieldset class="fieldset mar6">
-      <legend>Media Output:</legend>
-      <a href="#" class="mar3"><img src="images/email.png" /></a> <a href="#" class="mar3"><img src="images/stream.png" /></a> <a href="#" class="mar3"><img src="images/export.png" /></a>
-    </fieldset>
-    <fieldset class="fieldset mar6">
-      <legend>Tools:</legend>
-      <a href="#" class="mar3"><img src="images/scale.png" /></a> <a href="#" class="mar3"><img src="images/copy.png" /></a> <a href="#" class="mar3"><img src="images/print.png" /></a>
-    </fieldset>
-    <div id="searchwrapper" style="width:139px;">
-      <input type="text" class="searchbox" style="width:110px;" name="s" value="Search Images" />
-      <input type="image" src="images/submit.png" style="left:115px;" class="searchbox_submit" value="" />
-    </div>
-	</div>
-  </div>
-  <div class="f-right" style="width:39px;"> 
-  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
-    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
-    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
-  </div>
-  <div class="clear"></div>
-</div>
-<!--jQuery llightbox for More Details-->
-<div id="more_detail_overlay"></div>
-<div id="more_detail_info">
-  <div id="more_detail_results">
-    <h1>Add More Details</h1>
-    <% if !@more_fields.empty? %>
-    <%= form_for :custom_fields, :html => {:multipart => true}, :url=>{:action=>'add_more_data'} do |f| %>
-        <table>
-        <%@more_fields.each do|mf|%>
-            <tr>
-            <td><%=mf.field_name%></td>
-            <td><%= f.text_field :"#{mf.field_name}" %></td>
-            </tr>
-            </td>
-        <%end%>
-          </table>
-     <br><%= f.submit "save" %>
-     <%end%>
-     <%else%>
-     No Custom field Added Yet!<br>
-     <%=link_to "Add Fields", "/custom_to_patient"%>
-    <% end %>
-   
-    <p style="margin-top:20px; text-align:right;"><a href="#" id="more_detail_close">Close</a></p>
-  </div>
-</div>
-<!--jQuery llightbox for More Details-->
-</body>
+                     
+   <%= image_tag(slitlamp.pimage(:thumbnail),:width => 82, :height => 82, :style=>"left: 20%;position: relative;")%>
+   <%= image_tag('play-gray.png',:alt=>'', :id=>slitlamp.id ,:class=>"pimage-video", :width => 42, :height => 42, :title => "Click here to return to Home") %>
+                      <div>
+                      <br/>
+                    1/31/2011 &nbsp;12:25:08<br />
+                    Diagnosis Blepharitls<br />
+                    Notes: Acnerosacea 
+                    </div>
+                        <!--jQuery llightbox for video Player file-->
+                        <div class="pimage-video-info" id="a<%=slitlamp.id%>">
+                          <div id="results<%=slitlamp.id%>">
+                            <%if slitlamp.pimage_content_type=="video/x-msvideo"%>
+                             <object width="400" height="400" data="<%=slitlamp.pimage(:original)%>"></object>
+                            <%else%>
+                              <!-- jwplayer code to play video-->
+                              <div id="container<%=slitlamp.id%>"></div>
+                              <script type="text/javascript">
+                                  jwplayer("container<%=slitlamp.id%>").setup({
+			                            flashplayer: "/jwplayer/player.swf",
+			                            file: "<%=slitlamp.pimage(:original)%>",
+			                            image: "<%=slitlamp.pimage(:thumbnail)%>"
+		                            });
+                              </script>
+                              <!--jwplyer code to play video ends-->
+                             <%end%>
+                            <p style="margin-top:20px; text-align:right;"><a href="#" class="pimage-video-close">Close</a></p>
+                          </div>
+                        </div>
+                      <!--jQuery llightbox for video Player file end-->
+                      <%a=a+1%>      
+                  <%end%>
+                   
+                  
+<!-- click to edit
+<label class="text_label" id="lbl<%=slitlamp.id%>" style="display: block; ">Click The Pencil Icon to Edit M</label>
+<div class="edit" style="display: block; " id="<%=slitlamp.id%>"></div>
+<input type="text" value="Click The Pencil Icon to Edit Me" style="display: none; " class="text" >
+-->
+                  </div>
+                 
+            <%else%>
+           
+                  <div class="product f-left">
+                   <a href="/images/old/<%=slitlamp.db%>/<%=slitlamp.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
+                   <img src="/images/old/<%=slitlamp.db%>/<%=slitlamp.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
+                   </a>
+                   <div>
+                   <br />
+                    1/31/2011 &nbsp;12:25:08<br />
+                    Diagnosis Blepharitls<br />
+                    Notes: Acnerosacea 
+                    </div>
+                   </div>
+            <%end%>
+            
+            <%end%>
+
+  </body>
 </html>

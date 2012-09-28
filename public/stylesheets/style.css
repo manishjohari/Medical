@@ -25,3 +25,11 @@ h1 {font:normal 24px Georgia, color:#565656; margin-bottom:5px;}
 
 #signup_info{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
 
+.pimage-video-info{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
+
+.pimage-video{
+     position: relative;
+left: -39px;
+top: -18px;
+      }
+      

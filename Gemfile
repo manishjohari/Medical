@@ -8,8 +8,23 @@ gem 'rails', '3.0.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem "rails3-jquery-autocomplete", "~> 1.0.9"
-gem 'pg'
-gem 'paperclip', '3.1.3'
+gem 'pg', '~> 0.14.1'
+gem 'paperclip', '~> 3.1.3'
+gem "pg_dumper", "~> 0.1.7"
+gem "open4", "~> 1.3.0"
+gem "thor", "~> 0.14.6"
+gem "backup", "~> 3.0.24"
+gem "whenever", "~> 0.7.3"
+gem "gzip", "~> 1.0"
+#gem "mail", "~> 2.2.19"
+gem 'fog', '~>1.1.0'
+gem "delayed_job", "~> 3.0.3"
+gem 'streamio-ffmpeg'
+#gem "carrierwave"
+#gem "tdd-attachment_fu", "~> 0.9.9.b"
+#gem "acts_as_state_machine", "~> 2.2.0"
+#gem "jwplayer-rails", "~> 1.0.0"
+#gem "prawn-labels", "~> 0.11.3.0"
 
 # Use unicorn as the web server
 # gem 'unicorn'
