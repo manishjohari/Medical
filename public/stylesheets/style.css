@@ -14,7 +14,9 @@ h1 {font:normal 24px Georgia, color:#565656; margin-bottom:5px;}
 #card{width:310px; height:100px; padding:10px; border:1px solid #acacac; box-shadow: 0 4px 4px #999; margin-top:50px; background:#fff;}
 
 #overlay {filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity: 0; opacity: 0;  background-color: #fff; position: absolute; top: 0px; left: 0px; z-index: 50; width: 100%; height: 100%; display:none;}
+
 #info{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
+
 #results{width:400px;}
 
 #more_detail_overlay{filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity: 0; opacity: 0;  background-color: #fff; position: absolute; top: 0px; left: 0px; z-index: 50; width: 100%; height: 100%; display:none;}
@@ -25,11 +27,7 @@ h1 {font:normal 24px Georgia, color:#565656; margin-bottom:5px;}
 
 #signup_info{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
 
-.pimage-video-info{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
+#media_upload{margin:auto; padding:20px; width:400px; background:#fff; box-shadow: 0 4px 16px #999; z-index: 95; border:1px solid #acacac;  position:absolute; display:none;}
 
-.pimage-video{
-     position: relative;
-left: -39px;
-top: -18px;
-      }
-      
+
+

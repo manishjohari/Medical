@@ -5,8 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+
+<%= javascript_include_tag "prototype"%>
+<%= javascript_include_tag "rails"%>
+
 <%= javascript_include_tag "easy-editable-text"%>
-<%=javascript_include_tag "jwplayer.js"%>
+<%= javascript_include_tag "jwplayer.js"%>
+<%= javascript_include_tag "lib/jquery.jcarousel.min.js"%>
+<%= javascript_include_tag "lib/jquery.pikachoose.js"%>
 <script type="text/javascript">
   jQuery.noConflict();
 
@@ -29,6 +35,13 @@
 	  });
 </script>
 
+        <script language="javascript">
+			jQuery(document).ready(
+				function (){
+					jQuery("#pikame").PikaChoose({carousel:true});
+				});
+		</script>
+<%= stylesheet_link_tag "styles/bottom.css"%>
 <style type="text/css">
 .text 
 {
@@ -70,82 +83,8 @@
      <%= submit_tag "upload"%>
     <%end%>
     </div>
-    <div id="overlay"></div>
-    <%a=1%>
-    <% @slitlamps.each do |slitlamp|%>
-            
-            <%if slitlamp.db.nil? or slitlamp.db==0 %>
-                  <div class="product f-left">
-                  <%if slitlamp.pimage_content_type.match("video").nil? %>
-                      <a href="<%=slitlamp.pimage(:original)%>"  rel="lightbox" title="<%=slitlamp.title%>">
-                      <img alt="Image Missing" src="<%=slitlamp.pimage(:original)%>" width="82" height="82"%>
-                      </a>
-                    <div>
-                      <br/>
-                    1/31/2011 &nbsp;12:25:08<br />
-                    Diagnosis Blepharitls<br />
-                    Notes: Acnerosacea 
-                    </div>
-                  <%else%>
-              <!-- For Video -->
 
-                     
-   <%= image_tag(slitlamp.pimage(:thumbnail),:width => 82, :height => 82, :style=>"left: 20%;position: relative;")%>
-   <%= image_tag('play-gray.png',:alt=>'', :id=>slitlamp.id ,:class=>"pimage-video", :width => 42, :height => 42, :title => "Click here to return to Home") %>
-                      <div>
-                      <br/>
-                    1/31/2011 &nbsp;12:25:08<br />
-                    Diagnosis Blepharitls<br />
-                    Notes: Acnerosacea 
-                    </div>
-                        <!--jQuery llightbox for video Player file-->
-                        <object width="400" height="400" data="<%=slitlamp.pimage(:original)%>"></object>
-                        <div class="pimage-video-info" id="a<%=slitlamp.id%>">
-                          <div id="results<%=slitlamp.id%>">
-                            <%if slitlamp.pimage_content_type=="video/x-msvideo"%>
-                            <%else%>
-                              <!-- jwplayer code to play video-->
-                              <div id="container<%=slitlamp.id%>"></div>
-                              <script type="text/javascript">
-                                  jwplayer("container<%=slitlamp.id%>").setup({
-			                            flashplayer: "/jwplayer/player.swf",
-			                            file: "<%=slitlamp.pimage(:original)%>",
-			                            image: "<%=slitlamp.pimage(:thumbnail)%>"
-		                            });
-                              </script>
-                              <!--jwplyer code to play video ends-->
-                             <%end%>
-                            <p style="margin-top:20px; text-align:right;"><a href="#" class="pimage-video-close">Close</a></p>
-                          </div>
-                        </div>
-                      <!--jQuery llightbox for video Player file end-->
-                      <%a=a+1%>      
-                  <%end%>
-                   
-                  
-<!-- click to edit
-<label class="text_label" id="lbl<%=slitlamp.id%>" style="display: block; ">Click The Pencil Icon to Edit M</label>
-<div class="edit" style="display: block; " id="<%=slitlamp.id%>"></div>
-<input type="text" value="Click The Pencil Icon to Edit Me" style="display: none; " class="text" >
--->
-                  </div>
-                 
-            <%else%>
-           
-                  <div class="product f-left">
-                   <a href="/images/old/<%=slitlamp.db%>/<%=slitlamp.patientid%>/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg"  rel="lightbox" title="<%=slitlamp.title%>">
-                   <img src="/images/old/<%=slitlamp.db%>/<%=slitlamp.patientid%>/thumbnail/Slitlamp-<%=slitlamp.patientid%>-<%=slitlamp.imageid%>.jpg" width="82" height="82" />
-                   </a>
-                   <div>
-                   <br />
-                    1/31/2011 &nbsp;12:25:08<br />
-                    Diagnosis Blepharitls<br />
-                    Notes: Acnerosacea 
-                    </div>
-                   </div>
-            <%end%>
-            
-            <%end%>
 
+    <%#= render :partial=> 'shared/media_gallery'%>
   </body>
 </html>

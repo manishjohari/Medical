@@ -1,4 +1,5 @@
 class PatienttbsController < ApplicationController
+
   # GET /patienttbs
   # GET /patienttbs.xml
   def index
@@ -8,21 +9,33 @@ class PatienttbsController < ApplicationController
          if !Patienttb.first.nil?
           #@patienttbs = Patienttb.all(:is_delete => nil  or :is_delete => false)
          # @patienttbs =Patienttb.find_by_sql("select * from patienttbs where is_delete is null or is_delete='false'")
-         @patienttbs = Patienttb.not_deleted
+          @patienttbs ||= Patienttb.not_deleted
           else
-          @patienttbs = Patienttb.all
+          @patienttbs ||= Patienttb.all
           end
     end
+    render :layout => false
+    #render :text =>@patienttbs
+    #render :json =>@patienttbs.to_json
+    return
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @patienttbs }
     end
   end
 
+   def search
+    #if params[:search]
+      @patienttbs=Patienttb.search(params[:search])
+    #end
+    render :layout=>false
+   end
+
   # GET /patienttbs/1
   # GET /patienttbs/1.xml
   def show
     @patienttb = Patienttb.find(params[:id])
+    @slitlamps = @patienttb.slitlamptbs(:order=>'id')
     @custom_data = @patienttb.patient_user_defined_datas
     respond_to do |format|
       format.html # show.html.erb
@@ -34,6 +47,8 @@ class PatienttbsController < ApplicationController
   # GET /patienttbs/new.xml
   def new
   @h1="New Patient"
+#  @slitlamps = Slitlamptb.find(:all, :conditions => { :patientid => nil, :patienttb_id => nil })
+    @slitlamps = Slitlamptb.find(:all, :conditions => { :patientid => nil, :patient_id => nil })
     @patienttb = Patienttb.new
      @p=PatientUserDefinedFields.all
      
@@ -76,6 +91,7 @@ class PatienttbsController < ApplicationController
   def edit
   @h1="Editing Patient"
     @patienttb = Patienttb.find(params[:id])
+#    @slitlamps = Slitlamp.all#@patienttb.slitlamptbs
      
       @p=@patienttb.patient_user_defined_datas
          old_field=Array.new
@@ -157,8 +173,12 @@ class PatienttbsController < ApplicationController
   # DELETE /patienttbs/1.xml
   def destroy
     @patienttb = Patienttb.find(params[:id])
-    @patienttb.update_attributes(:is_delete => true)
-    @patienttb.save(:validate=>false)
+    if !@patienttb.slitlamptbs.nil?
+    @patienttb.slitlamptbs.destroy_all
+    end
+    @patienttb.destroy
+    #@patienttb.update_attributes(:is_delete => true)
+    #@patienttb.save(:validate=>false)
     Audit.create(:record_id=>@patienttb.id, :record_type=>'patienttb', :date=>Time.now, :action=>"Del", :ip=>request.remote_ip) 
     respond_to do |format|
       format.html { redirect_to(patienttbs_url) }

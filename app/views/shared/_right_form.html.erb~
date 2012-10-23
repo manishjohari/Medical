@@ -1,0 +1,29 @@
+<div class="options-list mar6">
+    <fieldset class="fieldset mar6">
+      <legend>Media Input:</legend>
+      <a href="#" class="mar3"><img src="/images/snapshot.png" /></a> <a href="#" class="mar3"><img src="/images/seq.png" /></a> <a href="#" class="mar3"><img src="/images/load.png" id="import_media"/></a>
+    </fieldset>
+    <fieldset class="fieldset mar6">
+      <legend>Media Output:</legend>
+      <a href="#" class="mar3"><img src="/images/email.png" /></a> <a href="#" class="mar3"><img src="/images/stream.png" /></a> 
+      <a href="#" class="mar3"><img src="/images/export.png" id="media_export"/></a>
+    </fieldset>
+    <fieldset class="fieldset mar6">
+      <legend>Tools:</legend>
+      <a href="#" class="mar3"><img src="/images/scale.png" /></a> <a href="#" class="mar3"><img src="/images/copy.png" /></a> <a href="#" class="mar3"><img src="/images/print.png" /></a>
+    </fieldset>
+    <div id="searchwrapper" style="width:139px;">
+      <input type="text" class="searchbox" style="width:110px;" name="s" value="Search /images" />
+      <input type="image" src="/images/submit.png" style="left:115px;" class="searchbox_submit" value="" />
+    </div>
+	</div>
+  </div>
+  <div class="f-right" style="width:39px;"> 
+  <% @devices.each do |device| %>
+  	<a href="#" class="tabbing" id="<%= device.device_name%>"><p class="css-vertical-text" style="margin:22px 0 0 12px;"><%= device.device_name%></p></a>
+  <%end%>	
+  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
+    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
+    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
+  </div>
+  <div class="clear"></div>

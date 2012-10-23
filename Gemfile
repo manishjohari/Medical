@@ -7,9 +7,9 @@ gem 'rails', '3.0.9'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem "rails3-jquery-autocomplete", "~> 1.0.9"
+gem "rails3-jquery-autocomplete"#, "~> 1.0.9"
 gem 'pg', '~> 0.14.1'
-gem 'paperclip', '~> 3.1.3'
+gem 'paperclip'#, '~> 3.1.3'
 gem "pg_dumper", "~> 0.1.7"
 gem "open4", "~> 1.3.0"
 gem "thor", "~> 0.14.6"
@@ -20,7 +20,17 @@ gem "gzip", "~> 1.0"
 gem 'fog', '~>1.1.0'
 gem "delayed_job", "~> 3.0.3"
 gem 'streamio-ffmpeg'
-#gem "carrierwave"
+gem "paperclip-ffmpeg"
+
+gem 'jquery-rails'
+#gem 'execjs'
+#gem 'therubyracer'
+gem 'file-find' 
+gem 'rubyzip'
+gem 'fun_sftp'
+gem 'paperclip-sftp'
+#gem 'rails-backup-migrate'
+gem "carrierwave"
 #gem "tdd-attachment_fu", "~> 0.9.9.b"
 #gem "acts_as_state_machine", "~> 2.2.0"
 #gem "jwplayer-rails", "~> 1.0.0"

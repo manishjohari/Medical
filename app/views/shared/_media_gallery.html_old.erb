@@ -1,0 +1,188 @@
+<%= javascript_include_tag "jwplayer.js"%>
+<script>
+function videocolorbox(id)
+{
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 410, top: "20%", href:"/media/play/"+id});
+jQuery("#colorbox, #cboxOverlay").hide(); 
+}
+</script>  
+
+<script>
+jQuery(document).ready(function(){
+//Examples of how to assign the ColorBox event to elements
+jQuery(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
+jQuery(".inline").colorbox({inline:true, width:"50%"});
+});
+</script>
+
+<script language="javascript">
+jQuery(document).ready(function (){
+jQuery('.edit').click(function(){
+jQuery(this).next(':input').val(jQuery(this).text());
+jQuery(this).hide();
+var parent=this;
+jQuery('#txt'+this.id).show();
+jQuery('#txt'+this.id).select();
+jQuery('#txt'+this.id).keypress(function(e) {
+    if (e.keyCode == 13 && !e.shiftKey) {
+        jQuery(this).prev('label').text(jQuery(this).val());
+        this.hide();
+        parent.show();
+            jQuery.ajax( {
+            type: "POST",
+            url : "/media_field_edit/"+this.id.split('-')[2],
+            data: { tdd: jQuery(this).val(), type: this.id.split('-')[1] },
+            success: function(data){
+            // alert(data);
+            // jQuery('#m123').html(data);
+            },
+            error: function(data){
+            //alert(data);
+            }
+            });
+            }});
+        });
+});
+</script>
+
+
+<script type="text/javascript">
+function displayclose(a,b)
+{
+    document.getElementById(a).style.visibility="visible";
+    document.getElementById(b).style.visibility="visible";
+}
+function displayclose1(a,b)
+{
+    document.getElementById(a).style.visibility="hidden";  
+        if(!jQuery("#"+b).is(":checked"))
+        {
+            document.getElementById(b).style.visibility="hidden";
+        }
+}
+
+</script>
+
+<style>
+.div_del_img{margin-top: 6%;text-align: right;margin-right: 11%;position: relative;top: 18px;visibility: hidden;}
+.product{height: 188px;}
+.del_img{z-index: 1;position: relative;top: -2px;left: 18px;margin-bottom: 0%;margin-right: 0%;}
+.del_img_video{position: relative;top: -2px;left: 18px;}
+.div_checkbox_img{position: relative;top: 0%;margin-bottom: -7%;float: left;}
+.img_title_txt{display:none;width: 159px;height: 19px;}
+.img_disease_txt{display:none;width: 159px;height: 19px;}
+.img_description_txt{display:none;width: 159px;height: 19px;}
+.div_play_icon{margin-bottom: -11%;text-align: right;margin-right: 11%;position: relative;}
+.div_del_video{margin-bottom:-11%; text-align:right; margin-right:11%; visibility: hidden;}
+</style>
+
+<form name="media_gallery" id="media_gallery" action='/media_export'>
+<% @slitlamps.each do |slitlamp|%>
+<%if slitlamp.pimage?%>
+<div class="product f-left" onmouseover="displayclose('del<%=slitlamp.id%>','chk<%=slitlamp.id%>')" onmouseout="displayclose1('del<%=slitlamp.id%>','chk<%=slitlamp.id%>')">
+<%if slitlamp.pimage_content_type.match("image").present?%>
+<!--- div to show del.png--->
+<div class="div_del_img">  
+<input type=checkbox name="image[<%=slitlamp.id%>]" id="chk<%=slitlamp.id%>" class="div_checkbox_img">
+<a href="/slitlamptbs/<%=slitlamp.id%>" data-confirm="Are you sure you want to delete this media file?" data-method="delete" rel="nofollow">
+<img src="/images/del.png" class="del_img" id="del<%=slitlamp.id%>"/>
+</a>
+</div>
+<!--- div to show del.png end--->
+
+<!--show thumbnail icon and a tag to open image in lightbox-->                 
+<a href="<%=slitlamp.pimage(:original)%>"  class="group3" title="<%=slitlamp.title%>">
+<img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="160" height="120"  >
+</a>
+<!--show thumbnail icon and a tag to open image in lightbox end-->
+<div>
+<%= label_tag 'title', slitlamp.title , :class=>"edit" , :id=>"lbl-title-#{slitlamp.id}"%>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-title-#{slitlamp.id}", :class =>"input img_title_txt"%>
+</div>
+<div>
+<%= label_tag 'disease', slitlamp.disease, :class=>"edit", :id=>"lbl-disease-#{slitlamp.id}" %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-disease-#{slitlamp.id}", :class =>"input img_disease_txt"%>
+</div>
+<div>
+<%= label_tag 'description', slitlamp.description,:class=>"edit", :id=>"lbl-description-#{slitlamp.id}"  %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-description-#{slitlamp.id}", :class =>"input img_description_txt" %>
+</div>
+
+<!-- For PDF -->
+<%elsif slitlamp.pimage_content_type.match("pdf").present?%>
+<!--- div to show del.png--->
+<div class="div_del_img">  
+<input type=checkbox name="image[<%=slitlamp.id%>]" id="chk<%=slitlamp.id%>" class="div_checkbox_img">
+<a href="/slitlamptbs/<%=slitlamp.id%>" data-confirm="Are you sure you want to delete this media file?" data-method="delete" rel="nofollow">
+<img src="/images/del.png" class="del_img" id="del<%=slitlamp.id%>"/>
+</a>
+</div>
+<!--- div to show del.png end--->
+
+<!--show pdf thumbnail icon and download it-->                 
+<a href="<%=slitlamp.pimage(:original)%>" title="<%=slitlamp.title%>">
+<label> <%=slitlamp.pimage_file_name%> </label> <br>
+<img alt="Image Missing" src="/images/pdf.png" width="160" height="120"  >
+</a>
+<!--show pdf thumbnail icon and download it-->
+<br>
+<div>
+<%= label_tag 'title', slitlamp.title , :class=>"edit" , :id=>"lbl-title-#{slitlamp.id}"%>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-title-#{slitlamp.id}", :class =>"input img_title_txt"%>
+</div>
+<div>
+<%= label_tag 'disease', slitlamp.disease, :class=>"edit", :id=>"lbl-disease-#{slitlamp.id}" %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-disease-#{slitlamp.id}", :class =>"input img_disease_txt"%>
+</div>
+<div>
+<%= label_tag 'description', slitlamp.description,:class=>"edit", :id=>"lbl-description-#{slitlamp.id}"  %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-description-#{slitlamp.id}", :class =>"input img_description_txt"%>
+</div>
+
+<%else%>
+
+<!-- For Video -->
+<!--- div to show del.png--->
+<div id="del<%=slitlamp.id%>" class="div_del_video">  
+<a href="/slitlamptbs/<%=slitlamp.id%>" data-confirm="Are you sure you want to delete this media file?" data-method="delete" rel="nofollow">
+<img src="/images/del.png" class="del_img_video"/>
+</a>
+</div>
+<!--- div to show del.png end--->
+<!--- div to show play button on video--->
+<div id="<%=slitlamp.id%>" class="div_play_icon" onclick = "videocolorbox(<%=slitlamp.id%>)">  
+<img src="/images/play-gray.png" style="z-index: 0;position: absolute;margin-right: -24%;text-align: center;top: 41px;right: 63px;width:48%;"/>
+</div>
+<!--- div to show play button on video end--->    
+<div class="div_checkbox_img">
+<input type=checkbox name=image[<%=slitlamp.id%>] id="chk<%=slitlamp.id%>">
+</div>    
+<!--show video thumbnail icon -->       
+<a href='#'>
+<%= image_tag(slitlamp.pimage(:thumbnail),:width => 160, :height => 120, :onclick => "videocolorbox(#{slitlamp.id})" )%>
+</a>
+<!--show video thumbnail icon end-->
+
+<br>
+<div>
+<%= label_tag 'title', slitlamp.title , :class=>"edit" , :id=>"lbl-title-#{slitlamp.id}"%>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-title-#{slitlamp.id}", :class =>"input img_title_txt"%>
+</div>
+<div>
+<%= label_tag 'disease', slitlamp.disease, :class=>"edit", :id=>"lbl-disease-#{slitlamp.id}" %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-disease-#{slitlamp.id}", :class =>"input img_disease_txt"%>
+</div>
+<div>
+<%= label_tag 'description', slitlamp.description,:class=>"edit", :id=>"lbl-description-#{slitlamp.id}"  %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-description-#{slitlamp.id}", :class =>"input img_description_txt"%>
+</div>
+
+
+<%end%>
+
+</div>
+
+<%end%>            
+<%end%>
+</form>
+

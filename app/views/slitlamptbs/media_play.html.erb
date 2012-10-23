@@ -1,0 +1,21 @@
+<script>jQuery("#colorbox, #cboxOverlay").show(); </script>
+<%= javascript_include_tag "jwplayer.js"%>
+       
+<%if @slitlamp.pimage_content_type.match("msvideo").present? || @slitlamp.pimage_content_type.match("avi").present? || 
+ @slitlamp.pimage_content_type.match("xmpg2").present? || @slitlamp.pimage_content_type.match("aiff").present? %>
+
+   <div><center>
+    <object width="350" height="400" data="<%=@slitlamp.pimage(:original)%>"></object></center>
+  </div>
+<%else%>
+    <!-- jwplayer code to play video-->
+    <div id="container"></div>
+        <script type="text/javascript">
+        jwplayer("container").setup({
+        flashplayer: "/jwplayer/player.swf",
+        file: "<%=@slitlamp.pimage(:original)%>",
+        image: "<%=@slitlamp.pimage(:thumbnail)%>"
+        });
+        </script>
+    <!--jwplyer code to play video ends-->
+<%end%>

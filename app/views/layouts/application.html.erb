@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>MedicalPro</title>
+
   <%= stylesheet_link_tag :all %>
   <%=stylesheet_link_tag "ims"%>
   <%#= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "prototype"%>
+  <%= javascript_include_tag "rails"%>
   <%=javascript_include_tag "jquery-1.7.2.min"%>
   <%=javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
-  <%=javascript_include_tag "chrome"%>
-  <%=javascript_include_tag "lightbox"%>
+  <%#=javascript_include_tag "chrome"%>
+  <%#=javascript_include_tag "lightbox"%>
+  <%= javascript_include_tag "autocomplete-rails.js"%>
+  <%= javascript_include_tag "jquery.colorbox.js"%>
+
   <script type="text/javascript">
+   //javascript for notification 
   var myMessages = ['info','warning','error','success','alert'];
   function hideAllMessages()
   {
@@ -62,98 +65,95 @@
 
     });
   </script>
-</head>
-<body>
+  
+  <script type="text/javascript">
+  //date piker
+	jQuery(function() {
+          jQuery( ".datepicker" ).datepicker({
+            maxDate: "+0M +0D",
+            //numberOfMonths: 1,
+           // showOn: "both",   // remove comments to show calander icon
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+			      changeYear: true,
+   		     // buttonImage: "/images/calendar.gif",
+			      yearRange: "-30:+0"
+
+          });
+    	});
+</script>
+
+<script>
+    function patient_list_colorbox()
+    {
+     jQuery.colorbox({opacity:0.8, initialWidth: 72, initialHeight: 72, width: 800, top: "10%", href:"/patients"});
+     jQuery("#colorbox, #cboxOverlay").hide(); 
+    }
+    
+    function showcolorbox(id)
+    {
+      jQuery.colorbox({opacity:0.8, initialWidth: 72, initialHeight: 72, width: 800, top: "10%", href:"/patient/search/"+jQuery("#"+id).val()});
+      jQuery("#colorbox, #cboxOverlay").hide(); 
+    }
+
+  jQuery(document).ready(function(){
+      jQuery('#save').click(function() {
+        jQuery('#patient').submit();
+      });
+      
+      jQuery('#media_export').click(function() {
+        jQuery('#media_gallery').submit();
+      });
+      
+  });
+</script>
+<script>
+jQuery('.searchbox').live('keyup',function(e){
+	if(e.keyCode == 13) {
+		showcolorbox('fff');
+	}
+});
+</script>
+
+<div id="overlay"> </div>
+
 <%= render :partial=>'/shared/top_menu'%>
 <div class="body-wrapper">
   <div class="left f-left">
     <div class="heading mar6">Patient Record</div>
-    <div class="options-list mar6"><a href="/patienttbs/new"><img src="/images/new.png" /></a> <a href="#"><img src="/images/save.png" /></a> <a href="#"><img src="/images/delete.png" /></a> <a href="/patienttbs"><img src="/images/list.png" /></a>
-    <div id="searchwrapper" style="width:168px;">
-    <%= form_tag patienttbs_path, :method=>'get' do%>
-    <%#= text_field_tag :search, :class=>'searchbox', :style=>"width:138px;" %>
-      <input type="text" class="searchbox" style="width:138px;" name="search" value="<%=params[:search]%>" placeholder="Search Patients" />
-      <input type="image" src="/images/submit.png" style="left:144px;" class="searchbox_submit" value=""  />
-      <%#= submit_tag%>
-      <%end%>
-    </div>
-    <fieldset class="fieldset mar6">
-      <legend>Patient Information:</legend>
-      <label>ID:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>Last Name:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>First Name:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <div class="f-left">
-        <label>Sex:</label>
-        <br />
-        <select class="select" name="" style="width:60px;">
-          <option>Male</option>
-          <option>Female</option>
-        </select>
+    <div class="options-list mar6"><a href="/patienttbs/new"><img src="/images/new.png" /></a> <a href="#"><img src="/images/save.png" id="save" /></a> 
+    <%if !@patienttb.nil? and @patienttb.is_delete!=true and !@patienttb.new_record?%>
+    <a href="/patienttbs/<%=@patienttb.id%>" data-confirm="Are you sure you want to delete this patient record and all of its associated media files? " data-method="delete" rel="nofollow">
+    <%else%>
+    <a href="#">
+    <%end%>
+    <img src="/images/delete.png" />
+    </a> 
+  
+    <a href="#"><img src="/images/list.png" onclick="patient_list_colorbox()"/></a>
+        
+    <!--form for search box-->
+      <div id="searchwrapper" style="width:168px;">
+      <input type="text" class="searchbox" id ="fff" style="width:138px;" name="search" value="<%=params[:search]%>" placeholder="Search Patients" />
+      <input type="image" src="/images/submit.png" style="left:144px;" class="searchbox_submit inline" value="" onclick="showcolorbox('fff')"/>
       </div>
-      
-      <div class="f-right">
-        <label>Birth Date:</label>
-        <br />
-        <input class="input" type="text" style="width:80px;" />
-      </div>
-      <div class="clear"></div>
-    </fieldset>
-    <fieldset class="fieldset mar2">
-      <legend>Hospital Information:</legend>
-      <label>Date of Visit:</label>
-      <input type="text" class="input" disabled="disabled" style="width:159px;" value="2/1/2012" />
-      <label>Technician:</label>
-      <select class="select" name="" style="width:165px;">
-        <option>User1</option>
-        <option>User2</option>
-      </select>
-      <label>Medical Diagnosis:</label>
-      <input class="input" type="text" style="width:159px;" />
-      <label>Comment:</label>
-      <textarea class="input" name="" cols="" rows="" style="width:159px; resize: none;"></textarea>
-    </fieldset>
-</div>
-    <div id="submit-button" style="width:85px; margin:0px auto;">
-      <input name="" type="button" class="button" value="More Details" id="more_detail"/>
-    </div>
-  </div>
-
+    <!--form for searchbox ends-->
+    
+    <!-- form for patient information -->
+    <%= render :partial => 'shared/patient_form'%>
+    <!-- form for patient information ends-->
+    
   <div class="middle f-left">
    <div class="product-display">
-<%= yield %>
-  </div>    
+    <%= render :partial=> 'shared/media_gallery'%>
+    <%#= yield %>
+   </div>    
   </div>
 
 <div class="right f-left">
-	<div class="options-list mar6">
-    <fieldset class="fieldset mar6">
-      <legend>Media Input:</legend>
-      <a href="#" class="mar3"><img src="/images/snapshot.png" /></a> <a href="#" class="mar3"><img src="/images/seq.png" /></a> <a href="#" class="mar3"><img src="/images/load.png" /></a>
-    </fieldset>
-    <fieldset class="fieldset mar6">
-      <legend>Media Output:</legend>
-      <a href="#" class="mar3"><img src="/images/email.png" /></a> <a href="#" class="mar3"><img src="/images/stream.png" /></a> <a href="#" class="mar3"><img src="/images/export.png" /></a>
-    </fieldset>
-    <fieldset class="fieldset mar6">
-      <legend>Tools:</legend>
-      <a href="#" class="mar3"><img src="/images/scale.png" /></a> <a href="#" class="mar3"><img src="/images/copy.png" /></a> <a href="#" class="mar3"><img src="/images/print.png" /></a>
-    </fieldset>
-    <div id="searchwrapper" style="width:139px;">
-      <input type="text" class="searchbox" style="width:110px;" name="s" value="Search /images" />
-      <input type="image" src="/images/submit.png" style="left:115px;" class="searchbox_submit" value="" />
-    </div>
-	</div>
-  </div>
-  <div class="f-right" style="width:39px;"> 
-  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
-    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
-    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
-  </div>
-  <div class="clear"></div>
+	<%=render :partial => 'shared/right_form'%>
 </div>
+
 <!--jQuery llightbox for More Details-->
 <div id="more_detail_overlay"></div>
 <div id="more_detail_info">
@@ -182,6 +182,8 @@
 </div>
 <!--jQuery llightbox for More Details end-->
 
+
+<!--jQuery for notification-->
 <%if !flash[:notice].nil?%>
 <div class="info message">
        <h3>Notifiation</h3>
@@ -202,6 +204,7 @@
      <p><%=flash[:alert]%></p>
 </div>
 <%end%>
+<!--jQuery for notification-->
 
-</body>
-</html>
+
+

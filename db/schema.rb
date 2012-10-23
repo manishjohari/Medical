@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921084957) do
+ActiveRecord::Schema.define(:version => 20121023132842) do
 
   create_table "audit_logs", :force => true do |t|
     t.integer  "audit_id"
@@ -37,8 +37,19 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.datetime "updated_at"
   end
 
-  create_table "fundustbs", :id => false, :force => true do |t|
-    t.integer  "id",            :null => false
+  create_table "devices", :force => true do |t|
+    t.string   "device_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "file_upolads", :force => true do |t|
+    t.string   "db_file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "images", :force => true do |t|
     t.string   "patientid"
     t.integer  "imageid"
     t.datetime "datetime"
@@ -56,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.string   "analysed"
     t.string   "location"
     t.string   "imagefilename"
+    t.boolean  "is_delete",     :default => false
+    t.integer  "db",            :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -103,6 +116,32 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.datetime "updated_at"
   end
 
+  create_table "patients", :force => true do |t|
+    t.string   "patientid"
+    t.string   "sex"
+    t.string   "ssn"
+    t.datetime "birthdate"
+    t.string   "namefirst"
+    t.string   "namem"
+    t.string   "namelast"
+    t.string   "race"
+    t.string   "bloodtype"
+    t.string   "addressstreet"
+    t.string   "addresstown"
+    t.string   "addressstate"
+    t.string   "addresszip"
+    t.string   "addresscountry"
+    t.string   "telenumber"
+    t.string   "oculardiag"
+    t.string   "medicaldiag"
+    t.datetime "firstvisitdate"
+    t.string   "comments"
+    t.boolean  "is_delete",      :default => false
+    t.integer  "db",             :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "patienttbs", :force => true do |t|
     t.string   "patientid"
     t.string   "sex"
@@ -129,6 +168,34 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.datetime "updated_at"
   end
 
+  create_table "slitlamps", :force => true do |t|
+    t.integer  "patient_id"
+    t.string   "patientid"
+    t.integer  "imageid"
+    t.datetime "datetime"
+    t.string   "od_os"
+    t.string   "equipinfo"
+    t.string   "description"
+    t.string   "celldensity"
+    t.string   "meancellarea"
+    t.string   "imagebuffer"
+    t.string   "title"
+    t.string   "disease"
+    t.string   "cddelta"
+    t.string   "cv"
+    t.string   "hexagonality"
+    t.string   "analysed"
+    t.string   "location"
+    t.string   "imagefilename"
+    t.boolean  "is_delete",           :default => false
+    t.integer  "db",                  :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "pimage_file_name"
+    t.string   "pimage_content_type"
+    t.integer  "pimage_file_size"
+  end
+
   create_table "slitlamptbs", :force => true do |t|
     t.integer  "patienttb_id"
     t.string   "patientid"
@@ -148,7 +215,7 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.string   "analysed"
     t.string   "location"
     t.string   "imagefilename"
-    t.integer  "db"
+    t.integer  "db",                  :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "pimage_file_name"
@@ -163,17 +230,6 @@ ActiveRecord::Schema.define(:version => 20120921084957) do
     t.string   "auth_type",  :default => "user"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "videos", :force => true do |t|
-    t.string   "content_type"
-    t.integer  "size"
-    t.string   "filename"
-    t.string   "title"
-    t.string   "description"
-    t.string   "state"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
   end
 
 end

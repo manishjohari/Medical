@@ -1,0 +1,232 @@
+<%=javascript_include_tag "chrome"%>
+<script>
+function import_db()
+{
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 410, top: "20%", href:"/db_upload"});
+jQuery("#colorbox, #cboxOverlay").hide(); 
+}
+
+function import_audit()
+{
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"/audits"});
+jQuery("#colorbox, #cboxOverlay").hide(); 
+}
+
+function load_devices()
+{
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"<%=new_device_path%>"});
+jQuery("#colorbox, #cboxOverlay").hide(); 
+}
+</script>  
+
+ <script type="text/javascript">
+  jQuery.noConflict();
+  jQuery(function(){
+	 
+	  jQuery("#open").click(function(){
+		  jQuery('#info,#overlay').animate({'opacity':'0.7'}, 30, 'linear');
+        jQuery('#info').animate({'opacity':'1.00'},300,'linear');
+       	jQuery('#overlay, #info').css('display','block');
+       	jQuery('#overlay, #info').css({'position':'fixed'});
+       	jQuery('#info').css({'top':'35%','left':'35%'});
+       //	jQuery('#info').css({'left':((jQuery(document).width()/2)-(jQuery('#info').width()/2))});
+       //	jQuery('#info').css({'top':((jQuery(document).height()/2)-(jQuery('#info').height()/2)-50)});
+    	});
+
+	  jQuery('#close').click(function(){
+		  jQuery('#overlay, #info').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#overlay, #info').css('display','none');
+		  });
+	  });
+
+    jQuery("#import_media").click(function(){
+		  jQuery('#media_upload,#overlay').animate({'opacity':'0.7'}, 30, 'linear');
+        jQuery('#media_upload').animate({'opacity':'1.00'},300,'linear');
+       	jQuery('#overlay, #media_upload').css('display','block');
+       	jQuery('#overlay, #media_upload').css({'position':'fixed'});
+       	jQuery('#media_upload').css({'top':'35%','left':'35%'});
+       //	jQuery('#info').css({'left':((jQuery(document).width()/2)-(jQuery('#info').width()/2))});
+       //	jQuery('#info').css({'top':((jQuery(document).height()/2)-(jQuery('#info').height()/2)-50)});
+    	});
+
+	  jQuery('#media_upload_close').click(function(){
+		  jQuery('#overlay, #media_upload').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#overlay, #media_upload').css('display','none');
+		  });
+	  });
+	  
+   	    	
+    	jQuery("#more_detail").click(function(){
+    	 jQuery('#more_detail_info,#more_detail_overlay').animate({'opacity':'0.7'}, 300, 'linear');
+    	 jQuery('#more_detail_info').animate({'opacity':'1.00'},300,'linear');
+		   	jQuery('#more_detail_overlay, #more_detail_info').css('display','block');
+		   	jQuery('#more_detail_info').css({'top':'35%','left':'35%'});
+       	//jQuery('#more_detail_info').css({'left':((jQuery(document).width()/2)-(jQuery('#more_detail_info').width()/2))});
+       	//jQuery('#more_detail_info').css({'top':((jQuery(document).height()/2)-(jQuery('#more_detail_info').height()/2)-50)});
+    	});
+
+	  jQuery('#more_detail_close').click(function(){
+		  jQuery('#more_detail_overlay, #more_detail_info').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#more_detail_overlay, #more_detail_info').css('display','none');
+		  });
+	  });
+	  
+ 	  jQuery("#login").click(function(){
+		  jQuery('#login_info,#overlay').animate({'opacity':'0.7'}, 300, 'linear');
+        jQuery('#login_info').animate({'opacity':'1.00'},300,'linear');
+       	jQuery('#overlay, #login_info').css('display','block');
+       	jQuery('#login_info').css({'top':'35%','left':'35%'});
+       	//jQuery('#login_info').css({'left':((jQuery(document).width()/2)-(jQuery('#login_info').width()/2))});
+       	//jQuery('#login_info').css({'top':((jQuery(document).height()/2)-(jQuery('#login_info').height()/2)-50)});
+    	});
+
+	  jQuery('#login_close').click(function(){
+		  jQuery('#overlay, #login_info').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#overlay, #login_info').css('display','none');
+		  });
+	  });
+
+	  
+	  jQuery( ".f-right a" ).click(function(){
+              jQuery( ".f-right a").removeClass('tabbing-select');
+                     jQuery(this).addClass('tabbing-select');
+       });
+       
+    
+   jQuery("#signup").click(function(){
+    jQuery("#overlay,#login_info").css('display','none');
+    jQuery('#signup_info,#overlay').animate({'opacity':'0.7'}, 300, 'linear');
+    jQuery('#signup_info').animate({'opacity':'1.00'},300,'linear');
+    jQuery('#signup_info,#overlay').css('display', 'block');
+    jQuery('#signup_info').css({'top':'35%','left':'35%'});
+    //jQuery('#signup_info').css({'left':((jQuery(document).width()/2)-(jQuery('#signup_info').width()/2))});
+   	//jQuery('#signup_info').css({'top':((jQuery(document).height()/2)-(jQuery('#signup_info').height()/2)-50)});
+   });
+   
+    jQuery('#signup_close').click(function(){
+		  jQuery('#overlay, #signup_info').animate({'opacity':'0'}, 300, 'linear', function(){
+       	jQuery('#overlay, #signup_info').css('display','none');
+		  });
+	  });
+	
+  });
+  </script>
+  
+<div class="top-menu">
+  <div class="chromestyle" id="chromemenu">
+    <ul>
+      <li><a href="#" rel="dropmenu1">File</a></li>
+      <li><a href="#" rel="dropmenu2">Edit</a></li>
+      <li><a href="#" rel="dropmenu3">Tools</a></li>
+        <%if current_user%><li><a href="/settings" >Settings</a></li><%end%>
+      <li><a href="#" id ="audit" onclick="import_audit()" >Audit</a></li>
+      <li><a href="#" rel="dropmenu4">Help</a></li>
+      <%if !current_user%>
+      <li style="float:right"; id="login"><a href="#" >Login</a></li> 
+      <%else%>
+      <li style="float:right"><a href="/signout" >Logout</a></li> 
+      <%end%>     
+    </ul> 
+  </div>
+  <!--1st drop down menu -->
+  <div id="dropmenu1" class="dropmenudiv"> <a href="#">New Database</a> <a href="#" id="import_db" onclick="import_db()">Import Database</a> <a href="/export_db" class="menu-border-bottom">Export</a> <a href="#">Page Setup...</a> <a href="#">Print Preview</a> <a href="#">Print...</a> <a href="#" class="menu-border-bottom">Exit</a> </div>
+  <!--2nd drop down menu -->
+  <div id="dropmenu2" class="dropmenudiv" style="width: 150px;"> <a href="#">Undo</a> <a href="#" class="menu-border-bottom">Redo</a> <a href="#">Cut Image</a> <a href="#">Copy Image</a> <a href="#">Paste image</a> </div>
+  <!--3rd drop down menu -->
+  <div id="dropmenu3" class="dropmenudiv" style="width: 150px;"> <a href="#" class="menu-border-bottom">Query…</a> <a href="#">Merge Records…</a> <a href="#" class="menu-border-bottom">Split Records…</a> <a href="#" onclick="load_devices()">Device Properties…</a> <a href="#">Customize…</a> <a href="#">Options…</a> </div>
+  <!--4rd drop down menu -->
+  <div id="dropmenu4" class="dropmenudiv" style="width: 150px;"> <a href="#">About HAI IMS</a> <a href="#">Contact Us</a> </div>
+</div>
+
+<script type="text/javascript">
+      cssdropdown.startchrome("chromemenu")
+  </script>
+  
+  
+  
+  <!--jQuery llightbox to upload file-->
+    <!--
+    <div id="info">
+      <div id="results">
+        <h1>Upload .Zip File</h1>
+        <%= form_for :file_upload, :html => {:multipart => true}, :url=>{:action=>'tounzip', :controller=>'welcome'} do |f| %>
+      <%= f.file_field :my_file %>
+      <%= f.submit "Upload" %>
+    <% end %>
+       
+        <p style="margin-top:20px; text-align:right;"><a href="#" id="close">Close</a></p>
+      </div>
+    </div>
+    -->
+<!--jQuery llightbox to upload file end-->
+
+ <!--jQuery to media upload file-->
+<div id="media_upload">
+  <div id="results">
+    <h1>Upload Image/Video Files</h1>
+    <div>
+        <%= form_tag("/media_upload", :multipart => true ) do%>
+         <%= label_tag "Upload Media",'Uplaod Files', :class=>'label'%> 
+         <input type="file" multiple = "multiple" name="slitlamptb[][pimage]"/>
+         <%if @patienttb.present? and !@patienttb.new_record?%>
+         <input type="hidden" name="patient" value="<%=@patienttb.id%>">
+         <%end%>
+         <%= submit_tag "upload", :class=>'button' %>
+        <%end%>
+     </div>   
+   
+    <p style="margin-top:20px; text-align:right;"><a href="#" id="media_upload_close">Close</a></p>
+  </div>
+</div>
+<!--jQuery llightbox to upload file end-->
+
+<!--jQuery to patient list-->
+		<!--
+		<div style='display:none'>
+         <div id='inline_patients'>
+           <%#=render :partial=>'shared/patient_list'%>         
+         </div>
+         </div>
+         -->
+<!--jQuery llightbox to patient list end-->
+
+
+
+
+<!--jQuery llightbox for login-->
+<div id="login_info">
+  <div id="results">
+    <h1>Login</h1>
+    <%= form_tag '/login', :html => {:multipart => true} do%>
+      <%= label_tag 'email', nil, :style=>"padding: 1px 27px 1px 52px;"%>
+      <%= text_field_tag :email, '',:class =>'input' %><br>
+      <%= label_tag 'Password', nil, :style=>"padding: 1px 4px 1px 52px;"%>
+      <%= password_field_tag :password, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
+      <%= submit_tag "Login", :class=>'button', :style=>"margin-top: 24px;margin-left: 53px;"%>
+     
+    <% end %>
+   
+    <p style="margin-top:20px; text-align:right;"> <%= link_to "New User","#" ,:style=>"padding-right: 20px;", :id=>"signup"%> <a href="#" id="login_close">Close</a></p>
+  </div>
+</div>
+<!--jQuery llightbox for login end-->
+
+<!--jQuery llightbox for signup-->
+<div id="signup_info">
+  <div id="results">
+    <h1>New User</h1>
+    <%= form_tag '/signup', :html => {:multipart => true} do%>
+      <%= label_tag 'email', nil, :style=>"padding: 1px 80px 1px 52px;"%>
+      <%= text_field_tag :email, '',:class =>'input' %><br>
+      <%= label_tag 'Password', nil, :style=>"padding: 1px 57px 1px 52px;"%>
+      <%= password_field_tag :password, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
+      <%= label_tag 'Confirm Password', nil, :style=>"padding: 1px 5px 1px 52px;"%>
+      <%= password_field_tag :cpassword, '',:class =>'input', :style=>"margin-top: 10px;" %><br>
+      <%= submit_tag "SignUp", :class=>'button', :style=>"margin-top: 24px;margin-left: 53px;"%>
+     
+    <% end %>
+   
+    <p style="margin-top:20px; text-align:right;"><a href="#" id="signup_close">Close</a></p>
+  </div>
+</div>
+<!--jQuery llightbox for signup end-->

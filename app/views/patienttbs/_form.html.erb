@@ -40,6 +40,7 @@ ul { list-style-image: url("/images/arrow.gif") }
 
 
 <%= form_for(@patienttb,:html => { :multipart => true }) do |f| %>
+<%#= form_for :patientt do |f| %>
   <% if @patienttb.errors.any? %>
     <div id="error_explanation" style="margin-left:2%;color: red;font-family: Times New roman;font-size: 17px;">
      <!-- <h2><%#= pluralize(@patienttb.errors.count, "error") %> prohibited this Patient from being saved:</h2>-->
@@ -87,7 +88,17 @@ margin-top: 5%;
         <div class="field">
           <%= f.label "First Name" %><br />
           <% "input" #= @patienttb.errors.include?(:namefirst) ? "highlight_error_class" : "input" %>
-          <%= f.text_field :namefirst ,:class =>"input"%>
+          
+          <%= f.text_field :namefirst ,:class =>"input", :id => "user"%>
+      <!--     <%#= autocomplete_field_tag 'patienttb_namefirst', "#{@patienttb.namefirst}", autocomplete_patienttb_namefirst_patienttbs_path, :size => 75, :class =>"input", :id=>'autocomplete_name', :onblur=>"document.getElementById('user').value=document.getElementById('autocomplete_name').value" %> <br />
+          -->
+            <%#= autocomplete_field_tag 'patienttb_namefirst', '', autocomplete_patienttb_namefirst_patienttbs_path, :size => 75, :id_element => '#user', :class =>"input" %> <br />
+          <%#= f.autocomplete_field :patienttb_namefirst, autocomplete_patienttb_namefirst_patienttbs_path, :class =>"input"%>
+          
+          
+          <!--
+          <input type="text" value="" size="75" name="patienttb_namefirst" id="patienttb_namefirst" data-id-element="#user" data-autocomplete="/patienttbs/autocomplete_patienttb_namefirst" class="input ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+          -->
         </div>
           
         <div class="field">

@@ -1,7 +1,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :load
+  autocomplete :patient, :medicaldiag, full: true
+  
    def load
-    @more_fields=PatientUserDefinedFields.all
+    @patienttb ||= Patienttb.new
+#    @patienttbs ||= Patienttb.all
+      if !Patient.first.nil?
+     # @patienttbs ||= Patienttb.not_deleted(:order=>'id')
+      else
+      #@patienttbs ||= Patienttb.all(:order=>'id')
+      end
+    @slitlamps ||= Slitlamptb.all(:order=>'id', :limit=>50)
+    @more_fields||= PatientUserDefinedFields.all
+    @devices||= Device.all
     end
 end

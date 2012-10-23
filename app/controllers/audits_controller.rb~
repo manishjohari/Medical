@@ -1,0 +1,13 @@
+class AuditsController < ApplicationController
+  def index
+  @audits||=Audit.all
+  render :layout => flase
+  end
+
+  def audit_logs
+  @audit=Audit.find(params[:id])
+  @audit_log=@audit.audit_log
+  render :layout => flase
+  end
+
+end

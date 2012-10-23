@@ -1,0 +1,23 @@
+<%#= javascript_include_tag "jquery_tablesorter_widgets"%>
+<%#= javascript_include_tag "jquery_tablesorter"%>
+	
+<table class="tablesorter">
+ <thead> 
+  <tr>
+    <th>Name</th>
+    <th>Birthdate</th>
+    <th>Visit Date</th>
+    <th colspan=3>Action</th>
+  </tr>
+ </thead> 
+   <tbody>
+<% @patienttbs.each do |patienttb| %>
+  <tr>
+    <td><%= "#{patienttb.namefirst}"+" "+"#{patienttb.namelast}" %></td>
+    <td><%= patienttb.birthdate.strftime("%D") if patienttb.birthdate %></td>
+    <td><%= patienttb.firstvisitdate.strftime("%D") if patienttb.firstvisitdate %></td>
+    <td><%= link_to 'Show', patienttb %></td>
+ </tr>
+<% end %>
+  </tbody>
+</table>

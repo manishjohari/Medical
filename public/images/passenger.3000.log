@@ -1,0 +1,2 @@
+2012/10/07 17:11:14 [error] 2399#0: *4 "/home/manish/rails_project/Medical/public/images/public/index.html" is not found (2: No such file or directory), client: 127.0.0.1, server: _, request: "HEAD / HTTP/1.1", host: "0.0.0.0"
+2012/10/07 17:11:29 [error] 2399#0: *5 "/home/manish/rails_project/Medical/public/images/public/index.html" is not found (2: No such file or directory), client: 127.0.0.1, server: _, request: "GET / HTTP/1.1", host: "localhost:3000"

@@ -242,7 +242,7 @@ legend {
 	overflow:auto;
 }
 .product {
-	margin:8px;
+	margin:7px;
 	padding:0px;
 	min-height:165px;
 	text-align:center;
@@ -386,6 +386,6 @@ margin-top: -69%;
 	.field_with_errors {
 	border:1px solid #aca899;
 	//padding:3px 4px 11px 12px;
-	width:189px;
+	//width:189px;
 	border-color: red;
 	}

@@ -1,4 +1,4 @@
 class PatientUserDefinedData < ActiveRecord::Base
-    belongs_to :patienttb
+    belongs_to :patient
 
 end

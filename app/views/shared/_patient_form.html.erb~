@@ -1,0 +1,51 @@
+
+    <%= form_for(@patienttb,:html => {:id =>'patient'}, :url=>{:controller=>'patienttbs', :action=>'create'}) do |f| %>
+    <fieldset class="fieldset mar6">
+      <legend>Patient Information:</legend>
+      <label>ID:</label>
+      <%= f.text_field :patientid ,:class =>"input", :style=>"width:167px;"%>
+      <label>Last Name:</label>
+      <%= f.text_field :namelast, :class =>"input", :style=>"width:167px;" %>
+      <label>First Name:</label>
+      <%= f.text_field :namefirst ,:class =>"input", :style=>"width:167px;"%>
+      <div class="f-left">
+        <label>Sex:</label>
+        <br />
+        <%#= select(:patienttb, :sex, [['Male','M'],['Female','F']],{},:class=>'select', :style=>"width:60px;")%> 
+        <select class="select" name=""  style="width:60px;">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+      
+      <div class="f-right">
+        <label>Birth Date:</label>
+        <br />
+        <%= f.text_field :birthdate, :class=>'datepicker input', :style=>"width:80px;"%>
+      </div>
+      <div class="clear"></div>
+    </fieldset>
+    <fieldset class="fieldset mar2">
+      <legend>Hospital Information:</legend>
+      <label>Date of Visit:</label>
+      <%= f.text_field :firstvisitdate, :class=>'datepicker input', :style=>"width:167px;"%>
+<!--  <input type="text" class="input datepicker" style="width:167px;" />  <!--disabled="disabled"-->
+      <label>Technician:</label>
+      <select class="select" name="" style="width:165px;">
+        <option>User1</option>
+        <option>User2</option>
+      </select>
+      <label>Medical Diagnosis:</label>
+      <%= f.text_field :medicaldiag,:class =>"input", :id=>'medicaldiag', :style=>"width:167px;display:none" %>
+      <%= autocomplete_field_tag 'patienttb_medicaldiag', "#{@patienttb.medicaldiag}", autocomplete_patienttb_medicaldiag_patienttbs_path, :size => 75, :class =>"input", :id=>'autocomplete_medicaldiag', :onblur=>"document.getElementById('medicaldiag').value=document.getElementById('autocomplete_medicaldiag').value" , :style=>"width:167px;" %>       
+      <label>Comment:</label>
+      <%= f.text_area :comments,:class =>"input", :cols=>"", :rows=>"", :style=>"width:167px; resize: none;"%>
+    </fieldset>
+</div>
+    <div id="submit-button" style="width:85px; margin:0px auto;">
+      <input name="" type="button" class="button" value="More Details" id="more_detail"/>
+    </div>
+  </div>
+
+  <%end%>
+  

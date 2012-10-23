@@ -1,4 +1,11 @@
 MedicalPro::Application.routes.draw do
+
+  resources :devices
+
+  match "/patient/search/(:search)" => "patienttbs#search"
+  match "/patients" => "patienttbs#index"
+  match "/media/play/(:id)" => "Slitlamptbs#media_play"
+  match "/db_upload" => "welcome#db_upload"
   match "/index" => "welcome#index"
   match "/signup" => "welcome#signup"
   match "/signout" => "welcome#signout"
@@ -17,7 +24,14 @@ MedicalPro::Application.routes.draw do
   match "/set_automate_backup" => "welcome#set_automate_backup"
   match "/slitlamptbs/:id/label" => "slitlamptbs#update_label"
   match "/media_upload" => "slitlamptbs#media_upload"
-  resources :patienttbs
+  match "/media_export" => "slitlamptbs#media_export"
+  match "/export_db" => "welcome#export_db"
+  match "/media_field_edit/:id" => "slitlamptbs#media_field_edit"
+  
+
+  resources :patienttbs do
+    get :autocomplete_patienttb_medicaldiag, on: :collection
+  end 
   resources :slitlamptbs
   resources :audits
   resources :videos

@@ -1,0 +1,26 @@
+<script>jQuery("#colorbox, #cboxOverlay").show(); </script>
+<style>
+.db_import_frm { display: block; margin: 20px auto; background: #eee; border-radius: 10px; padding: 15px }
+.progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+.percent { position:absolute; display:inline-block; top:3px; left:48%; }
+</style>
+
+<%#= form_for :file_upload, :html => {:multipart => true, :id=>'db_import_frm'}, :url=>{:action=>'tounzip', :controller=>'welcome'} do |f| %>
+<%#= f.file_field :my_file %>
+<%#= f.submit "Upload" %>
+<%# end %>
+
+    <form action="/tounzip" method="post" enctype="multipart/form-data" class="db_import_frm">
+        <input type="file" name="file_upload[my_file]"><br>
+        <input type="submit" value="Upload File to Server">
+    </form>
+
+<div class="progress">
+    <div class="bar"></div >
+    <div class="percent">0%</div >
+</div>
+
+<div id="status"></div>
+
+

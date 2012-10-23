@@ -1,38 +1,60 @@
 class WelcomeController < ApplicationController
   def index
-  @slitlamps   = Slitlamptb.all
-  @more_fields = PatientUserDefinedFields.all
   end
 
+  def db_upload
+  render :layout => false
+  end
+  
   def tounzip
+ # render :json=> params[:file_upload][:my_file]
+ # return
+  Net::SFTP.start('ps114099.dreamhostps.com', 'haidevroot', :password=>'beQy8eMj') do |sftp|
+  sftp.upload!(params[:file_upload][:my_file],"/home/")
+  end
+  return
   if !params[:file_upload].nil?
             require 'fileutils'
+            if !params[:file_upload][:my_file].content_type.match("zip")
             tmp = params[:file_upload][:my_file].tempfile
-            file = File.join("public", params[:file_upload][:my_file].original_filename)
+            FileUtils.rm_rf('public/restore')
+            FileUtils.mkdir('public/restore')
+            file = File.join("public/restore", params[:file_upload][:my_file].original_filename)
             FileUtils.cp tmp.path, file
+                `rake restore`
+          
+            FileUtils.rm_rf('public/restore')
+             flash[:notice] ="Backup done successfully"
+             redirect_to '/index'
+             return
+            else
+            name =  params[:file_upload][:my_file].original_filename
+            directory = "public/data"
+            path = File.join(directory, name)
+            File.open(path, "wb") { |f| f.write(params[:file_upload][:my_file].read) }
+            #tmp = params[:file_upload][:my_file].tempfile
+            #file = File.join("public", params[:file_upload][:my_file].original_filename)
+            #FileUtils.cp tmp.path, file
               `rm -rf ./public/unzipped/`
-            @resp=`unzip -o "#{file}" -d public/unzipped`
-                   FileUtils.rm file
-           
-                         session[:db]=Patienttb.maximum(:db)
-                           if (session[:db]==nil || session[:db]==0)
-                           session[:db]=1
-                           session[:from_patient]=Patienttb.maximum(:id)
-                           session[:from_slitlamp]=Slitlamptb.maximum(:id)
-                           @image_pat =`find -name NEW -type d`
-                           @image_path = @image_pat.gsub("\n","")
-                           `mkdir ./public/images/old/#{session[:db]}`
-                          render :json=> "`mv \"#{@image_path}\"/* ./public/images/old/#{session[:db]}/`"
-                          return
-                        else
-                           session[:db]=Patienttb.maximum(:db).next
-                           session[:from_patient]=Patienttb.maximum(:id)
-                           session[:from_slitlamp]=Slitlamptb.maximum(:id)
-                           @image_pat =`find -name NEW -type d`
-                           @image_path = @image_pat.gsub("\n","")
-                            `mkdir ./public/images/old/#{session[:db]}`
-                            `mv \"#{@image_path}\"/* ./public/images/old/#{session[:db]}/`
-                           end
+            # @resp=`unzip -o "#{file}" -d public/unzipped`
+            @resp=`unzip -o "#{path}" -d public/unzipped`
+                   FileUtils.rm path
+
+              ##set db value
+              session[:db]=Patienttb.maximum(:db)
+               if (session[:db]==nil || session[:db]==0)
+               session[:db]=1
+               else
+               session[:db]=Patienttb.maximum(:db).next
+               end
+              ##set sb value ends
+              
+              ##set max value of patient and slitlamp
+               session[:from_patient]=Patienttb.maximum(:id)
+               session[:from_slitlamp]=Slitlamptb.maximum(:id)              
+              ##set max value of patient and slitlamp
+             
+             ##for mdb to postgressql
              @db_pat= `find . -name "*.MDB"`
              @db_path=@db_pat.gsub("\n","").to_s
              @t = `mdb-tables -1 \"#{@db_path}\"`
@@ -40,20 +62,23 @@ class WelcomeController < ApplicationController
              @tables.each do |table|
              @ty=`mdb-export -I  -q "'" -R'; \n' \"#{@db_path}\" #{table}  | sed 's/#{table}/#{table}S/g'>#{table}.sql`
                 `psql -U postgres Medical_pro_development < #{table}.sql`
-              end
+                         end
               row_inserted_patient=`mdb-array \"#{@db_path}\" PatientTB | grep -r "PatientTB_array_length" | grep -ioE [0-9]`
               row_inserted_slitlamp=`mdb-array \"#{@db_path}\" SlitlampTB | grep -r "SlitlampTB_array_length" | grep -ioE [0-9]`
               Audit.create(:record_id=>row_inserted_patient.gsub("\n","").to_s, :record_type=>'patienttbs', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
               Audit.create(:record_id=>row_inserted_slitlamp.gsub("\n","").to_s, :record_type=>'slitlamptbs', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
-          redirect_to '/tosql'
-         else
-         flash[:notice] ="Select .Zip File to Upload"
-         redirect_to '/index'
-         end
+              ##for mdb to postgressql ends
+              end
+     redirect_to '/tosql'
+     else
+     flash[:notice] ="Select .Zip File to Upload"
+     redirect_to '/index'
+     end
+     
   end
   
   def tosql
-#update db value in patienttb 
+  #update db value in patienttb 
      if session[:from_patient].nil?
         from_patient=0
        else
@@ -62,11 +87,10 @@ class WelcomeController < ApplicationController
         patients=Patienttb.where("id >=? ", from_patient.next.to_i)
           patients.each do |patient|
               patient.update_attributes(:db=>session[:db].to_i)
-              patient.save(:validate=>false)
+              @res=patient.save(:validate=>false)
            end
-##update db value in patienttb table
-       
-#update db value in slitlamptb
+  ##update db value in patienttb table
+  #update db value in slitlamptb
        if session[:from_slitlamp].nil?
           from_slitlamp=0
        else
@@ -77,28 +101,42 @@ class WelcomeController < ApplicationController
           slitlamp.update_attributes(:db=>session[:db].to_i)
           slitlamp.save(:validate=>false)
         end
-##update db value in slilamptb
-        
-#update patienttb_id in slitlamp to make has_many relation while uploading Zip file
+  ##update db value in slilamptb
+  #update patienttb_id in slitlamp to make has_many relation while uploading Zip file
         Slitlamptb.where(:db=>session[:db].to_i).each do |slitlamp|
             @patient=Patienttb.find(:first, :conditions => ['patientid = ? and db = ?', slitlamp.patientid, session[:db].to_i])
                   if @patient
                   slitlamp.update_attributes(:patienttb_id=>@patient.id)
                   end
          end
-##
+  ##update patienttb_id in slitlamp to make has_many relation while uploading Zip file ends
+  
+   @image_pat =`find -name NEW -type d`
+   @image_path = @image_pat.gsub("\n","")
+   @db=Slitlamptb.maximum(:db)
+   @slitlamps=Slitlamptb.where(:db=>@db)
+   @slitlamps.each do |slitlamp|
+    if (!slitlamp.patientid.nil? and !slitlamp.imageid.nil?)
+          @tmp_file= @image_path+'/'+slitlamp.patientid+'/Slitlamp-'+slitlamp.patientid+"-"+slitlamp.imageid.to_s+'.jpg'
+          if File.exists?(@tmp_file)
+          slitlamp.pimage=File.open(@tmp_file)
+          @res=slitlamp.save!
+          end
+       end
+     end
+      if @res==true
+          `rm -rf ./public/unzipped/`
+      end
+
+  
           session[:from_patient]=nil
           session[:from_slitlamp]=nil
           session[:db]=nil
-     flash[:notice] ="File Unzipped successfully"
-          redirect_to '/index'   
+          flash[:notice] ="File Unzipped successfully"
+          redirect_to '/index'  
+      
+  end
 
-  end
-  
-   def settings
-  
-  end
-  
   def set_mendatory
   @patient_columns=Patienttb.column_names-["id" ,"created_at", "updated_at"]
   @mandatory=MandatoryFields.all
@@ -224,5 +262,20 @@ class WelcomeController < ApplicationController
   
   redirect_to "/automate_backup"
   end
+
+ 
+  
+  def export_db
+      dir_path=File.expand_path(RAILS_ROOT+'/public/DB_Backup',__FILE__)
+       FileUtils.rm_rf(dir_path)
+      `backup perform -t DB_Backup`
+      file_pat=`find #{RAILS_ROOT}/public/DB_Backup  -name  *.tar`
+      file_path=file_pat.gsub("\n","")
+      if File.exists?(file_path)
+          send_file(file_path, :type => "application/x-tar", :disposition => "attachment")
+             FileUtils.rm_rf(dir_path)
+      end
+  end  
+
   
 end
