@@ -121,7 +121,7 @@ class SlitlamptbsController < ApplicationController
            end
           Zipper.zip(req_dir, req_dir+'/Media.zip')
           zip_file=File.expand_path(req_dir+'/Media.zip', __FILE__)
-          send_file(zip_file, :type => "application/zip", :disposition => "attachment")
+          send_file(zip_file, :type => "application/zip", :disposition => "inline")
           FileUtils.rm_rf(req_dir)
         else
           img_path=Slitlamp.find(params[:image].first.first).pimage.to_s

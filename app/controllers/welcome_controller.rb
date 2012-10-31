@@ -287,8 +287,8 @@ class WelcomeController < ApplicationController
       file_pat=`find #{RAILS_ROOT}/public/DB_Backup  -name  *.tar`
       file_path=file_pat.gsub("\n","")
       if File.exists?(file_path)
-          send_file(file_path, :type => "application/x-tar", :x_sendfile=>true)
-             #FileUtils.rm_rf(dir_path)
+          send_file(file_path, :type => "application/x-tar", :disposition => "attachment")
+             FileUtils.rm_rf(dir_path)
       end
   end  
   
