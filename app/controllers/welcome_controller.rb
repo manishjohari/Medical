@@ -109,8 +109,11 @@ class WelcomeController < ApplicationController
           from_slitlamp=session[:from_slitlamp]
        end
        slitlamps=Slitlamp.where("id >=?", from_slitlamp.next.to_i)
+       if Device.find_by_device_name("Slit Lamp").nil?
+        Device.create(:device_name=>"Slit Lamp")
+       end
         slitlamps.each do |slitlamp|
-          slitlamp.update_attributes(:db=>session[:db].to_i)
+          slitlamp.update_attributes(:db=>session[:db].to_i, :equipinfo=>Device.find_by_device_name("Slit Lamp").id)
           slitlamp.save(:validate=>false)
         end
   ##update db value in slilamptb
