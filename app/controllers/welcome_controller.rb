@@ -1,8 +1,18 @@
 class WelcomeController < ApplicationController
   def index
-  @patienttb=Patient.first
-  @device_id=Device.first.id.to_s
-  @slitlamps=@patienttb.slitlamps(:order=>'id').where(:equipinfo=>@device_id)
+     if Patient.first.nil?
+      @patienttb=Patient.new
+     else
+      @patienttb=Patient.first
+        if !Device.first.nil?
+          @device_id=Device.first.id.to_s 
+        end
+        if !@patienttb.slitlamps.empty?
+         @slitlamps=@patienttb.slitlamps(:order=>'id').where(:equipinfo=>@device_id)
+        end
+     end 
+     
+     
   end
 
   def db_upload

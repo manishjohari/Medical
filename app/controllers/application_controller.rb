@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   
    def load
     @req_url=request.host_with_port
-    @patienttb ||= Patient.new
-    @slitlamps ||= Slitlamp.all(:order=>'id')
     @more_fields||= PatientUserDefinedFields.all
     @devices||= Device.all
     end

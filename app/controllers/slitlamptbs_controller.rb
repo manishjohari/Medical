@@ -94,7 +94,7 @@ class SlitlamptbsController < ApplicationController
                  @slitlamp = @patient.slitlamps.create(slitlamp)
                  @slitlamp.update_attributes(:equipinfo=>params[:equipinfo])
                  end
-             redirect_to "/patients/"+params[:patient]+"/"
+             redirect_to "/patients/"+params[:patient]+"/device/"+params[:equipinfo]
              else
               @slitlamp = Slitlamp.create(params[:slitlamptb])
                   @slitlamp.each do |slitlamp|
