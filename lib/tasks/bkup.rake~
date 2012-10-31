@@ -1,4 +1,0 @@
-task :backup => :environment do
-rake_task="Success"
-`backup perform --trigger my_backup`
-end

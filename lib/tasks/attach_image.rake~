@@ -1,3 +1,0 @@
-task :attach_image => :environment do
-
-end

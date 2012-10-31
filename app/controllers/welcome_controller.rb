@@ -1,5 +1,8 @@
 class WelcomeController < ApplicationController
   def index
+  @patienttb=Patient.first
+  @device_id=Device.first.id.to_s
+  @slitlamps=@patienttb.slitlamps(:order=>'id').where(:equipinfo=>@device_id)
   end
 
   def db_upload
@@ -36,17 +39,17 @@ class WelcomeController < ApplicationController
                    FileUtils.rm path
 
               ##set db value
-              session[:db]=Patienttb.maximum(:db)
+              session[:db]=Patient.maximum(:db)
                if (session[:db]==nil || session[:db]==0)
                session[:db]=1
                else
-               session[:db]=Patienttb.maximum(:db).next
+               session[:db]=Patient.maximum(:db).next
                end
               ##set sb value ends
               
               ##set max value of patient and slitlamp
-               session[:from_patient]=Patienttb.maximum(:id)
-               session[:from_slitlamp]=Slitlamptb.maximum(:id)              
+               session[:from_patient]=Patient.maximum(:id)
+               session[:from_slitlamp]=Slitlamp.maximum(:id)              
               ##set max value of patient and slitlamp
              
              ##for mdb to postgressql
@@ -55,13 +58,14 @@ class WelcomeController < ApplicationController
              @t = `mdb-tables -1 \"#{@db_path}\"`
              @tables=@t.split(" ")
              @tables.each do |table|
-             @ty=`mdb-export -I  -q "'" -R'; \n' \"#{@db_path}\" #{table}  | sed 's/#{table}/#{table}S/g'>#{table}.sql`
+             table_name=table.gsub("TB","")
+             @ty=`mdb-export -I  -q "'" -R'; \n' \"#{@db_path}\" #{table}  | sed 's/#{table}/#{table_name}s/g'>#{table}.sql`
                 `psql -U postgres Medical_pro_development < #{table}.sql`
                          end
               row_inserted_patient=`mdb-array \"#{@db_path}\" PatientTB | grep -r "PatientTB_array_length" | grep -ioE [0-9]`
               row_inserted_slitlamp=`mdb-array \"#{@db_path}\" SlitlampTB | grep -r "SlitlampTB_array_length" | grep -ioE [0-9]`
-              Audit.create(:record_id=>row_inserted_patient.gsub("\n","").to_s, :record_type=>'patienttbs', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
-              Audit.create(:record_id=>row_inserted_slitlamp.gsub("\n","").to_s, :record_type=>'slitlamptbs', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
+              Audit.create(:record_id=>row_inserted_patient.gsub("\n","").to_s, :record_type=>'patients', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
+              Audit.create(:record_id=>row_inserted_slitlamp.gsub("\n","").to_s, :record_type=>'slitlamps', :date=>Time.now, :action=>".Zip Uplaod", :ip=>request.remote_ip)
               ##for mdb to postgressql ends
               end
      redirect_to '/tosql'
@@ -79,7 +83,7 @@ class WelcomeController < ApplicationController
        else
         from_patient=session[:from_patient]
      end  
-        patients=Patienttb.where("id >=? ", from_patient.next.to_i)
+        patients=Patient.where("id >=? ", from_patient.next.to_i)
           patients.each do |patient|
               patient.update_attributes(:db=>session[:db].to_i)
               @res=patient.save(:validate=>false)
@@ -91,25 +95,25 @@ class WelcomeController < ApplicationController
        else
           from_slitlamp=session[:from_slitlamp]
        end
-       slitlamps=Slitlamptb.where("id >=?", from_slitlamp.next.to_i)
+       slitlamps=Slitlamp.where("id >=?", from_slitlamp.next.to_i)
         slitlamps.each do |slitlamp|
           slitlamp.update_attributes(:db=>session[:db].to_i)
           slitlamp.save(:validate=>false)
         end
   ##update db value in slilamptb
   #update patienttb_id in slitlamp to make has_many relation while uploading Zip file
-        Slitlamptb.where(:db=>session[:db].to_i).each do |slitlamp|
-            @patient=Patienttb.find(:first, :conditions => ['patientid = ? and db = ?', slitlamp.patientid, session[:db].to_i])
+        Slitlamp.where(:db=>session[:db].to_i).each do |slitlamp|
+            @patient=Patient.find(:first, :conditions => ['patientid = ? and db = ?', slitlamp.patientid, session[:db].to_i])
                   if @patient
-                  slitlamp.update_attributes(:patienttb_id=>@patient.id)
+                  slitlamp.update_attributes(:patient_id=>@patient.id)
                   end
          end
   ##update patienttb_id in slitlamp to make has_many relation while uploading Zip file ends
   
    @image_pat =`find -name NEW -type d`
    @image_path = @image_pat.gsub("\n","")
-   @db=Slitlamptb.maximum(:db)
-   @slitlamps=Slitlamptb.where(:db=>@db)
+   @db=Slitlamp.maximum(:db)
+   @slitlamps=Slitlamp.where(:db=>@db)
    @slitlamps.each do |slitlamp|
     if (!slitlamp.patientid.nil? and !slitlamp.imageid.nil?)
           @tmp_file= @image_path+'/'+slitlamp.patientid+'/Slitlamp-'+slitlamp.patientid+"-"+slitlamp.imageid.to_s+'.jpg'
@@ -133,7 +137,7 @@ class WelcomeController < ApplicationController
   end
 
   def set_mendatory
-  @patient_columns=Patienttb.column_names-["id" ,"created_at", "updated_at"]
+  @patient_columns=Patient.column_names-["id" ,"created_at", "updated_at"]
   @mandatory=MandatoryFields.all
   end
   
@@ -267,10 +271,15 @@ class WelcomeController < ApplicationController
       file_pat=`find #{RAILS_ROOT}/public/DB_Backup  -name  *.tar`
       file_path=file_pat.gsub("\n","")
       if File.exists?(file_path)
-          send_file(file_path, :type => "application/x-tar", :disposition => "attachment")
-             FileUtils.rm_rf(dir_path)
+          send_file(file_path, :type => "application/x-tar", :x_sendfile=>true)
+             #FileUtils.rm_rf(dir_path)
       end
   end  
+  
+  def tag
+  @patients=Patient.all.map {|p| p.namelast}
+  render :layout => false
+  end
 
   
 end

@@ -2,8 +2,8 @@ MedicalPro::Application.routes.draw do
 
   resources :devices
 
-  match "/patient/search/(:search)" => "patienttbs#search"
-  match "/patients" => "patienttbs#index"
+  match "/patient/search/(:search)" => "patients#search"
+  #match "/patients" => "patienttbs#index"
   match "/media/play/(:id)" => "Slitlamptbs#media_play"
   match "/db_upload" => "welcome#db_upload"
   match "/index" => "welcome#index"
@@ -27,10 +27,12 @@ MedicalPro::Application.routes.draw do
   match "/media_export" => "slitlamptbs#media_export"
   match "/export_db" => "welcome#export_db"
   match "/media_field_edit/:id" => "slitlamptbs#media_field_edit"
+  match "/patients/:id/device/:device_id" => "patients#show"
+  match "/tags" => "welcome#tag"
   
 
-  resources :patienttbs do
-    get :autocomplete_patienttb_medicaldiag, on: :collection
+  resources :patients do
+    get :autocomplete_patient_medicaldiag, on: :collection
   end 
   resources :slitlamptbs
   resources :audits

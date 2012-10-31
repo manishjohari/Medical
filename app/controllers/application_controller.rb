@@ -4,14 +4,9 @@ class ApplicationController < ActionController::Base
   autocomplete :patient, :medicaldiag, full: true
   
    def load
-    @patienttb ||= Patienttb.new
-#    @patienttbs ||= Patienttb.all
-      if !Patient.first.nil?
-     # @patienttbs ||= Patienttb.not_deleted(:order=>'id')
-      else
-      #@patienttbs ||= Patienttb.all(:order=>'id')
-      end
-    @slitlamps ||= Slitlamptb.all(:order=>'id', :limit=>50)
+    @req_url=request.host_with_port
+    @patienttb ||= Patient.new
+    @slitlamps ||= Slitlamp.all(:order=>'id')
     @more_fields||= PatientUserDefinedFields.all
     @devices||= Device.all
     end

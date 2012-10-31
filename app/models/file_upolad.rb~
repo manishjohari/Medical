@@ -1,4 +1,0 @@
-class FileUpolad < ActiveRecord::Base
- mount_uploader :db_file
-
-end

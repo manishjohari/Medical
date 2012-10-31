@@ -121,9 +121,9 @@ jQuery('.searchbox').live('keyup',function(e){
 <div class="body-wrapper">
   <div class="left f-left">
     <div class="heading mar6">Patient Record</div>
-    <div class="options-list mar6"><a href="/patienttbs/new"><img src="/images/new.png" /></a> <a href="#"><img src="/images/save.png" id="save" /></a> 
+    <div class="options-list mar6"><a href="/patients/new"><img src="/images/new.png" /></a> <a href="#"><img src="/images/save.png" id="save" /></a> 
     <%if !@patienttb.nil? and @patienttb.is_delete!=true and !@patienttb.new_record?%>
-    <a href="/patienttbs/<%=@patienttb.id%>" data-confirm="Are you sure you want to delete this patient record and all of its associated media files? " data-method="delete" rel="nofollow">
+    <a href="/patients/<%=@patienttb.id%>" data-confirm="Are you sure you want to delete this patient record and all of its associated media files? " data-method="delete" rel="nofollow">
     <%else%>
     <a href="#">
     <%end%>

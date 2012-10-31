@@ -1,4 +1,10 @@
-
+<script>
+jQuery(document).ready(function() {
+jQuery('#fok_btn').click(function(){
+ jQuery("#colorbox, #cboxOverlay").hide();
+});
+});
+</script>
     <%= form_for(@patienttb,:html => { :id => 'patient' }) do |f| %>
     <fieldset class="fieldset mar6">
       <legend>Patient Information:</legend>
@@ -12,7 +18,7 @@
         <label>Sex:</label>
         <br />
         <%#= select(:patienttb, :sex, [['Male','M'],['Female','F']],{},:class=>'select', :style=>"width:60px;")%> 
-        <select class="select" name=""  style="width:60px;">
+        <select class="select" name="patient[sex]"  style="width:60px;">
           <option>Male</option>
           <option>Female</option>
         </select>
@@ -37,15 +43,40 @@
       </select>
       <label>Medical Diagnosis:</label>
       <%= f.text_field :medicaldiag,:class =>"input", :id=>'medicaldiag', :style=>"width:167px;display:none" %>
-      <%= autocomplete_field_tag 'patienttb_medicaldiag', "#{@patienttb.medicaldiag}", autocomplete_patienttb_medicaldiag_patienttbs_path, :size => 75, :class =>"input", :id=>'autocomplete_medicaldiag', :onblur=>"document.getElementById('medicaldiag').value=document.getElementById('autocomplete_medicaldiag').value" , :style=>"width:167px;" %>       
+      <%= autocomplete_field_tag 'patient_medicaldiag', "#{@patienttb.medicaldiag}", autocomplete_patient_medicaldiag_patients_path, :size => 75, :class =>"input", :id=>'autocomplete_medicaldiag', :onblur=>"document.getElementById('medicaldiag').value=document.getElementById('autocomplete_medicaldiag').value" , :style=>"width:167px;" %>       
       <label>Comment:</label>
       <%= f.text_area :comments,:class =>"input", :cols=>"", :rows=>"", :style=>"width:167px; resize: none;"%>
-    </fieldset>
+
 </div>
     <div id="submit-button" style="width:85px; margin:0px auto;">
-      <input name="" type="button" class="button" value="More Details" id="more_detail"/>
+    <a class='inline' href="#more_details">
+      <input name="" type="button" class="button" value="More Details" id="mmore_detail"/>
+    </a>
     </div>
   </div>
+  
+  <div style='display:none'>
+  <div id="more_details" style="text-align:center;">
+  <br><br>
+  <label> Address Street :</label><br>
+  <%= f.text_field :addressstreet ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <label> Town :</label><br>
+  <%= f.text_field :addresstown ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <label> State :</label><br>
+  <%= f.text_field :addressstate ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <label> Zip :</label><br>
+  <%= f.text_field :addresszip ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <label> Country :</label><br>
+  <%= f.text_field :addresscountry ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <label> Phone Number :</label><br>
+  <%= f.text_field :telenumber ,:class =>"input", :style=>"width:167px;"%><br><br>
+  <br><br>
+  <input name="" type="button" class="button" value="Ok" id="fok_btn"/>
+  <br>
+  </fieldset>
+  </div>
+  </div>
+  
 
   <%end%>
   

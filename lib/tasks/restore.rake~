@@ -31,8 +31,14 @@ task :restore => :environment do
             pimage_source_path=pimage_source_pat.gsub("\n","")
             pimage_d_pat=`find #{RAILS_ROOT}/public/images -name pimages -type d`
             pimage_d_path=pimage_d_pat.gsub("\n","")
+            if !File.exist?(pimage_d_path)
+            FileUtils.mkdir_p("#{RAILS_ROOT}/public/images/pimages")
+            pimage_d_pat=`find #{RAILS_ROOT}/public/images -name pimages -type d`
+            pimage_d_path=pimage_d_pat.gsub("\n","")
+            end
             d_image_dir=File.dirname(pimage_d_path)
-            `mv #{pimage_source_path}/ #{d_image_dir}/`
+            `mv --force #{pimage_source_path}/* #{pimage_d_path}`
+            #`mv #{pimage_source_path}/ #{d_image_dir}/`
             ##for images
 
             

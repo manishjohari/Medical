@@ -64,11 +64,11 @@ function displayclose1(a,b)
 </script>
 
 <style>
-.div_del_img{margin-top: 6%;text-align: right;margin-right: 11%;position: relative;top: 18px;visibility: hidden;}
-.product{height: 188px;}
+.div_del_img{margin-bottom: -17%;margin-top: 6%;text-align: right;margin-right: 11%;visibility: hidden;}
+.product{height: 1px;}
 .del_img{z-index: 1;position: relative;top: -2px;left: 18px;margin-bottom: 0%;margin-right: 0%;}
 .del_img_video{position: relative;top: -2px;left: 18px;}
-.div_checkbox_img{position: relative;top: 0%;margin-bottom: -7%;float: left;}
+.div_checkbox_img{position: relative;margin-top: 7%;top: 16%;right: 48%;margin-bottom: -7%;visibility:hidden;}
 .img_title_txt{display:none;width: 159px;height: 19px;}
 .img_disease_txt{display:none;width: 159px;height: 19px;}
 .img_description_txt{display:none;width: 159px;height: 19px;}
@@ -77,19 +77,22 @@ function displayclose1(a,b)
 </style>
 
 <form name="media_gallery" id="media_gallery" action='/media_export'>
+
+<%=@req_url%>
 <% @slitlamps.each do |slitlamp|%>
 <%if slitlamp.pimage?%>
 <div class="product f-left" onmouseover="displayclose('del<%=slitlamp.id%>','chk<%=slitlamp.id%>')" onmouseout="displayclose1('del<%=slitlamp.id%>','chk<%=slitlamp.id%>')">
 <%if slitlamp.pimage_content_type.match("image").present?%>
 <!--- div to show del.png--->
-<div class="div_del_img">  
-<input type=checkbox name="image[<%=slitlamp.id%>]" id="chk<%=slitlamp.id%>" class="div_checkbox_img">
+<div id="del<%=slitlamp.id%>" class="div_del_img">  
 <a href="/slitlamptbs/<%=slitlamp.id%>" data-confirm="Are you sure you want to delete this media file?" data-method="delete" rel="nofollow">
-<img src="/images/del.png" class="del_img" id="del<%=slitlamp.id%>"/>
+<img src="/images/del.png" class="del_img"/>
 </a>
 </div>
 <!--- div to show del.png end--->
-
+<div class="div_checkbox_img">
+<input type=checkbox name=image[<%=slitlamp.id%>] id="chk<%=slitlamp.id%>">
+</div>
 <!--show thumbnail icon and a tag to open image in lightbox-->                 
 <a href="<%=slitlamp.pimage(:original)%>"  class="group3" title="<%=slitlamp.title%>">
 <img alt="Image Missing" src="<%=slitlamp.pimage(:thumbnail)%>" width="160" height="120"  >
@@ -122,10 +125,22 @@ function displayclose1(a,b)
 <!--show pdf thumbnail icon and download it-->                 
 <a href="<%=slitlamp.pimage(:original)%>" title="<%=slitlamp.title%>">
 <label> <%=slitlamp.pimage_file_name%> </label> <br>
-<img alt="Image Missing" src="/images/pdf.png" width="160" height="120"  >
+<img alt="Image Missing" src="/images/pdf.png" width="160" height="100">
 </a>
 <!--show pdf thumbnail icon and download it-->
-
+<br>
+<div>
+<%= label_tag 'title', slitlamp.title , :class=>"edit" , :id=>"lbl-title-#{slitlamp.id}"%>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-title-#{slitlamp.id}", :class =>"input img_title_txt"%>
+</div>
+<div>
+<%= label_tag 'disease', slitlamp.disease, :class=>"edit", :id=>"lbl-disease-#{slitlamp.id}" %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-disease-#{slitlamp.id}", :class =>"input img_disease_txt"%>
+</div>
+<div>
+<%= label_tag 'description', slitlamp.description,:class=>"edit", :id=>"lbl-description-#{slitlamp.id}"  %>
+<%= text_field_tag "title", slitlamp.title, :id=>"txtlbl-description-#{slitlamp.id}", :class =>"input img_description_txt"%>
+</div>
 <%else%>
 
 <!-- For Video -->

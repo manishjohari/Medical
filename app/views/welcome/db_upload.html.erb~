@@ -30,6 +30,7 @@
 var bar = jQuery('.bar');
 var percent = jQuery('.percent');
 var status = jQuery('#status');
+var req_url= "<%=@req_url%>";
   jQuery('.db_import_frm').ajaxForm({
     beforeSend: function() {
         status.empty();
@@ -43,8 +44,8 @@ var status = jQuery('#status');
         percent.html(percentVal);
     },
 	complete: function(xhr) {
-	//alert("File Uploaded Sucessfully");
-		//window.location="http://localhost:3000";
+	alert("File Uploaded Sucessfully");
+		window.location="http://"+req_url+"/";
 	}
 }); 
 

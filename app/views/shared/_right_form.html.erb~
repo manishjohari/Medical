@@ -1,3 +1,11 @@
+<script>
+function device(id)
+{
+jQuery('#device_tab').val(id);
+}
+
+</script>
+
 <div class="options-list mar6">
     <fieldset class="fieldset mar6">
       <legend>Media Input:</legend>
@@ -19,11 +27,19 @@
 	</div>
   </div>
   <div class="f-right" style="width:39px;"> 
-  <% @devices.each do |device| %>
-  	<a href="#" class="tabbing" id="<%= device.device_name%>"><p class="css-vertical-text" style="margin:22px 0 0 12px;"><%= device.device_name%></p></a>
-  <%end%>	
-  	<a href="#" class="tabbing tabbing-select" id="slitlamp"><p class="css-vertical-text" style="margin:22px 0 0 12px;">Slit Lamp</p></a>
-    <a href="#" class="tabbing" id="specular" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:25px 0 0 12px;">Specular</p></a>
-    <a href="#" class="tabbing" id="fundus" style="margin-top:-1px;"><p class="css-vertical-text" style="margin:30px 0 0 12px;">Fundus</p></a>
+ <%=@device_id%><br>
+  <%if !@devices.empty?%>
+  <% @devices.each do |device|%>
+  <%=device.id%>
+ 
+        <%if !@patienttb.new_record?%>
+  	       <a href="/patients/<%=@patienttb.id%>/device/<%=device.id%>" class="tabbing <%if device.id.to_s==@device_id%> tabbing-select <%end%>" id="<%= device.id%>" onclick="device(<%= device.id%>)">
+  	        <p class="css-vertical-text" style="margin:22px 0 0 12px;"><%= device.device_name%></p>
+  	       </a>
+  	    <%else%>
+  	    <a href="#" class="tabbing <%if device.id==@devices.first.id%> tabbing-select <%end%> " id="<%= device.id%>" onclick="device(<%= device.id%>)"><p class="css-vertical-text" style="margin:22px 0 0 12px;"><%= device.device_name%></p></a>   
+  	    <%end%>
+  <%end end%>	
+
   </div>
   <div class="clear"></div>

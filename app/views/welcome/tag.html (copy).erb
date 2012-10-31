@@ -1,0 +1,139 @@
+  <%= javascript_include_tag "jquery-1.7.2.min.js"%>
+  <%= javascript_include_tag "jquery-ui-1.8.21.custom.min"%>
+  <%= javascript_include_tag "tagging/tagit.js"%>
+  <%= stylesheet_link_tag "jquery-ui-1.8.19.custom.css"%>
+  <%= stylesheet_link_tag "tagging/demo.css"%>
+  <%= stylesheet_link_tag "tagging/tagit-stylish-yellow.css"%>
+
+
+  <script>
+
+	jQuery(function () {
+	  var availableTags = new Array();
+	  var i=0;
+	  <%  @patients.each do |e| %>
+	    availableTags[i]="<%=e%>";
+	    i++
+	  <%end%>
+	  jQuery('#demo1').tagit({tagSource:availableTags, select:true, sortable:true});
+	  jQuery('#demo2').tagit({tagSource:availableTags});
+	  jQuery('#demo3').tagit({tagSource:availableTags, triggerKeys:['enter', 'comma', 'tab']});
+	  jQuery('#demo4').tagit({tagSource:availableTags, sortable:true, tagsChanged:function (a, b) {
+		jQuery('#demo4Out').html(a + ' was ' + b);
+	  } });
+	  jQuery('#demo5').tagit({maxLength:5, maxTags:5 });
+	  jQuery('#demo6').tagit({tagSource:availableTags, sortable:true});
+	  jQuery('#demo7').tagit({tagSource:availableTags, sortable:'handle'});
+
+
+	  jQuery('#demo1GetTags').click(function () {
+		showTags(jQuery('#demo1').tagit('tags'))
+	  });
+	  jQuery('#demo2GetTags').click(function () {
+		showTags(jQuery('#demo2').tagit('tags'))
+	  });
+	  jQuery('#demo2ResetTags').click(function () {
+		jQuery('#demo2').tagit('reset')
+	  });
+	  jQuery('#demo3GetTags').click(function () {
+		showTags(jQuery('#demo3').tagit('tags'))
+	  });
+	  jQuery('#demo4GetTags').click(function () {
+		showTags(jQuery('#demo4').tagit('tags'))
+	  });
+	  jQuery('#demo5GetTags').click(function () {
+		showTags(jQuery('#demo5').tagit('tags'))
+	  });
+	  jQuery('#demo6GetTags').click(function () {
+		showTags(jQuery('#demo6').tagit('tags'))
+	  });
+	  jQuery('#demo7GetTags').click(function () {
+		showTags(jQuery('#demo7').tagit('tags'))
+	  });
+
+	  function showTags(tags) {
+		console.log(tags);
+		var string = "Tags (label : value)\r\n";
+		string += "--------\r\n";
+		for (var i in tags)
+		  string += tags[i].label + " : " + tags[i].value + "\r\n";
+		alert(string);
+	  }
+
+	  setInterval("jQuery('#fork').effect('pulsate', { times:1 }, 500);", 5000);
+
+
+	});
+  </script>
+</head>
+<body>
+
+
+<div id="wrap">
+
+<h3>Hidden Select</h3>
+
+<div class="box">
+  <div class="note">
+	Normally the select is hidden, however we have shown it for this demo so you can see
+	how it operates!
+  </div>
+  <ul id="demo1" data-name="nameOfSelect"></ul>
+  <div class="buttons">
+	<button id="demo1GetTags" value="Get Tags">Get Tags</button>
+  </div>
+</div>
+
+<h3>Initial Tags</h3>
+
+<div class="box">
+  <div class="note">
+	You can manually specify tags in your markup by adding <em>list items</em> to the unordered list!
+  </div>
+
+    <ul id="demo2" data-name="demo2">
+        <li data-value="here">here</li>
+        <li data-value="are">are</li>
+        <li data-value="some...">some</li>
+        <!-- notice that this tag is setting a different value :) -->
+        <li data-value="initial">initial</li>
+        <li data-value="tags">tags</li>
+    </ul>
+  <div class="buttons">
+	<button id="demo2GetTags" value="Get Tags">Get Tags</button>
+	<button id="demo2ResetTags" value="Reset Tags">Reset Tags</button>
+  </div>
+</div>
+
+<h3>Allowing Spaces</h3>
+
+<div class="box">
+  <div class="note">
+	By overriding the <em>trigger keys</em> you can have spaces, comma's and any other character in your tags!
+  </div>
+
+  <ul id="demo3"></ul>
+  <div class="buttons">
+	<button id="demo3GetTags" value="Get Tags">Get Tags</button>
+  </div>
+</div>
+
+
+<h3>Limits</h3>
+
+<div class="box">
+  <div class="note">
+	You can limit both the maximum and minimum amount of, and characters per tag!
+  </div>
+
+  <ul id="demo5"></ul>
+  <div class="buttons">
+	<button id="demo5GetTags" value="Get Tags">Get Tags</button>
+  </div>
+  <p>Maximum of 5 tags and 5 characters per tag.</p>
+</div>
+
+
+
+</div>
+

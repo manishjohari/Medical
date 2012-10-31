@@ -29,37 +29,19 @@ class DevicesController < ApplicationController
   # POST /devices
   # POST /devices.xml
   def create
-    @device = Device.new(params[:device])
-
-    respond_to do |format|
-      if @device.save
-        format.html { redirect_to(@device, :notice => 'Device was successfully created.') }
-        format.xml  { render :xml => @device, :status => :created, :location => @device }
-        render :layout=>false
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @device.errors, :status => :unprocessable_entity }
-        render :layout=>false
-      end
-    end
+    @device = Device.create(params[:device])
+    flash[:notice] = 'Device was successfully created.'
+    redirect_to "/index"
   end
 
   # PUT /devices/1
   # PUT /devices/1.xml
   def update
     @device = Device.find(params[:id])
-
-    respond_to do |format|
-      if @device.update_attributes(params[:device])
-        format.html { redirect_to(@device, :notice => 'Device was successfully updated.') }
-        format.xml  { head :ok }
-        render :layout=>false
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @device.errors, :status => :unprocessable_entity }
-        render :layout=>false
-      end
-    end
+    if @device.update_attributes(params[:device])
+     flash[:notice] = 'Device was successfully updated.'
+     redirect_to "/index"
+     end
   end
 
   # DELETE /devices/1
@@ -67,11 +49,8 @@ class DevicesController < ApplicationController
   def destroy
     @device = Device.find(params[:id])
     @device.destroy
-    
+    flash[:notice] = 'Device was successfully deleted.'
+    redirect_to "/index"
 
-    respond_to do |format|
-      format.html { redirect_to(devices_url) }
-      format.xml  { head :ok }
-    end
   end
 end

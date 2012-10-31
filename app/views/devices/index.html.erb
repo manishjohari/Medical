@@ -5,10 +5,15 @@ function new_device()
 jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"<%=new_device_path%>"});
 jQuery("#colorbox, #cboxOverlay").hide(); 
 }
+function edit_device(id)
+{
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"/devices/"+id+"/edit"});
+jQuery("#colorbox, #cboxOverlay").hide(); 
+}
 </script>
-<h1>Listing devices</h1>
+<h1 style="text-align:center;">Listing devices</h1>
 
-<table>
+<table style="text-align:center;">
   <tr>
     <th>Device name</th>
     <th></th>
@@ -19,8 +24,7 @@ jQuery("#colorbox, #cboxOverlay").hide();
 <% @devices.each do |device| %>
   <tr>
     <td><%= device.device_name %></td>
-    <td><%= link_to 'Show', device %></td>
-    <td><%= link_to 'Edit', edit_device_path(device), :id=>device.id %></td>
+    <td><%= link_to 'Edit', "#", :id=>device.id, :onclick=>"edit_device(#{device.id})" %></td>
     <td><%= link_to 'Destroy', device, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

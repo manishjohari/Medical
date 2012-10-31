@@ -14,7 +14,7 @@ jQuery("#colorbox, #cboxOverlay").hide();
 
 function load_devices()
 {
-jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"<%=new_device_path%>"});
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"<%=devices_path%>"});
 jQuery("#colorbox, #cboxOverlay").hide(); 
 }
 </script>  
@@ -163,14 +163,15 @@ jQuery("#colorbox, #cboxOverlay").hide();
  <!--jQuery to media upload file-->
 <div id="media_upload">
   <div id="results">
-    <h1>Upload Image/Video Files</h1>
+    <h1>Upload Image/Video/Pdf Files</h1>
     <div>
         <%= form_tag("/media_upload", :multipart => true ) do%>
          <%= label_tag "Upload Media",'Uplaod Files', :class=>'label'%> 
          <input type="file" multiple = "multiple" name="slitlamptb[][pimage]"/>
          <%if @patienttb.present? and !@patienttb.new_record?%>
-         <input type="hidden" name="patient" value="<%=@patienttb.id%>">
+         <input type="text" name="patient" value="<%=@patienttb.id%>">
          <%end%>
+        <input type="text" name="equipinfo" value="<%=@device_id%>" id="device_tab"> 
          <%= submit_tag "upload", :class=>'button' %>
         <%end%>
      </div>   

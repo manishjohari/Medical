@@ -163,7 +163,7 @@ jQuery("#colorbox, #cboxOverlay").hide();
  <!--jQuery to media upload file-->
 <div id="media_upload">
   <div id="results">
-    <h1>Upload Image/Video Files</h1>
+    <h1>Upload Image/Video/Pdf Files</h1>
     <div>
         <%= form_tag("/media_upload", :multipart => true ) do%>
          <%= label_tag "Upload Media",'Uplaod Files', :class=>'label'%> 
@@ -171,6 +171,7 @@ jQuery("#colorbox, #cboxOverlay").hide();
          <%if @patienttb.present? and !@patienttb.new_record?%>
          <input type="hidden" name="patient" value="<%=@patienttb.id%>">
          <%end%>
+        <input type="hidden" name="equipinfo" value="<%=@device_id%>" id="device_tab"> 
          <%= submit_tag "upload", :class=>'button' %>
         <%end%>
      </div>   

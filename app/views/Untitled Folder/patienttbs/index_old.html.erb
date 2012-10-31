@@ -1,0 +1,95 @@
+<%= javascript_include_tag "prototype"%>
+<%= javascript_include_tag "rails"%>
+
+<!--<script src="http://mottie.github.com/tablesorter/js/jquery.tablesorter.js"></script>-->
+<%= javascript_include_tag "jquery_tablesorter_widgets"%>
+<%= javascript_include_tag "jquery_tablesorter"%>
+
+	<script id="js">
+	jQuery.noConflict();
+	jQuery(function() {
+
+	// call the tablesorter plugin and apply the ui theme widget
+	jQuery("table").tablesorter({
+		widthFixed: true,
+
+		// widget code now contained in the jQuery.tablesorter.widgets.js file
+		widgets : ['uitheme', 'zebra'],
+
+		widgetOptions : {
+			// adding zebra striping, using content and default styles - the ui css removes the background from default
+			// even and odd class names included for this demo to allow switching themes
+			zebra   : ["ui-widget-content even", "ui-state-default odd"],
+
+			// change default uitheme icons - find the full list of icons here: http://jQueryui.com/themeroller/ (hover over them for their name)
+			// default icons: ["ui-icon-arrowthick-2-n-s", "ui-icon-arrowthick-1-s", "ui-icon-arrowthick-1-n"]
+			// ["up/down arrow (cssHeaders/unsorted)", "down arrow (cssDesc/descending)", "up arrow (cssAsc/ascending)" ]
+			uitheme : ["ui-icon-carat-2-n-s", "ui-icon-carat-1-s", "ui-icon-carat-1-n"]
+		}
+	});
+
+});</script>
+
+  <h1 class="heading mar6">Listing Patients</h1>
+
+<table class="tablesorter">
+ <thead> 
+  <tr>
+    <th>Patient Id</th>
+    <th>Sex</th>
+    <th>Ssn</th>
+    <th>Birthdate</th>
+    <th>First Name</th>
+  <!--  <th>Middle Name</th>-->
+    <th>Last Name</th>
+  <!--  <th>Race</th>
+    <th>Blood Type</th>
+    <th>Address Street</th>
+    <th>Address Town</th>
+    <th>Address State</th>
+    <th>Address Zip</th>
+    <th>Address Country</th>
+    <th>Tele Number</th>
+    <th>Ocular Diagnosis</th>
+    <th>Medical Diagnosis</th>
+  -->
+    <th>Visit Date</th>
+ <!--   <th>Comments</th>-->
+    <th colspan=3>Action</th>
+    
+  </tr>
+ </thead> 
+   <tbody>
+<% @patienttbs.each do |patienttb| %>
+  <tr>
+    <td><%= patienttb.patientid %></td>
+    <td><%= patienttb.sex %></td>
+    <td><%= patienttb.ssn %></td>
+    <td><%= patienttb.birthdate.strftime("%D") if patienttb.birthdate %></td>
+    <td><%= patienttb.namefirst %></td>
+   <!-- <td><%#= patienttb.namem %></td>-->
+    <td><%= patienttb.namelast %></td>
+    <!--<td><%#= patienttb.race %></td>
+    <td><%#= patienttb.bloodtype %></td>
+    <td><%#= patienttb.addressstreet %></td>
+    <td><%#= patienttb.addresstown %></td>
+    <td><%#= patienttb.addressstate %></td>
+    <td><%#= patienttb.addresszip %></td>
+    <td><%#= patienttb.addresscountry %></td>
+    <td><%#= patienttb.telenumber %></td>
+    <td><%#= patienttb.oculardiag %></td>
+    <td><%#= patienttb.medicaldiag %></td>
+  -->
+    <td><%= patienttb.firstvisitdate.strftime("%D") if patienttb.firstvisitdate %></td>
+ <!--   <td><%= patienttb.comments %></td>-->
+    <td><%= link_to 'Show', patienttb %></td>
+    <td><%= link_to 'Edit', edit_patienttb_path(patienttb) %></td>
+    <td><%= link_to 'Destroy', patienttb, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Patienttb', new_patienttb_path %>
