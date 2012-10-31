@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   def index
      if Patient.first.nil?
       @patienttb=Patient.new
-      @slitlamps ||= Slitlamp.all(:order=>'id')
+       @slitlamps ||= Slitlamp.all(:order=>'id')
      else
       @patienttb=Patient.first
         if !Device.first.nil?
