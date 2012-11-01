@@ -12,6 +12,7 @@ jQuery(document).ready(function(){
 //Examples of how to assign the ColorBox event to elements
 jQuery(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
 jQuery(".inline").colorbox({inline:true, width:"50%"});
+jQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
 });
 </script>
 
@@ -120,8 +121,8 @@ function displayclose1(a,b)
 </div>
 <!--- div to show del.png end--->
 
-<!--show pdf thumbnail icon and download it-->                 
-<a href="<%=slitlamp.pimage(:original)%>" title="<%=slitlamp.title%>">
+<!--show pdf thumbnail icon and download it-->     
+<a class="iframe" href="<%=slitlamp.pimage(:original)%>" title="<%=slitlamp.title%>">
 <label> <%=slitlamp.pimage_file_name%> </label> <br>
 <img alt="Image Missing" src="/images/pdf.png" width="160" height="100">
 </a>

@@ -5,6 +5,7 @@ MedicalPro::Application.routes.draw do
   match "/patient/search/(:search)" => "patients#search"
   #match "/patients" => "patienttbs#index"
   match "/media/play/(:id)" => "Slitlamptbs#media_play"
+  match "/media/pdf/(:id)" => "Slitlamptbs#media_pdf"
   match "/db_upload" => "welcome#db_upload"
   match "/index" => "welcome#index"
   match "/signup" => "welcome#signup"
@@ -27,7 +28,7 @@ MedicalPro::Application.routes.draw do
   match "/media_export" => "slitlamptbs#media_export"
   match "/export_db" => "welcome#export_db"
   match "/media_field_edit/:id" => "slitlamptbs#media_field_edit"
-  match "/patients/:id/device/:device_id" => "patient#show"
+  match "/patients/:id/device/:device_id" => "patients#show"
   match "/tags" => "welcome#tag"
   
 

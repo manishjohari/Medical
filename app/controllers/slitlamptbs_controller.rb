@@ -155,5 +155,5 @@ class SlitlamptbsController < ApplicationController
   @slitlamp=Slitlamp.find(params[:id])
       render :layout=>false
   end
-  
+   
 end
