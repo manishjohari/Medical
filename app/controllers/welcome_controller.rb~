@@ -23,7 +23,7 @@ class WelcomeController < ApplicationController
   end
   
   def tounzip
-
+  database_config = Rails.configuration.database_configuration[Rails.env]
   if !params[:file_upload].nil?
             require 'fileutils'
             if !params[:file_upload][:my_file].content_type.match("zip")
@@ -46,7 +46,7 @@ class WelcomeController < ApplicationController
             #tmp = params[:file_upload][:my_file].tempfile
             #file = File.join("public", params[:file_upload][:my_file].original_filename)
             #FileUtils.cp tmp.path, file
-              `rm -rf ./public/unzipped/`
+              FileUtils.rm_rf("#{Rails.root}/public/unzipped/")
             # @resp=`unzip -o "#{file}" -d public/unzipped`
             @resp=`unzip -o "#{path}" -d public/unzipped`
                    FileUtils.rm path
@@ -73,7 +73,8 @@ class WelcomeController < ApplicationController
              @tables.each do |table|
              table_name=table.gsub("TB","")
              @ty=`mdb-export -I  -q "'" -R'; \n' \"#{@db_path}\" #{table}  | sed 's/#{table}/#{table_name}s/g'>#{table}.sql`
-                `psql -U postgres Medical_pro_development < #{table}.sql`
+                `psql --username=#{database_config['username']} -no-password #{database_config['database']} < #{table}.sql`
+                FileUtils.rm_rf ("#{table}.sql")
                          end
               row_inserted_patient=`mdb-array \"#{@db_path}\" PatientTB | grep -r "PatientTB_array_length" | grep -ioE [0-9]`
               row_inserted_slitlamp=`mdb-array \"#{@db_path}\" SlitlampTB | grep -r "SlitlampTB_array_length" | grep -ioE [0-9]`
@@ -288,7 +289,7 @@ class WelcomeController < ApplicationController
       file_path=file_pat.gsub("\n","")
       if File.exists?(file_path)
           send_file(file_path, :type => "application/x-tar", :disposition => "attachment")
-             #FileUtils.rm_rf(dir_path)
+             FileUtils.rm_rf(dir_path)
       end
   end  
   
