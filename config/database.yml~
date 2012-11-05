@@ -2,7 +2,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: Medical_pro_development
+  database: medx
   pool: 5
   username: postgres
   password:

@@ -1,0 +1,12 @@
+<script>jQuery("#colorbox, #cboxOverlay").show(); </script>
+
+<%= image_tag"/images/new2.jpg", :style=>"height: 24%;margin-left: 40%;"%><br>
+<%= image_tag"/images/New-Database-icon.png", :style=>"height: 26%;" %>
+<%= image_tag"/images/New-Database-icon.png", :style=>"height: 26%;float:right" %>
+<% form_for :new_db, :url=>{:controller=>"welcome", :action=>"create_database"} do |f|  %>
+<%= label_tag :Name, "Name",:style=>"margin-left: 25%;"%>
+<%= f.text_field "db_name"%>
+<%#= image_tag"/images/New-Database-icon.png", :style=>"height: 26%;" %>
+<%= f.submit "Done"%>
+<%end%>
+

@@ -77,6 +77,7 @@ function displayclose1(a,b)
 .div_del_video{margin-bottom:-11%; text-align:right; margin-right:11%; visibility: hidden;}
 </style>
 
+<%if !@patienttb.new_record?%>
 <form name="media_gallery" id="media_gallery" action='/media_export'>
 <% @slitlamps.each do |slitlamp|%>
 <%if slitlamp.pimage?%>
@@ -186,4 +187,4 @@ function displayclose1(a,b)
 <%end%>            
 <%end%>
 </form>
-
+<%end%>

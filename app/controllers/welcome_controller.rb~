@@ -1,8 +1,11 @@
 class WelcomeController < ApplicationController
+
   def index
+   ##if patient is not present
      if Patient.first.nil?
       @patienttb=Patient.new
       @slitlamps ||= Slitlamp.all(:order=>'id')
+   ##
      else
       @patienttb=Patient.first
         if !Device.first.nil?
@@ -141,7 +144,7 @@ class WelcomeController < ApplicationController
        end
      end
       if @res==true
-          `rm -rf ./public/unzipped/`
+          FileUtils.rm_rf("#{Rails.root}/public/unzipped/")
       end
 
   
@@ -282,10 +285,10 @@ class WelcomeController < ApplicationController
  
   
   def export_db
-      dir_path=File.expand_path(RAILS_ROOT+'/public/DB_Backup',__FILE__)
+      dir_path=File.expand_path(Rails.root.to_s+'/public/DB_Backup',__FILE__)
        FileUtils.rm_rf(dir_path)
       `backup perform -t DB_Backup`
-      file_pat=`find #{RAILS_ROOT}/public/DB_Backup  -name  *.tar`
+      file_pat=`find #{Rails.root.to_s}/public/DB_Backup  -name  *.tar`
       file_path=file_pat.gsub("\n","")
       if File.exists?(file_path)
           send_file(file_path, :type => "application/x-tar", :disposition => "attachment")
@@ -298,5 +301,65 @@ class WelcomeController < ApplicationController
   render :layout => false
   end
 
+  def import_new_db
+  Load.default_database
+  @databases = Database.all
+  Load.current_database
+  render :layout => false 
+  end
+  
+  def create_database
+  Load.default_database
+    if Database.find_by_database_name(params[:new_db][:db_name].downcase).present?
+     flash[:error]= "Database #{params[:new_db][:db_name]} already exist!!"
+     redirect_to "/index"
+    else  
+          ##if there is any active database set it to false
+          ##while creating new databse, new database will be active
+              if !Database.where(:is_active=>true).empty?
+               active_db = Database.where(:is_active=>true).first.update_attributes(:is_active=>false)
+              end
+          db=Database.new(:database_name=>params[:new_db][:db_name].downcase,:is_active=>true)
+          if db.save
+            DataBaseMover.run(params[:new_db][:db_name])
+            flash[:notice]= "Database created Successfully"
+            redirect_to "/index"
+          end
+     end
+  end
+  
+  def destroy_database
+  Load.default_database
+  db=Database.find(params[:id])
+    if db.destroy
+      ActiveRecord::Base.connection.execute("DROP DATABASE #{db.database_name}")
+      FileUtils.rm_rf ("config/#{db.database_name}.yml")
+      FileUtils.rm_rf ("#{Rails.root.to_s}/public/images/pimages/#{db.database_name}")
+     flash[:notice]="Database Dropped successfully"
+     Load.current_database
+     redirect_to "/index"
+    else
+    flash[:error]="oops Error occured while dropping Database"
+    Load.current_database
+    redirect_to "/index"
+    end
+  end
+  
+  def open_db
+  render :layout=>false
+  end
+  
+  def load_db
+  Load.default_database
+        if !Database.where(:is_active=>true).empty?
+         Database.where(:is_active=>true).first.update_attributes(:is_active=>false)
+        end
+    if params[:db]=="default"
+     redirect_to "/index"
+    else
+      Database.find_by_database_name(params[:db]).update_attributes(:is_active=>true)
+    redirect_to "/index"
+    end
+  end
   
 end

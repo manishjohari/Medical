@@ -32,7 +32,7 @@ jQuery("#colorbox, #cboxOverlay").hide();
 }
 function open_database()
 {
-jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"/open_db"});
+jQuery.colorbox({opacity:0.8, initialWidth: 92, initialHeight: 92, width: 650, top: "20%", height: 450, href:"/import_new_db"});
 jQuery("#colorbox, #cboxOverlay").hide(); 
 }
 </script>  

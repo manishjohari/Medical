@@ -111,12 +111,12 @@ class SlitlamptbsController < ApplicationController
   def media_export
       if !params[:image].nil?
         if params[:image].count > 1
-          FileUtils.rm_rf(RAILS_ROOT+"/public/media")
-          FileUtils.mkdir(RAILS_ROOT+"/public/media")
-          req_dir= File.expand_path(RAILS_ROOT+'/public/media', __FILE__)
+          FileUtils.rm_rf( Rails.root.to_s+"/public/media")
+          FileUtils.mkdir( Rails.root.to_s+"/public/media")
+          req_dir= File.expand_path( Rails.root.to_s+'/public/media', __FILE__)
           params[:image].each do |key, value|
             img_path=Slitlamp.find(key).pimage
-            file_path=File.expand_path(RAILS_ROOT+"/public"+img_path.to_s, __FILE__)
+            file_path=File.expand_path( Rails.root.to_s+"/public"+img_path.to_s, __FILE__)
             FileUtils.cp(file_path, req_dir)
            end
           Zipper.zip(req_dir, req_dir+'/Media.zip')
@@ -126,7 +126,7 @@ class SlitlamptbsController < ApplicationController
         else
           img_path=Slitlamp.find(params[:image].first.first).pimage.to_s
           content_type=Slitlamp.find(params[:image].first.first).pimage_content_type
-          file_path=File.expand_path(RAILS_ROOT+"/public"+img_path.to_s, __FILE__)
+          file_path=File.expand_path( Rails.root.to_s+"/public"+img_path.to_s, __FILE__)
           send_file(file_path, :type => content_type, :disposition => "attachment")
         end
       else

@@ -4,6 +4,11 @@ MedicalPro::Application.routes.draw do
 
   match "/patient/search/(:search)" => "patients#search"
   #match "/patients" => "patienttbs#index"
+  match "/import_new_db" => "Welcome#import_new_db"
+  match "/open_db" => "Welcome#open_db"
+  match "/load_db/:db" => "Welcome#load_db"
+  match "/destroy_database/:id" => "Welcome#destroy_database"
+  match "welcome/create_database" => "welcome#create_database"
   match "/media/play/(:id)" => "Slitlamptbs#media_play"
   match "/db_upload" => "welcome#db_upload"
   match "/index" => "welcome#index"

@@ -53,8 +53,6 @@ class PatientsController < ApplicationController
   # GET /patienttbs/new.xml
   def new
   @h1="New Patient"
-    @slitlamps = Slitlamp.find(:all, :conditions => { :patientid => nil, :patient_id => nil })
-    @device_id=Device.first.id.to_s
     @patienttb = Patient.new
      @p=PatientUserDefinedFields.all
      
@@ -101,7 +99,8 @@ class PatientsController < ApplicationController
   def edit
   @h1="Editing Patient"
     @patienttb = Patient.find(params[:id])
-#    @slitlamps = Slitlamp.all#@patienttb.slitlamptbs
+    #@slitlamps = Slitlamp.all#@patienttb.slitlamptbs
+    #@slitlamps = @patienttb.slitlamps(:order=>'id')#.where(:equipinfo=>params[:device_id])
      
       @p=@patienttb.patient_user_defined_datas
          old_field=Array.new
@@ -123,6 +122,8 @@ class PatientsController < ApplicationController
 @old=Array.new
 @new=Array.new
     @patienttb = Patient.find(params[:id])
+    @device_id=Device.first.id.to_s
+    @slitlamps = @patienttb.slitlamps(:order=>'id').where(:equipinfo=>@device_id)
     @p=@patienttb.patient_user_defined_datas
          old_field=Array.new
              @p.each do |p|

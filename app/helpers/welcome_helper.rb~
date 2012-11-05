@@ -1,0 +1,12 @@
+module WelcomeHelper
+    def default_connection
+      ActiveRecord::Base.establish_connection(
+       :adapter  => "postgresql",
+       :host     => "localhost",
+       :username => "postgres",
+       :password => "",
+       :database => "Medical_pro_development"
+      )
+    end
+    
+end

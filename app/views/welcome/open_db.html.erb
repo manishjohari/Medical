@@ -1,0 +1,31 @@
+<script>jQuery("#colorbox, #cboxOverlay").show(); </script>
+<br>
+<table>
+<tr>
+<th></th>
+<th>Database_Name</th>
+<th>Running_Status</th>
+<th>Load</th>
+<th>Destroy</th>
+</tr>
+
+<tr>
+<td><%= image_tag"/images/db_icon.jpg", :style=>"height: 5%;" %></td>
+<td>Medical_pro_development</td>
+<td><%if @running_db=="Medical_pro_development"%>
+<%= image_tag"/images/active.jpg", :style=>"height: 37%;margin-left: 45%;" %><%else%><%= image_tag"/images/inactive.jpg", :style=>"height: 37%;margin-left: 45%;" %><%end%></td>
+<td><%= link_to "Load Default", "/load_db/default" %></td>
+<td></td>
+</tr>
+
+<%if !@databases.empty?%>
+<%@databases.each do |db|%>
+<tr>
+<td><%= image_tag"/images/db_icon.jpg", :style=>"height: 5%;" %></td>
+<td><%=db.database_name%></td>
+<td><%if @running_db==db.database_name%><%= image_tag"/images/active.jpg", :style=>"height: 37%;margin-left: 45%;" %><%else%><%= image_tag"/images/inactive.jpg", :style=>"height: 37%;margin-left: 45%;" %><%end%></td>
+<td><%= link_to "Load", "/load_db/#{db.database_name}" %></td>
+<td><%= link_to "Destroy", "/destroy_database/#{db.id}", :confirm=>"Are you sure you want to delete this Database?", :method=>"delete", :rel=>"nofollow" %></td>
+</tr>
+<%end end%>
+</table>

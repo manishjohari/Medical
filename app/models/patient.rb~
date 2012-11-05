@@ -4,7 +4,7 @@ class Patient < ActiveRecord::Base
     has_many :slitlamps
     has_many :patient_user_defined_datas
    
-    validates_presence_of :namelast, :message => "Please Enter Last Name" 
+    #validates_presence_of :namelast, :message => "Please Enter Last Name" 
 =begin
         mf||=MandatoryFields.all
         if mf.find(:fields=>"comments").first.is_mandatory==true

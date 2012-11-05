@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023132842) do
+ActiveRecord::Schema.define(:version => 20121101103100) do
 
   create_table "audit_logs", :force => true do |t|
     t.integer  "audit_id"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(:version => 20121023132842) do
 
   create_table "automated_db_backups", :force => true do |t|
     t.string   "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "databases", :force => true do |t|
+    t.string   "database_name"
+    t.string   "is_active",     :default => "f"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,6 +76,28 @@ ActiveRecord::Schema.define(:version => 20121023132842) do
     t.string   "imagefilename"
     t.boolean  "is_delete",     :default => false
     t.integer  "db",            :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "imagetbs", :force => true do |t|
+    t.string   "patientid"
+    t.integer  "imageid"
+    t.datetime "datetime"
+    t.string   "od_os"
+    t.string   "equipinfo"
+    t.string   "description"
+    t.string   "celldensity"
+    t.string   "meancellarea"
+    t.string   "imagebuffer"
+    t.string   "title"
+    t.string   "disease"
+    t.string   "cddelta"
+    t.string   "cv"
+    t.string   "hexagonality"
+    t.string   "analysed"
+    t.string   "location"
+    t.string   "imagefilename"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
